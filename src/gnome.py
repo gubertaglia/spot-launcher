@@ -13,12 +13,18 @@ def enable_integration():
     if "GNOME" not in os.environ.get("XDG_CURRENT_DESKTOP", "").upper():
         raise RuntimeError("GNOME Shell required")
     info = subprocess.run(("gnome-extensions", "info", UUID), capture_output=True, text=True, timeout=30)
-    if info.returncode == 0:
+    source = Path(__file__).resolve().parents[1] / "data" / "gnome-extension"
+    installed = Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local/share")) / "gnome-shell/extensions" / UUID
+    try:
+        current = all((installed / name).read_bytes() == (source / name).read_bytes()
+                      for name in ("metadata.json", "extension.js"))
+    except OSError:
+        current = False
+    if info.returncode == 0 and current:
         result = subprocess.run(("gnome-extensions", "enable", UUID), capture_output=True, text=True, timeout=30)
         if result.returncode:
             raise RuntimeError(result.stderr.strip() or result.stdout.strip() or "gnome-extensions failed")
         return True
-    source = Path(__file__).resolve().parents[1] / "data" / "gnome-extension"
     with tempfile.TemporaryDirectory() as directory:
         archive = Path(directory) / "extension.zip"
         with zipfile.ZipFile(archive, "w") as bundle:

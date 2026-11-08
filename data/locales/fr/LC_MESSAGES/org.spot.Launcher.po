@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Spot Launcher 1.6.0\n"
+"Project-Id-Version: Spot Launcher 1.7.0\n"
 "PO-Revision-Date: 2026-11-07 00:00+0000\n"
 "Last-Translator: Spot Launcher\n"
 "Language-Team: Spot Launcher\n"
@@ -427,3 +427,54 @@ msgstr "Activez le flou des applications dans l’extension et ajoutez Spot à l
 
 msgid "Solte Super para usá-la sozinha. Escape cancela; Backspace remove o atalho."
 msgstr "Relâchez Super pour l’utiliser seule. Échap annule ; Retour arrière supprime le raccourci."
+
+msgid "Ocultar ao perder o foco"
+msgstr "Masquer à la perte du focus"
+
+msgid "Desligado: mantém o Spot aberto ao clicar fora ou trocar de aplicativo. O atalho, Esc e a execução de resultados continuam ocultando a janela."
+msgstr "Désactivé : garde Spot ouvert lors d’un clic à l’extérieur ou d’un changement d’application. Le raccourci, Échap et l’exécution des résultats masquent toujours la fenêtre."
+
+msgid "Escala do SpotLauncher (%)"
+msgstr "Échelle de SpotLauncher (%)"
+
+msgid "100% é o tamanho padrão"
+msgstr "100% est la taille par défaut"
+
+msgid "Monitor do ponteiro no Wayland"
+msgstr "Écran du pointeur sous Wayland"
+
+msgid "Requer a extensão do Spot no GNOME Shell"
+msgstr "Nécessite l’extension Spot pour GNOME Shell"
+
+msgid "Abrir no GNOME Mapas"
+msgstr "Ouvrir dans GNOME Cartes"
+
+msgid "Não foi possível abrir o mapa"
+msgstr "Impossible d’ouvrir la carte"
+
+msgid "Texto da caixa de pesquisa"
+msgstr "Texte du champ de recherche"
+
+msgid "Definição indisponível"
+msgstr "Définition indisponible"
+
+msgid "Desativar Caffeine"
+msgstr "Désactiver Caffeine"
+
+msgid "Ativar Caffeine"
+msgstr "Activer Caffeine"
+
+msgid "Tradução indisponível"
+msgstr "Traduction indisponible"
+
+msgid "Tradução limitada a 500 bytes de texto"
+msgstr "Traduction limitée à 500 octets de texte"
+
+msgid "Ativar Caffeine por tempo ilimitado"
+msgstr "Activer Caffeine sans limite de temps"
+
+msgid "Ativar Caffeine por %(duration)s min"
+msgstr "Activer Caffeine pendant %(duration)s min"
+
+msgid "Selecionar duração e ativar Caffeine"
+msgstr "Sélectionner la durée et activer Caffeine"

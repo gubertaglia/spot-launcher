@@ -8,7 +8,6 @@ import re
 import math
 import time
 from typing import Dict, List, Optional
-import unicodedata
 import urllib.parse
 import urllib.request
 import zoneinfo
@@ -19,6 +18,8 @@ gi.require_version("GLib", "2.0")
 from gi.repository import GLib
 from src import LANGUAGE, VERSION, _, regional_date_format
 from src.storage import write_json
+from src.search import normalize_text
+from src.search_commands import command_query
 
 # Mapeamento limpo e automático: sem listas gigantescas manuais
 
@@ -56,16 +57,12 @@ CURRENCY_ALIASES = {
 }
 
 
-def normalize_text(text: str) -> str:
-    nfkd = unicodedata.normalize("NFKD", text)
-    return "".join(c for c in nfkd if not unicodedata.combining(c)).lower().strip()
-
-
 # Common unit names across the supported languages. Other unit expressions
 # (including compound symbols) are handled by Pint.
 UNIT_ALIASES = {
     alias: symbol for symbol, aliases in {
-        "degC": "c celsius °c", "degF": "f fahrenheit °f",
+        "degC": "c celsius °c degc", "degF": "f fahrenheit °f degf",
+        "kelvin": "k kelvin",
         "m": "metro metros metre metres",
         "km": "quilometro quilometros kilometro kilometros kilometre kilometres",
         "cm": "centimetro centimetros centimetre centimetres",
@@ -85,7 +82,7 @@ UNIT_ALIASES = {
     }.items() for alias in aliases.split()
 }
 CONVERSION_QUERY = re.compile(
-    r"^([\d.,]+)\s*([a-z$€£¥°/]+)\s+(?:em|para|to|in|en|a|vers)\s+([a-z$€£¥°/]+)$"
+    r"^([+-]?(?:\d+(?:[.,]\d*)?|[.,]\d+))\s*([a-z$€£¥°/]+)\s+(?:em|para|to|in|en|a|vers)\s+([a-z$€£¥°/]+)$"
 )
 
 
@@ -139,7 +136,7 @@ class ToolsEngine:
 
     @staticmethod
     def supports_query(query):
-        clean = normalize_text(query)
+        clean = normalize_text(command_query(query) or query)
         return bool(
             TIME_QUERY.match(clean)
             or WEATHER_QUERY.match(clean)
@@ -148,7 +145,7 @@ class ToolsEngine:
 
     def search(self, query):
         """Executado exclusivamente no worker de ferramentas."""
-        match = CONVERSION_QUERY.fullmatch(normalize_text(query))
+        match = CONVERSION_QUERY.fullmatch(normalize_text(command_query(query) or query))
         if match:
             # Currency names can overlap with units of mass (e.g. "libra").
             currencies = CURRENCY_ALIASES.values()
@@ -158,6 +155,8 @@ class ToolsEngine:
 
             if all(is_currency(token) for token in match.groups()[1:]):
                 return self.convert_currency(query)
+            if any(token in UNIT_ALIASES for token in match.groups()[1:]):
+                return self.convert_units(query)
             return self.convert_units(query) or self.convert_currency(query)
         return self.check_weather(query) or self.check_timezone(query)
 
@@ -172,7 +171,7 @@ class ToolsEngine:
         return self._ureg
 
     def check_weather(self, query: str) -> Optional[dict]:
-        match = WEATHER_QUERY.match(normalize_text(query))
+        match = WEATHER_QUERY.match(normalize_text(command_query(query) or query))
         if not match:
             return None
         target = match.group("place").strip()
@@ -263,7 +262,7 @@ class ToolsEngine:
     # 1. MOTOR DE FUSOS GLOBAIS (Geocoding Aberto OpenStreetMap / Open-Meteo)
     # ==========================================================
     def check_timezone(self, query: str) -> Optional[dict]:
-        clean = normalize_text(query)
+        clean = normalize_text(command_query(query) or query)
         match = TIME_QUERY.match(clean)
         if not match:
             return None
@@ -380,7 +379,7 @@ class ToolsEngine:
     # 2. MOTOR DE MOEDAS E CRIPTO (Catálogo Dinâmico Coinbase)
     # ==========================================================
     def convert_currency(self, query: str) -> Optional[dict]:
-        clean = normalize_text(query)
+        clean = normalize_text(command_query(query) or query)
         match = CONVERSION_QUERY.fullmatch(clean)
         if not match:
             return None
@@ -389,6 +388,9 @@ class ToolsEngine:
         try:
             val = float(val_str.replace(",", "."))
         except ValueError:
+            return None
+
+        if not math.isfinite(val):
             return None
 
         c_from = CURRENCY_ALIASES.get(curr_from, curr_from.upper())
@@ -466,7 +468,7 @@ class ToolsEngine:
     # 3. MOTOR CIENTÍFICO DE UNIDADES (Via Pint)
     # ==========================================================
     def convert_units(self, query: str) -> Optional[dict]:
-        clean = normalize_text(query)
+        clean = normalize_text(command_query(query) or query)
         match = CONVERSION_QUERY.fullmatch(clean)
         if not match:
             return None
@@ -475,6 +477,9 @@ class ToolsEngine:
         try:
             val = float(val_str.replace(",", "."))
         except ValueError:
+            return None
+
+        if not math.isfinite(val):
             return None
 
         u_a = UNIT_ALIASES.get(u_from, u_from)
@@ -487,6 +492,8 @@ class ToolsEngine:
                 quantity = ureg.Quantity(val, u_a)
                 converted = quantity.to(u_b)
                 res_num = converted.magnitude
+                if not math.isfinite(res_num):
+                    return None
                 formatted_val = (
                     locale.format_string("%.2f", res_num, grouping=True)
                     if isinstance(res_num, float) and not res_num.is_integer()

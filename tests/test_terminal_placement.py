@@ -15,7 +15,55 @@ class TerminalPlacementTests(unittest.TestCase):
         surface.get_display.return_value.get_monitor_at_surface.return_value = monitor
         window = Mock(get_surface=Mock(return_value=surface), get_width=Mock(return_value=580),
                       get_height=Mock(return_value=100))
-        self.assertEqual(default_position(window), [5180, 656])
+        with patch('src.placement._x11') as x11:
+            x11.return_value.XOpenDisplay.return_value = None
+            self.assertEqual(default_position(window), [5180, 656])
+
+    def test_pointer_monitor_wins_over_current_monitor_and_connection_closes(self):
+        primary, left = Mock(), Mock()
+        primary.get_geometry.return_value = SimpleNamespace(x=0, y=0, width=1920, height=1080)
+        primary.get_scale_factor.return_value = 1
+        left.get_geometry.return_value = SimpleNamespace(x=-1920, y=0, width=1920, height=1080)
+        left.get_scale_factor.return_value = 2
+        display = Mock()
+        display.get_name.return_value = ':0'
+        display.get_monitor_at_surface.return_value = primary
+        display.get_monitors.return_value = [primary, left]
+        surface = Mock()
+        surface.get_display.return_value = display
+        window = Mock(get_surface=Mock(return_value=surface), get_width=Mock(return_value=580),
+                      get_height=Mock(return_value=100))
+        def pointer(*args):
+            args[4]._obj.value = -2000
+            args[5]._obj.value = 100
+            return 1
+        with patch('src.placement._x11') as x11:
+            lib = x11.return_value
+            lib.XQueryPointer.side_effect = pointer
+            self.assertEqual(default_position(window, [100, 100]), [-2500, 656])
+            lib.XCloseDisplay.assert_called_once_with(lib.XOpenDisplay.return_value)
+            self.assertEqual(default_position(window, [-2300, 400]), [-2300, 400])
+
+    def test_native_wayland_does_not_open_x11(self):
+        surface = SimpleNamespace()
+        with patch('src.placement._x11') as x11:
+            self.assertIsNone(default_position(SimpleNamespace(get_surface=lambda: surface)))
+            x11.assert_not_called()
+
+    def test_saved_position_requires_moving_enabled(self):
+        window = Mock()
+        window.get_mapped.return_value = True
+        window.config = {"allow_move": False, "remember_position": True, "window_position": [2656, 369]}
+        with patch('src.window.default_position', return_value=[670, 328]) as default, \
+             patch('src.window.position') as move:
+            LauncherWindow._restore_position(window, None, None)
+            default.assert_called_once_with(window, None)
+            move.assert_called_once_with(window, [670, 328])
+        window.config['allow_move'] = True
+        with patch('src.window.default_position', return_value=[2656, 369]) as default, \
+             patch('src.window.position'):
+            LauncherWindow._restore_position(window, None, None)
+            default.assert_called_once_with(window, [2656, 369])
 
     def test_terminal_command_runs_only_on_activation(self):
         window = SimpleNamespace(hide_launcher=Mock())
@@ -52,9 +100,19 @@ class GnomeIntegrationTests(unittest.TestCase):
         from src.gnome import enable_integration, UUID
         success = SimpleNamespace(returncode=0, stderr='', stdout='')
         with patch.dict('os.environ', {'XDG_CURRENT_DESKTOP': 'GNOME'}), \
+             patch('src.gnome.Path.read_bytes', return_value=b'current'), \
              patch('src.gnome.subprocess.run', return_value=success) as run:
             self.assertTrue(enable_integration())
         self.assertEqual(run.call_args.args[0], ('gnome-extensions', 'enable', UUID))
+
+    def test_outdated_extension_is_reinstalled_and_requires_new_session(self):
+        from src.gnome import enable_integration
+        success = SimpleNamespace(returncode=0, stderr='', stdout='')
+        with patch.dict('os.environ', {'XDG_CURRENT_DESKTOP': 'GNOME'}), \
+             patch('src.gnome.Path.read_bytes', side_effect=FileNotFoundError), \
+             patch('src.gnome.subprocess.run', return_value=success) as run:
+            self.assertFalse(enable_integration())
+        self.assertEqual(run.call_args.args[0][1:3], ('install', '--force'))
 
     def test_preferences_defer_installation_and_recover_after_failure(self):
         from src.preferences import PreferencesWindow

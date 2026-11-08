@@ -184,6 +184,43 @@ class ToolsTests(unittest.TestCase):
             self.assertAlmostEqual(float(engine.search("0 celsius para fahrenheit")["copy"]), 32)
             self.assertEqual(float(engine.search("10 ms para s")["copy"]), 0.01)
 
+    def test_temperature_scales_signs_and_aliases_work_offline(self):
+        engine = self.engine()
+        cases = (
+            ("-40 C para F", -40), ("-40 °F para °C", -40),
+            ("273,15 K para C", 0), ("0 celsius para kelvin", 273.15),
+            ("32 fahrenheit to K", 273.15), ("273.15 kelvin in F", 32),
+            ("100 degC para degF", 212), ("+36,5 ℃ para ℉", 97.7),
+            (".5 c para f", 32.9), ("0 K para K", 0),
+            ("-273.15 C para K", 0), ("-459.67 F para K", 0),
+        )
+        with patch("urllib.request.urlopen", side_effect=AssertionError("rede para temperatura")):
+            for query, expected in cases:
+                with self.subTest(query=query):
+                    self.assertTrue(engine.supports_query(query))
+                    self.assertAlmostEqual(float(engine.search(query)["copy"]), expected)
+        registry = engine._ureg
+        engine.search("0 C para F")
+        self.assertIs(engine._ureg, registry)
+
+    def test_invalid_temperature_queries_never_fetch_currency_rates(self):
+        engine = self.engine()
+        with patch("urllib.request.urlopen", side_effect=AssertionError("rede para temperatura")) as network:
+            for query in ("20 C para m", "20 kelvin para desconhecida",
+                          "1.2.3 C para F", "--10 C para F", "1,2.3 C para F",
+                          "9" * 400 + " C para F"):
+                with self.subTest(query=query):
+                    self.assertIsNone(engine.search(query))
+        network.assert_not_called()
+
+    def test_unit_conversion_rejects_nonfinite_output(self):
+        engine = self.engine()
+        converted = Mock(magnitude=float("inf"))
+        registry = Mock()
+        registry.Quantity.return_value.to.return_value = converted
+        with patch.object(engine, "_unit_registry", return_value=registry):
+            self.assertIsNone(engine.convert_units("10 C para F"))
+
 
 class WorkerTests(unittest.TestCase):
     def setUp(self):
@@ -353,7 +390,7 @@ class StorageAndCalculatorTests(unittest.TestCase):
 class WindowFlowTests(unittest.TestCase):
     def test_hide_cancels_timeout_and_invalidates_results(self):
         from src.window import LauncherWindow
-        window = SimpleNamespace(loading_spinner=Mock(), loading_status=Mock(), _search_timeout_id=42, _tools_worker=Mock(), _file_worker=Mock(), _clear_results=Mock(), set_visible=Mock())
+        window = SimpleNamespace(scaled_content=Mock(), _fade_to=Mock(), loading_spinner=Mock(), loading_status=Mock(), _search_timeout_id=42, _tools_worker=Mock(), _file_worker=Mock(), _clear_results=Mock(), set_visible=Mock())
         window._cancel_pending_search = lambda: LauncherWindow._cancel_pending_search(window)
         with patch("src.window.GLib.source_remove") as remove:
             LauncherWindow.hide_launcher(window)
@@ -361,7 +398,8 @@ class WindowFlowTests(unittest.TestCase):
         self.assertEqual(window._search_timeout_id, 0)
         window._tools_worker.invalidate.assert_called_once()
         window._file_worker.invalidate.assert_called_once()
-        window.set_visible.assert_called_once_with(False)
+        window._fade_to.assert_called_once_with(0)
+        window.set_visible.assert_not_called()
 
     def test_scrolling_builds_one_page_and_keeps_distant_shortcuts(self):
         from src.window import LauncherWindow, Gdk

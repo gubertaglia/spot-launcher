@@ -7,6 +7,8 @@ from src import LANGUAGE, configure_native_locale
 
 
 def main():
+    from ctypes import CDLL
+    CDLL(None).prctl(15, b"SpotLauncher", 0, 0, 0)
     # GTK and Gio read language preferences during initialization.
     session_language = os.environ.get("LANGUAGE")
     os.environ["LANGUAGE"] = "pt_BR:pt" if LANGUAGE == "pt" else LANGUAGE

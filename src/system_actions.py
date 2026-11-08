@@ -2,10 +2,12 @@
 from dataclasses import dataclass
 import os
 import shutil
+from pathlib import Path
 
-from gi.repository import Gio
+from gi.repository import Gio, GLib
 from src import _
 from src.tools import normalize_text
+from src.search import search_score, search_text
 
 
 @dataclass(frozen=True)
@@ -15,6 +17,7 @@ class SystemAction:
     icon: str
     command: tuple
     confirm: bool = False
+    score: float = 0.0
 
 
 def system_actions(query):
@@ -22,8 +25,35 @@ def system_actions(query):
     if not query:
         return []
     if any(term in query for term in ("spot", "launcher")) and any(
-        term in query for term in ("reiniciar", "restart", "reset", "fechar", "close", "sair", "quit")
+        term in query for term in ("reiniciar", "restart", "reset", "reboot", "redemarrer", "fechar", "close", "sair", "quit", "cerrar", "fermer", "quitter")
     ):
+        return []
+    caffeine_score = max(search_score(query, alias) for alias in ("caffeine", "cafeina"))
+    if caffeine_score:
+        for root in (Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local/share")), Path('/usr/share')):
+            directory = root / 'gnome-shell/extensions/caffeine@patapon.info/schemas'
+            if not (directory / 'gschemas.compiled').exists():
+                continue
+            source = Gio.SettingsSchemaSource.new_from_directory(str(directory), Gio.SettingsSchemaSource.get_default(), False)
+            schema = source.lookup('org.gnome.shell.extensions.caffeine', False)
+            if schema and schema.has_key('cli-toggle'):
+                settings = Gio.Settings.new_full(schema, None, None)
+                enabled = settings.get_boolean('cli-toggle')
+                actions = [SystemAction('Caffeine', _("Desativar Caffeine") if enabled else _("Ativar Caffeine"),
+                                        'caffeine-cup-full-symbolic',
+                                        ('gsettings', '--schemadir', str(directory), 'set',
+                                         'org.gnome.shell.extensions.caffeine', 'cli-toggle',
+                                         'false' if enabled else 'true'), score=caffeine_score)]
+                if schema.has_key('duration-timer-list') and schema.has_key('duration-timer'):
+                    durations = settings.get_value('duration-timer-list').unpack()
+                    for index, seconds in enumerate((*durations, 0)):
+                        label = _('Ativar Caffeine por tempo ilimitado') if seconds == 0 else _(
+                            'Ativar Caffeine por %(duration)s min') % {'duration': seconds // 60}
+                        actions.append(SystemAction(
+                            label, _('Selecionar duração e ativar Caffeine'),
+                            'caffeine-cup-full-symbolic',
+                            ('caffeine-timer', str(directory), str(index)), score=caffeine_score))
+                return actions
         return []
     actions = (
         (_("Configurações do sistema"), _("Abrir as preferências do desktop"),
@@ -54,21 +84,40 @@ def system_actions(query):
     prefixes = next((prefixes for name, prefixes in preferred.items() if name in desktop), ())
     results = []
     for title, subtitle, icon, aliases, commands, confirm in actions:
-        if query not in ("sistema", "system", "systeme", "sistema operativo") and not any(
-            query in normalize_text(label) for label in (title, *aliases.split("|"))
-        ):
+        score = max(search_score(query, label) for label in (title, *aliases.split("|")))
+        if query in ("sistema", "system", "systeme", "sistema operativo"):
+            score = 2050
+        if not score:
             continue
         commands = sorted(commands, key=lambda command: not command[0].startswith(prefixes))
         command = next((command for command in commands if shutil.which(command[0])), None)
         if command:
-            results.append(SystemAction(title, subtitle, icon, command, confirm))
-    return results
+            results.append(SystemAction(title, subtitle, icon, command, confirm, score))
+    return sorted(results, key=lambda action: (-action.score, search_text(action.title)))
 
 
 def execute_action(action, complete):
     """Espera sem bloquear GTK e informa falhas do comando ao usuário."""
+    if action.command[0] == 'caffeine-timer':
+        try:
+            directory, index = action.command[1:]
+            source = Gio.SettingsSchemaSource.new_from_directory(
+                directory, Gio.SettingsSchemaSource.get_default(), False)
+            schema = source.lookup('org.gnome.shell.extensions.caffeine', False)
+            settings = Gio.Settings.new_full(schema, None, None)
+            enabled = settings.get_boolean('cli-toggle')
+            settings.set_int('duration-timer', int(index))
+            if enabled:
+                settings.set_boolean('cli-toggle', False)
+                GLib.timeout_add(100, lambda: (settings.set_boolean('cli-toggle', True), GLib.SOURCE_REMOVE)[1])
+            else:
+                settings.set_boolean('cli-toggle', True)
+            complete(None)
+        except Exception as exc:
+            complete(str(exc))
+        return
     try:
-        if action.command[0] not in ("systemctl", "loginctl"):
+        if action.command[0] not in ("systemctl", "loginctl", "gsettings"):
             Gio.Subprocess.new(action.command, Gio.SubprocessFlags.NONE)
             complete(None)
             return

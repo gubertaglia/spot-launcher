@@ -8,6 +8,14 @@ from src.window import LauncherWindow
 
 
 class WebSearchTests(unittest.TestCase):
+    def test_dictionary_requires_command_and_encodes_word(self):
+        from src.web import dictionary_search
+        result = dictionary_search('defina ação & reação')
+        self.assertEqual(result[0], 'ação & reação')
+        self.assertEqual(parse_qs(urlsplit(result[1]).query), {'search': ['ação & reação']})
+        self.assertIsNone(dictionary_search('defina'))
+        self.assertIsNone(dictionary_search('Firefox'))
+
     def test_preserves_query_and_encodes_special_characters(self):
         query = 'São Paulo & C++ #1? "GTK"'
         result = web_search(query)

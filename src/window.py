@@ -1,5 +1,6 @@
 from heapq import merge
 from itertools import islice
+from urllib.parse import quote, urlsplit
 import os
 import subprocess
 import time
@@ -9,11 +10,13 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 gi.require_version("Gdk", "4.0")
 
-from gi.repository import Adw, Gdk, Gio, GLib, Gtk
+from gi.repository import Adw, Gdk, Gio, GLib, Gsk, Gtk
 from src import _
 from src.history import HistoryManager
 from src.indexer import AppIndexer
 from src.matcher import SearchMatcher
+from src.search import search_score, result_key
+from src.search_commands import command_query, command_suggestion, CommandSuggestion
 from src.calculator import CalculatorPlugin
 from src.files import FileSearchEngine, file_query
 from src.tools import ToolsEngine
@@ -21,11 +24,14 @@ from src.tools import normalize_text
 from src.calendar_view import CalendarView
 from src.worker import LatestRequestWorker
 from src.updater import check_update, install_update
-from src.web import map_search, web_search
+from src.dictionary import lookup as dictionary_lookup
+from src.translation import translate
+from src.web import dictionary_search, translation_search, map_destination, map_search, web_search
 from src.system_actions import system_actions, execute_action
-from src.placement import hide_from_dock, position, default_position
+from src.placement import hide_from_dock, position, default_position, gnome_placement
+from src.scaled_layout import ScaledLayout
 from src.terminal import get_default_terminal
-from src.preferences import ConfigManager, PreferencesWindow, apply_theme
+from src.preferences import ConfigManager, PreferencesWindow, apply_theme, launcher_scale
 
 RESULT_SHORTCUTS = "123456789abcdefghijklmnopqrstuvwxyz"
 
@@ -42,9 +48,9 @@ window.spotlight-window > contents {
 
 .spotlight-card {
     background-color: @window_bg_color;
-    border-radius: 18px;
-    border: 1px solid alpha(@borders, 0.5);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    border: 1px solid alpha(@window_fg_color, 0.12);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
     padding: 12px;
 }
 
@@ -52,16 +58,29 @@ window.blur-my-shell .spotlight-card {
     background-color: alpha(@window_bg_color, 0.78);
 }
 
-.search-field {
+.spot-context {
+    padding: 6px;
     border-radius: 12px;
-    font-size: 1.15rem;
-    padding: 8px 12px;
-    border: 1px solid alpha(@borders, 0.4);
-    background-color: alpha(@window_bg_color, 0.8);
+    border: 1px solid alpha(@borders, 0.5);
 }
 
-.search-field:focus {
+.spot-context button {
+    padding: 12px 10px;
+    border-radius: 8px;
+}
+
+.search-field {
+    border-radius: 12px;
+    font-size: 1.2rem;
+    padding: 10px 12px;
+    border: 1px solid alpha(@window_fg_color, 0.10);
+    background-color: alpha(@window_fg_color, 0.035);
+    transition: border-color 100ms ease, background-color 100ms ease;
+}
+
+.search-field:focus-within {
     border-color: @accent_color;
+    background-color: alpha(@accent_bg_color, 0.06);
 }
 
 .results-list {
@@ -72,8 +91,33 @@ window.blur-my-shell .spotlight-card {
 .results-list row {
     border-radius: 10px;
     padding: 4px;
-    margin-bottom: 2px;
-    transition: background-color 150ms ease;
+    margin-bottom: 3px;
+    transition: background-color 100ms ease;
+}
+
+.results-list row:hover {
+    background-color: alpha(@window_fg_color, 0.06);
+}
+
+.results-list row:focus-visible {
+    outline: 2px solid @accent_color;
+    outline-offset: -2px;
+}
+
+.results-list row .title {
+    font-weight: 500;
+}
+
+.results-list row .subtitle {
+    opacity: 0.7;
+}
+
+.loading-status, .result-notice {
+    color: alpha(@window_fg_color, 0.7);
+}
+
+.loading-status {
+    padding: 6px 0;
 }
 
 .results-list row:selected {
@@ -87,7 +131,7 @@ window.blur-my-shell .spotlight-card {
     border-radius: 6px;
     padding: 3px 8px;
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .results-list row:selected .shortcut-badge {
@@ -110,6 +154,8 @@ class LauncherWindow(Gtk.Window):
         self._remaining_rows = None
         self._result_count = 0
         self._viewport_tick = 0
+        self._fade_tick = 0
+        self._closing = False
 
         self.set_title(_("SpotLauncher"))
         self.set_default_size(580, -1)  # Altura dinâmica automática!
@@ -146,6 +192,7 @@ class LauncherWindow(Gtk.Window):
         self._clipboard_handler = self.clipboard.connect("changed", self._on_clipboard_changed)
         self._on_clipboard_changed(self.clipboard)
         self._moving = False
+        self._focus_ready = False
         self.connect("map", self._on_map)
         self.connect("hide", self._on_hide)
         self.check_updates()
@@ -178,19 +225,23 @@ class LauncherWindow(Gtk.Window):
         )
 
         self.search_entry = Gtk.SearchEntry(
-            placeholder_text=_("Pesquisar aplicativos, arquivos ou na web..."),
+            placeholder_text=self.search_placeholder(),
             css_classes=["search-field"],
         )
         self._search_timeout_id = 0
         self.search_entry.connect("changed", self._on_search_changed)
         self.card_box.append(self.search_entry)
 
-        self.loading_status = Gtk.Box(spacing=8, margin_start=12, visible=False)
+        self.search_content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        self.card_box.append(self.search_content)
+
+        self.loading_status = Gtk.Box(spacing=8, margin_start=12, visible=False,
+                                      css_classes=["loading-status"])
         self.loading_spinner = Gtk.Spinner()
         self.loading_status.append(self.loading_spinner)
         self.loading_label = Gtk.Label()
         self.loading_status.append(self.loading_label)
-        self.card_box.append(self.loading_status)
+        self.search_content.append(self.loading_status)
 
         self.calendar_panel = None
 
@@ -212,25 +263,65 @@ class LauncherWindow(Gtk.Window):
         self.list_box.connect("row-selected", self._scroll_to_selected)
         self.scrolled_window.set_child(self.list_box)
         self.scrolled_window.get_vadjustment().connect("value-changed", self._on_scroll)
-        self.card_box.append(self.scrolled_window)
+        self.search_content.append(self.scrolled_window)
 
-        self.set_child(self.card_box)
+        self.card_box.set_size_request(580, -1)
+        self.scaled_content = Gtk.Box()
+        self.scaled_content.append(self.card_box)
+        self.scaled_content.set_layout_manager(ScaledLayout())
+        self.set_child(self.scaled_content)
+        self.apply_scale()
+
+    def search_placeholder(self):
+        text = self.config.get("search_placeholder", "")
+        return text if isinstance(text, str) and text else _("Pesquisar aplicativos, arquivos ou na web...")
+
+    def apply_scale(self):
+        scale = launcher_scale(self.config) / 100
+        old_size = (self.get_width(), self.get_height())
+        anchor = position(self) if self.get_mapped() else None
+        layout = self.scaled_content.get_layout_manager()
+        layout.scale = scale
+        layout.after_allocate = None
+        if self.get_mapped():
+            # Move only after GTK allocates the new dimensions.
+            layout.after_allocate = lambda: GLib.idle_add(self._center_scaled_window, anchor, old_size)
+        layout.layout_changed()
+        self.set_default_size(round(580 * scale), -1)
+
+    def _center_scaled_window(self, anchor, old_size):
+        if self.get_mapped():
+            if anchor is not None:
+                scale = self.get_surface().get_scale_factor()
+                position(self, [round(anchor[0] + (old_size[0] - self.get_width()) * scale / 2),
+                                round(anchor[1] + (old_size[1] - self.get_height()) * scale / 2)])
+            else:
+                gnome_placement(old_size)
+        return False
 
     def _setup_events(self):
-        self.context_menu = Gtk.Popover(autohide=True, has_arrow=False)
-        self.context_menu.set_parent(self.card_box)
-        settings_button = Gtk.Button(label=_("Configurações do SpotLauncher"))
-        settings_button.connect("clicked", self._context_settings)
-        menu = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        menu.append(settings_button)
-        restart_button = Gtk.Button(label=_("Reiniciar SpotLauncher"))
-        restart_button.connect("clicked", self._restart)
-        menu.append(restart_button)
-        quit_button = Gtk.Button(label=_("Fechar SpotLauncher"))
-        quit_button.connect("clicked", lambda *_: self.get_application().quit())
-        menu.append(quit_button)
-        self.context_menu.set_child(menu)
-        self.context_menu.connect("closed", self._context_closed)
+        self.context_menu = Gtk.ListBox(
+            visible=False, selection_mode=Gtk.SelectionMode.SINGLE,
+            activate_on_single_click=True, css_classes=["results-list"],
+        )
+        for index, (title, icon, callback) in enumerate((
+            (_("Configurações do SpotLauncher"), "emblem-system-symbolic", self._context_settings),
+            (_("Reiniciar SpotLauncher"), "view-refresh-symbolic", self._restart),
+            (_("Fechar SpotLauncher"), "application-exit-symbolic", lambda *_: self.get_application().quit()),
+        )):
+            row = Adw.ActionRow(title=title, activatable=True)
+            image = Gtk.Image.new_from_icon_name(icon)
+            image.set_pixel_size(32)
+            row.add_prefix(image)
+            row.add_suffix(Gtk.Label(
+                label=_("Enter") if index == 0 else f"Alt + {index}",
+                valign=Gtk.Align.CENTER, css_classes=["shortcut-badge"],
+            ))
+            row._context_action = callback
+            self.context_menu.append(row)
+        self.context_menu.connect("row-activated", lambda box, row: row._context_action(None))
+        self.card_box.insert_child_after(self.context_menu, self.search_entry)
+        self.context_menu.connect("notify::visible", self._context_visibility_changed)
         secondary = Gtk.GestureClick(button=3)
         secondary.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
         secondary.connect("pressed", self._show_context_menu)
@@ -259,11 +350,16 @@ class LauncherWindow(Gtk.Window):
 
     def _show_context_menu(self, gesture, count, x, y):
         gesture.set_state(Gtk.EventSequenceState.CLAIMED)
-        self._context_open = True
-        rect = Gdk.Rectangle()
-        rect.x, rect.y, rect.width, rect.height = int(x), int(y), 1, 1
-        self.context_menu.set_pointing_to(rect)
-        self.context_menu.popup()
+        self.context_menu.set_visible(not self.context_menu.get_visible())
+        if self.context_menu.get_visible():
+            self.context_menu.get_row_at_index(0).grab_focus()
+
+    def _context_visibility_changed(self, menu, param):
+        self._context_open = menu.get_visible()
+        self.search_content.set_visible(not self._context_open)
+        if not self._context_open:
+            self.search_entry.grab_focus()
+            GLib.idle_add(self._check_focus)
 
     def _restart(self, *args):
         app = self.get_application()
@@ -345,15 +441,18 @@ class LauncherWindow(Gtk.Window):
 
     def _context_settings(self, button):
         self.open_preferences()
-        self.context_menu.popdown()
+        self.context_menu.set_visible(False)
 
     def _context_closed(self, popover):
         self._context_open = False
         GLib.idle_add(self._check_focus)
 
     def _check_focus(self):
-        if (not self.is_active() and not self._is_prefs_open
-                and not self._moving and not self._context_open):
+        if (self.is_visible() and self._focus_ready
+                and self.config.get("hide_on_focus_loss", True) and not self.is_active()
+                and not self._is_prefs_open and not self._moving and not self._context_open
+                and not any(window.is_visible() and window.get_transient_for() == self
+                            for window in Gtk.Window.list_toplevels())):
             self.hide_launcher()
         return False
 
@@ -399,6 +498,7 @@ class LauncherWindow(Gtk.Window):
             return True
         self._moving = False
         self._save_position()
+        GLib.idle_add(self._check_focus)
         return False
 
     def _save_position(self):
@@ -411,20 +511,34 @@ class LauncherWindow(Gtk.Window):
         self._save_position()
 
     def _on_map(self, *args):
-        target = self.config.get("window_position")
         # Let the compositor finish its initial placement before moving.
-        if not (self.config.get("remember_position") and target):
-            target = default_position(self)
-        if target is not None:
-            self.add_tick_callback(self._restore_position, target)
+        self.scaled_content.get_layout_manager().after_allocate = lambda: GLib.idle_add(self._restore_position, self, None)
+        self.scaled_content.queue_allocate()
 
-    def _restore_position(self, widget, clock, target):
+    def _restore_position(self, widget, clock):
         if self.get_mapped():
-            position(self, target)
+            saved = self.config.get("window_position") if (self.config.get("allow_move") and self.config.get("remember_position")) else None
+            target = default_position(self, saved)
+            if target is not None:
+                position(self, target)
+            else:
+                gnome_placement()
         return False
 
     def _on_key_pressed(self, controller, keyval, keycode, state):
+        if getattr(self, "_closing", False):
+            return True
         if self._context_open:
+            if state & Gdk.ModifierType.ALT_MASK:
+                shortcut = chr(Gdk.keyval_to_unicode(Gdk.keyval_to_lower(keyval)))
+                if shortcut in RESULT_SHORTCUTS:
+                    row = self.context_menu.get_row_at_index(RESULT_SHORTCUTS.index(shortcut) + 1)
+                    if row:
+                        row._context_action(None)
+                        return True
+            if keyval == Gdk.KEY_Escape:
+                self.context_menu.set_visible(False)
+                return True
             return False
         if self.calendar_panel is not None and self.calendar_panel.get_visible() and keyval != Gdk.KEY_Escape:
             if keyval in (Gdk.KEY_Return, Gdk.KEY_KP_Enter) and self.search_entry.has_focus():
@@ -511,6 +625,7 @@ class LauncherWindow(Gtk.Window):
         self._search_timeout_id = GLib.timeout_add(delay, submit)
 
     def close_services(self):
+        self._cancel_fade()
         self._save_position()
         self.clipboard.disconnect(self._clipboard_handler)
         self._cancel_pending_search()
@@ -528,6 +643,7 @@ class LauncherWindow(Gtk.Window):
 
     def _do_search(self, query: str):
         self._clear_results()
+        query = command_query(query) or query
         query_clean = query.strip().lower()
         command = normalize_text(query)
         show_calendar = command in (
@@ -535,7 +651,7 @@ class LauncherWindow(Gtk.Window):
         )
         if show_calendar and self.calendar_panel is None:
             self.calendar_panel = CalendarView()
-            self.card_box.insert_child_after(self.calendar_panel, self.loading_status)
+            self.search_content.insert_child_after(self.calendar_panel, self.loading_status)
         if self.calendar_panel is not None:
             if show_calendar and not self.calendar_panel.get_visible():
                 self.calendar_panel.select_today()
@@ -565,14 +681,31 @@ class LauncherWindow(Gtk.Window):
                 self.scrolled_window.set_visible(False)
             return
 
-        map_url = map_search(query)
-        if map_url:
-            row = Adw.ActionRow(title=_("Abrir mapa no navegador"), subtitle=GLib.markup_escape_text(query), activatable=True)
-            row.add_prefix(Gtk.Image.new_from_icon_name("mark-location-symbolic"))
-            row._web_url = map_url
-            self._append_result(row)
+        translation = translation_search(query)
+        if translation:
+            if len(translation[0].encode('utf-8')) > 500:
+                self._show_notice(_("Tradução limitada a 500 bytes de texto"))
+                return
+            self._schedule_search(self._tools_worker,
+                                  lambda: translate(*translation),
+                                  lambda text: self._show_translation(translation, text),
+                                  _("Carregando resultado…"), 400)
+            return
+
+        dictionary = dictionary_search(query)
+        if dictionary:
+            self._schedule_search(self._tools_worker,
+                                  lambda: dictionary_lookup(*dictionary),
+                                  lambda items: self._show_dictionary(dictionary, items),
+                                  _("Carregando resultado…"), 400)
+            return
+
+        destination = map_destination(query)
+        if destination:
+            for row in self._map_rows(destination):
+                self._append_result(row)
             self.scrolled_window.set_visible(True)
-            self.list_box.select_row(row)
+            self.list_box.select_row(self.list_box.get_row_at_index(0))
             return
 
         if command in ("emoji", "emojis"):
@@ -652,6 +785,33 @@ class LauncherWindow(Gtk.Window):
 
         self._show_notice(_("O histórico da área de transferência está vazio"))
 
+    def _show_translation(self, translation, text):
+        if not text:
+            self._show_notice(_("Tradução indisponível"))
+            return
+        row = Adw.ActionRow(title=GLib.markup_escape_text(text),
+                            subtitle="MyMemory · " + translation[1] + " → " + translation[2],
+                            activatable=True, title_lines=0)
+        row._clipboard_text = text
+        self._append_result(row)
+        self.scrolled_window.set_visible(True)
+        self.list_box.select_row(row)
+
+    def _show_dictionary(self, dictionary, items):
+        if not items:
+            self._show_notice(_("Definição indisponível"))
+        source = "Wiktionary · " + urlsplit(dictionary[1]).netloc.split('.')[0]
+        for text in items or []:
+            row = Adw.ActionRow(title=GLib.markup_escape_text(text), subtitle=source,
+                                activatable=True, title_lines=0)
+            row._clipboard_text = text
+            self._append_result(row)
+        row = Adw.ActionRow(title=GLib.markup_escape_text(dictionary[0]), subtitle="Wiktionary ↗", activatable=True)
+        row._web_url = dictionary[1]
+        self._append_result(row)
+        self.scrolled_window.set_visible(True)
+        self.list_box.select_row(self.list_box.get_row_at_index(0))
+
     def _show_tool_result(self, result):
         self._tool_copy_val = result["copy"]
         row = Adw.ActionRow(
@@ -667,32 +827,35 @@ class LauncherWindow(Gtk.Window):
         self.list_box.select_row(row)
 
     def _show_notice(self, message):
-        self._append_result(Adw.ActionRow(title=message, activatable=False))
+        self._append_result(Adw.ActionRow(title=message, activatable=False,
+                                         css_classes=["result-notice"]))
         self.scrolled_window.set_visible(True)
 
     def _search_local(self, query, web_result):
         command = normalize_text(query)
         kind, text = file_query(query)
         actions = [] if kind else system_actions(query)
-        launcher_action = next((action for action in ("reiniciar", "reset", "restart", "reboot", "fechar", "close", "encerrar", "sair", "quit")
-                                if command == action or (action in command.split() and any(term in command for term in ("spot", "launcher")))), None)
+        suggestion = command_suggestion(query)
+        if suggestion:
+            actions.append(suggestion)
+        launcher_action = next((action for action in ("reiniciar", "reset", "restart", "reboot", "redemarrer", "fechar", "close", "encerrar", "sair", "quit", "cerrar", "fermer", "quitter")
+                                if action in command.split() and any(term in command.split() for term in ("spot", "spotlauncher", "launcher"))), None)
         if not kind and launcher_action:
-            actions.insert(0, (launcher_action, lambda: self._restart() if launcher_action in ("reiniciar", "reset", "restart", "reboot") else self.get_application().quit()))
-        show_settings = any(
-            command.startswith(key) or key.startswith(command)
-            for key in ("config", "settings", "preferences", "preferencias", "ajustes",
-                        "configuracion", "parametres", "reglages")
-        )
+            actions.insert(0, (launcher_action, lambda: self._restart() if launcher_action in ("reiniciar", "reset", "restart", "reboot", "redemarrer") else self.get_application().quit()))
+        show_settings = 0 if kind else max(search_score(query, alias) for alias in (
+            "Configurações do SpotLauncher", "SpotLauncher settings", "ajustes de SpotLauncher",
+            "parametres de SpotLauncher", "config", "settings", "preferences", "preferencias",
+            "ajustes", "configuracao", "configuracoes", "configuracion", "parametres", "reglages"))
         limit = None if self.config.get("scroll_results", True) else self.config.get("max_results", 7)
         apps = [] if kind else self.matcher.search(query, self.indexer.get_apps(), limit=limit)
 
         if not kind and len(text) < 2:
-            self._render_matches(apps, [], show_settings, web_result, actions=actions)
+            self._render_matches(apps, [], show_settings, web_result, actions=actions, query=query)
             return
 
         # Keep apps actionable while files are being indexed. Wait for local
         # results before offering the web fallback to the Enter shortcut.
-        self._render_matches(apps, [], show_settings, None, actions=actions)
+        self._render_matches(apps, [], show_settings, None, actions=actions, query=query)
 
         def show_files(files):
             if files is None:
@@ -701,7 +864,7 @@ class LauncherWindow(Gtk.Window):
                 message = _("Nenhum arquivo encontrado")
             else:
                 message = None
-            self._render_matches(apps, files or [], show_settings, web_result, message, actions)
+            self._render_matches(apps, files or [], show_settings, web_result, message, actions, query=query)
 
         self._schedule_search(self._file_worker, lambda: self.files.search_current(query, limit),
                               show_files, {
@@ -711,33 +874,54 @@ class LauncherWindow(Gtk.Window):
                                   "video": _("Pesquisando vídeos…"),
                               }.get(kind, _("Pesquisando arquivos…")), 80)
 
-    def _render_matches(self, apps, files, show_settings, web_result, message=None, actions=()):
+    def _render_matches(self, apps, files, show_settings, web_result, message=None, actions=(), query=""):
         self._clear_results()
-        if show_settings:
-            row = Adw.ActionRow(title=_("Configurações do SpotLauncher"),
-                                subtitle=_("Personalizar comportamento e preferências"), activatable=True)
-            row.add_prefix(Gtk.Image.new_from_icon_name("preferences-system-symbolic"))
-            row._settings = True
-            self._append_result(row)
         if message:
             self._show_notice(message)
 
         def rows():
+            ranked = []
+            if show_settings:
+                def settings_row():
+                    row = Adw.ActionRow(title=_("Configurações do SpotLauncher"),
+                                        subtitle=_("Personalizar comportamento e preferências"), activatable=True)
+                    row.add_prefix(Gtk.Image.new_from_icon_name("preferences-system-symbolic"))
+                    row._settings = True
+                    return row
+                ranked.append(((-float(show_settings), 1, "settings", "settings"), settings_row))
             for action in actions:
+                if isinstance(action, CommandSuggestion):
+                    def suggestion_row(action=action):
+                        row = Adw.ActionRow(title=GLib.markup_escape_text(action.query), activatable=True)
+                        row._search_query = action.query
+                        return row
+                    ranked.append(((-action.score, 1, action.query, action.query), suggestion_row))
+                    continue
                 if isinstance(action, tuple):
                     name, callback = action
-                    row = Adw.ActionRow(title=_("Reiniciar SpotLauncher") if name in ("reiniciar", "reset", "restart", "reboot") else _("Fechar SpotLauncher"), activatable=True)
-                    row._launcher_action = callback
-                    yield row
+                    def launcher_row(name=name, callback=callback):
+                        row = Adw.ActionRow(title=_("Reiniciar SpotLauncher") if name in ("reiniciar", "reset", "restart", "reboot", "redemarrer") else _("Fechar SpotLauncher"), activatable=True)
+                        row._launcher_action = callback
+                        return row
+                    score = max(search_score(query, name + " " + target)
+                                for target in ("spot", "spotlauncher", "launcher"))
+                    ranked.append(((-score, 1, name, name), launcher_row))
                     continue
-                row = Adw.ActionRow(title=action.title, subtitle=action.subtitle, activatable=True)
-                row.add_prefix(Gtk.Image.new_from_icon_name(action.icon))
-                row._system_action = action
-                yield row
-            for item in merge(apps, files, key=lambda item: item.score, reverse=True):
-                yield self._match_row(item)
+                def action_row(action=action):
+                    row = Adw.ActionRow(title=action.title, subtitle=action.subtitle, activatable=True)
+                    row.add_prefix(Gtk.Image.new_from_icon_name(action.icon))
+                    row._system_action = action
+                    return row
+                ranked.append(((-action.score, 1, action.title, str(action.command)), action_row))
+            local_rows = ((result_key(item), lambda item=item: self._match_row(item))
+                          for item in merge(apps, files, key=result_key))
+            for rank, make_row in merge(local_rows, sorted(ranked, key=lambda item: item[0]),
+                                        key=lambda item: item[0]):
+                yield make_row()
             if web_result:
                 yield self._web_row(web_result)
+                # shortcut: offer maps for any text; add place recognition if suggestions become distracting.
+                yield from self._map_rows(web_result.query)
 
         self._remaining_rows = rows()
         self._append_page()
@@ -824,6 +1008,21 @@ class LauncherWindow(Gtk.Window):
             self.scrolled_window.set_max_content_height(height)
         return False
 
+    def _map_rows(self, destination):
+        maps = Gio.DesktopAppInfo.new("org.gnome.Maps.desktop")
+        if maps:
+            row = Adw.ActionRow(title=_("Abrir no GNOME Mapas"),
+                                subtitle=GLib.markup_escape_text(destination), activatable=True)
+            row.add_prefix(Gtk.Image.new_from_icon_name("org.gnome.Maps"))
+            row._maps_app = maps
+            row._maps_uri = "geo:0,0?q=" + quote(destination, safe="")
+            yield row
+        row = Adw.ActionRow(title=_("Abrir mapa no navegador"),
+                            subtitle=GLib.markup_escape_text(destination), activatable=True)
+        row.add_prefix(Gtk.Image.new_from_icon_name("mark-location-symbolic"))
+        row._web_url = map_search("mapa " + destination)
+        yield row
+
     def _web_row(self, result):
         row = Adw.ActionRow(
             title=_("Pesquisar no Google: %s") % GLib.markup_escape_text(result.query),
@@ -837,11 +1036,13 @@ class LauncherWindow(Gtk.Window):
         return row
 
     def _on_active_changed(self, window, param):
-        """Fecha o launcher automaticamente se você clicar fora dele."""
+        """Only hide after the compositor has actually given this opening focus."""
+        if self.is_active():
+            self._focus_ready = True
         GLib.idle_add(self._check_focus)
 
     def _on_row_activated(self, list_box, row):
-        if not row.get_activatable():
+        if getattr(self, "_closing", False) is True or not row.get_activatable():
             return
         if hasattr(row, "_terminal_command"):
             try:
@@ -869,8 +1070,20 @@ class LauncherWindow(Gtk.Window):
         if hasattr(row, "_system_action"):
             self._activate_system_action(row._system_action)
             return
+        if hasattr(row, "_search_query"):
+            self.search_entry.set_text(row._search_query)
+            return
         if hasattr(row, "_launcher_action"):
             row._launcher_action()
+            return
+        if hasattr(row, "_maps_app"):
+            try:
+                if row._maps_app.launch_uris([row._maps_uri], None):
+                    self.hide_launcher()
+            except GLib.Error as exc:
+                dialog = Adw.MessageDialog.new(self, _("Não foi possível abrir o mapa"), str(exc))
+                dialog.add_response("close", _("Fechar"))
+                dialog.present()
             return
         if hasattr(row, "_web_url"):
             try:
@@ -912,8 +1125,8 @@ class LauncherWindow(Gtk.Window):
         if hasattr(row, "_app_entry"):
             app = row._app_entry
             print(f"[Launcher] Executando: {app.name}")
-            self.history.record_launch(app.id)
-            self.indexer.launch(app)
+            if self.indexer.launch(app):
+                self.history.record_launch(app.id, self.search_entry.get_text())
             self.hide_launcher()
             return
 
@@ -922,8 +1135,8 @@ class LauncherWindow(Gtk.Window):
         self.hide_launcher()
 
     def _on_emoji_closed(self, chooser):
-        self._context_open = False
         chooser.unparent()
+        self._context_closed(chooser)
 
     def _activate_system_action(self, action):
         def complete(error):
@@ -967,15 +1180,60 @@ class LauncherWindow(Gtk.Window):
         self.preferences_window = None
         self._is_prefs_open = False
 
+    def _cancel_fade(self):
+        if self._fade_tick:
+            self.scaled_content.remove_tick_callback(self._fade_tick)
+            self._fade_tick = 0
+
+    def _finish_fade(self, opacity):
+        self.scaled_content.set_opacity(opacity)
+        if opacity == 0:
+            self.set_visible(False)
+            self._clear_results()
+
+    def _fade_to(self, opacity):
+        self._cancel_fade()
+        initial = self.scaled_content.get_opacity()
+        if not self.get_settings().get_property("gtk-enable-animations") or initial == opacity:
+            self._finish_fade(opacity)
+            return
+        duration = 120_000 if opacity else 90_000
+        clock = self.get_frame_clock()
+        started = clock.get_frame_time() if clock else None
+
+        def tick(widget, clock):
+            nonlocal started
+            now = clock.get_frame_time()
+            if started is None:
+                started = now
+            progress = min(1.0, (now - started) / duration)
+            if not self.get_settings().get_property("gtk-enable-animations"):
+                progress = 1.0
+            eased = 1 - (1 - progress) ** 3
+            widget.set_opacity(initial + (opacity - initial) * eased)
+            if progress >= 1:
+                self._fade_tick = 0
+                self._finish_fade(opacity)
+                return False
+            return True
+
+        self._fade_tick = self.scaled_content.add_tick_callback(tick)
+
     def show_launcher(self):
+        self._closing = False
+        self.scaled_content.set_sensitive(True)
+        if not self.is_visible():
+            self.scaled_content.set_opacity(0)
         if self.preferences_window is not None:
             self.preferences_window.close()
         if self.config.get("clear_on_hide", True):
             self.search_entry.set_text("")
         self._on_search_changed(self.search_entry)
+        self._focus_ready = self.is_active()
         self.set_visible(True)
         self.present()
         self.search_entry.grab_focus()
+        self._fade_to(1)
         self._on_clipboard_changed(self.clipboard)
         self._show_update_prompt()
         if time.monotonic() - self._last_update_check >= 300:
@@ -995,14 +1253,17 @@ class LauncherWindow(Gtk.Window):
             pass
 
     def hide_launcher(self):
+        if getattr(self, "_closing", False):
+            return
+        self._closing = True
+        self.scaled_content.set_sensitive(False)
         if hasattr(self, "context_menu"):
-            self.context_menu.popdown()
+            self.context_menu.set_visible(False)
         self._cancel_pending_search()
-        self.set_visible(False)
-        self._clear_results()
+        self._fade_to(0)
 
     def toggle_launcher(self):
-        if self.is_visible() and self.preferences_window is None:
+        if self.is_visible() and not getattr(self, "_closing", False) and self.preferences_window is None:
             self.hide_launcher()
         else:
             self.show_launcher()

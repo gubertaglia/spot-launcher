@@ -55,14 +55,18 @@ def apply_theme(theme):
 
 DEFAULT_CONFIG = {
     "theme": "system",
+    "scale": 100,
+    "search_placeholder": "",
     "allow_move": False,
     "remember_position": False,
     "language": "system",
     "max_results": 7,
     "scroll_results": True,
     "clear_on_hide": True,
+    "hide_on_focus_loss": True,
     "blur_my_shell": False,
     "super_launcher": False,
+    "pointer_monitor": False,
     "disable_overview": False,
     "auto_update": False,
     "hide_update_version": "",
@@ -97,6 +101,34 @@ class ConfigManager:
     def set(self, key, value):
         self.config[key] = value
         return self.save()
+
+
+def launcher_scale(config):
+    value = config.get("scale", 100)
+    return value if type(value) is int and 50 <= value <= 200 and value % 25 == 0 else 100
+
+
+def configure_blur(enabled, config):
+    directory = Path(GLib.get_user_data_dir()) / "gnome-shell/extensions/blur-my-shell@aunetx/schemas"
+    if not (directory / "gschemas.compiled").exists():
+        return
+    source = Gio.SettingsSchemaSource.new_from_directory(str(directory), Gio.SettingsSchemaSource.get_default(), False)
+    schema = source.lookup("org.gnome.shell.extensions.blur-my-shell.applications", False)
+    if not schema or not {"blur", "whitelist"}.issubset(schema.list_keys()):
+        return
+    settings = Gio.Settings.new_full(schema, None, None)
+    windows = settings.get_strv("whitelist")
+    if enabled:
+        if "SpotLauncher" not in windows:
+            settings.set_strv("whitelist", windows + ["SpotLauncher"])
+        if not settings.get_boolean("blur"):
+            if config.set("spot_enabled_application_blur", True):
+                settings.set_boolean("blur", True)
+    else:
+        settings.set_strv("whitelist", [name for name in windows if name != "SpotLauncher"])
+        if config.get("spot_enabled_application_blur", False):
+            settings.set_boolean("blur", False)
+            config.set("spot_enabled_application_blur", False)
 
 
 class PreferencesWindow(Adw.PreferencesWindow):
@@ -140,6 +172,21 @@ class PreferencesWindow(Adw.PreferencesWindow):
         )
         self.row_theme.connect("notify::selected", self._on_theme_changed)
         group_general.add(self.row_theme)
+
+        self.row_placeholder = Adw.EntryRow(title=_("Texto da caixa de pesquisa"))
+        self.row_placeholder.set_text(parent_window.search_placeholder())
+        self.row_placeholder.connect("changed", self._on_placeholder_changed)
+        group_general.add(self.row_placeholder)
+
+        self.row_scale = Adw.SpinRow(
+            title=_("Escala do SpotLauncher (%)"),
+            subtitle=_("100% é o tamanho padrão"),
+            adjustment=Gtk.Adjustment(value=launcher_scale(self.config), lower=50, upper=200,
+                                      step_increment=25, page_increment=25),
+            snap_to_ticks=True,
+        )
+        self.row_scale.connect("notify::value", self._on_scale_changed)
+        group_general.add(self.row_scale)
 
         self.row_blur = Adw.SwitchRow(
             title=_("Compatibilidade com Blur my Shell"),
@@ -205,6 +252,14 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self.row_clear.connect("notify::active", self._on_clear_changed)
         group_general.add(self.row_clear)
 
+        self.row_focus = Adw.SwitchRow(
+            title=_("Ocultar ao perder o foco"),
+            subtitle=_("Desligado: mantém o Spot aberto ao clicar fora ou trocar de aplicativo. O atalho, Esc e a execução de resultados continuam ocultando a janela."),
+            active=self.config.get("hide_on_focus_loss", True),
+        )
+        self.row_focus.connect("notify::active", lambda row, _: self.config.set("hide_on_focus_loss", row.get_active()))
+        group_general.add(self.row_focus)
+
         # 3. Iniciar com o Sistema (Autostart)
         is_autostart = os.path.exists(AUTOSTART_FILE)
         self.row_autostart = Adw.SwitchRow(
@@ -225,6 +280,14 @@ class PreferencesWindow(Adw.PreferencesWindow):
             button.connect("clicked", self._choose_shortcut)
             self.row_shortcut.add_suffix(button)
             group_general.add(self.row_shortcut)
+
+        self.row_pointer_monitor = Adw.SwitchRow(
+            title=_("Monitor do ponteiro no Wayland"),
+            subtitle=_("Requer a extensão do Spot no GNOME Shell"),
+            active=self.config.get("pointer_monitor", False),
+        )
+        self.row_pointer_monitor.connect("notify::active", self._on_gnome_changed, "pointer_monitor")
+        group_general.add(self.row_pointer_monitor)
 
         self.row_overview = Adw.SwitchRow(
             title=_("Desabilitar o panorama"),
@@ -297,8 +360,18 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self.config.set("theme", theme)
         apply_theme(theme)
 
+    def _on_placeholder_changed(self, row):
+        self.config.set("search_placeholder", row.get_text())
+        parent = self.get_transient_for()
+        parent.search_entry.set_placeholder_text(parent.search_placeholder())
+
+    def _on_scale_changed(self, row, param):
+        self.config.set("scale", int(row.get_value()))
+        self.get_transient_for().apply_scale()
+
     def _on_blur_changed(self, row, param):
         self.config.set("blur_my_shell", row.get_active())
+        configure_blur(row.get_active(), self.config)
         self.get_transient_for().set_blur_compatibility()
 
     def _on_move_changed(self, row, param):
@@ -411,6 +484,7 @@ class PreferencesWindow(Adw.PreferencesWindow):
         if hasattr(self, "row_shortcut"):
             self.row_shortcut.set_sensitive(False)
         self.row_overview.set_sensitive(False)
+        self.row_pointer_monitor.set_sensitive(False)
 
         def install():
             try:
@@ -423,6 +497,7 @@ class PreferencesWindow(Adw.PreferencesWindow):
             if hasattr(self, "row_shortcut"):
                 self.row_shortcut.set_sensitive(True)
             self.row_overview.set_sensitive(True)
+            self.row_pointer_monitor.set_sensitive(True)
             message = error or _("Extensão instalada. Saia da sessão e entre novamente; depois ative esta opção.")
             callback(active, message)
 

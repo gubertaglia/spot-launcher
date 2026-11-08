@@ -83,6 +83,7 @@ def searches():
     # Usa as funções originais; evita os construtores com I/O/thread de arquivos.
     history = HistoryManager.__new__(HistoryManager)
     history._usage = {}
+    history._queries = {}
     matcher = SearchMatcher(history)
     indexer = AppIndexer()
     apps = indexer.get_apps()

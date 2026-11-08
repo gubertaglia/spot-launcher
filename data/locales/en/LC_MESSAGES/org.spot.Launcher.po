@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Spot Launcher 1.6.0\n"
+"Project-Id-Version: Spot Launcher 1.7.0\n"
 "PO-Revision-Date: 2026-11-07 00:00+0000\n"
 "Last-Translator: Spot Launcher\n"
 "Language-Team: Spot Launcher\n"
@@ -427,3 +427,54 @@ msgstr "Enable application blur in the extension and add Spot to the whitelist"
 
 msgid "Solte Super para usá-la sozinha. Escape cancela; Backspace remove o atalho."
 msgstr "Release Super to use it alone. Escape cancels; Backspace removes the shortcut."
+
+msgid "Ocultar ao perder o foco"
+msgstr "Hide when focus is lost"
+
+msgid "Desligado: mantém o Spot aberto ao clicar fora ou trocar de aplicativo. O atalho, Esc e a execução de resultados continuam ocultando a janela."
+msgstr "Off: keeps Spot open when clicking outside or switching applications. The shortcut, Esc and executing results still hide the window."
+
+msgid "Escala do SpotLauncher (%)"
+msgstr "SpotLauncher scale (%)"
+
+msgid "100% é o tamanho padrão"
+msgstr "100% is the default size"
+
+msgid "Monitor do ponteiro no Wayland"
+msgstr "Pointer monitor on Wayland"
+
+msgid "Requer a extensão do Spot no GNOME Shell"
+msgstr "Requires the Spot GNOME Shell extension"
+
+msgid "Abrir no GNOME Mapas"
+msgstr "Open in GNOME Maps"
+
+msgid "Não foi possível abrir o mapa"
+msgstr "Could not open the map"
+
+msgid "Texto da caixa de pesquisa"
+msgstr "Search box text"
+
+msgid "Definição indisponível"
+msgstr "Definition unavailable"
+
+msgid "Desativar Caffeine"
+msgstr "Disable Caffeine"
+
+msgid "Ativar Caffeine"
+msgstr "Enable Caffeine"
+
+msgid "Tradução indisponível"
+msgstr "Translation unavailable"
+
+msgid "Tradução limitada a 500 bytes de texto"
+msgstr "Translation limited to 500 bytes of text"
+
+msgid "Ativar Caffeine por tempo ilimitado"
+msgstr "Enable Caffeine indefinitely"
+
+msgid "Ativar Caffeine por %(duration)s min"
+msgstr "Enable Caffeine for %(duration)s min"
+
+msgid "Selecionar duração e ativar Caffeine"
+msgstr "Select duration and enable Caffeine"

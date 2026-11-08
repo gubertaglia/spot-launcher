@@ -1,7 +1,6 @@
 from dataclasses import dataclass, field, replace
-from heapq import nlargest
 from itertools import islice
-from operator import itemgetter
+from heapq import nsmallest
 import os
 import threading
 import time
@@ -12,8 +11,9 @@ import gi
 gi.require_version("Gio", "2.0")
 gi.require_version("GLib", "2.0")
 from gi.repository import Gio, GLib
-from rapidfuzz import fuzz
+from src.search import search_text, search_score
 from src.tools import normalize_text
+from src.search_commands import FILE_COMMANDS
 
 
 @dataclass(frozen=True, slots=True)
@@ -28,17 +28,14 @@ class FileEntry:
 
     def __post_init__(self):
         if not self.normalized_name:
-            object.__setattr__(self, "normalized_name", normalize_text(self.name))
+            object.__setattr__(self, "normalized_name", search_text(self.name))
 
 
 FILE_FILTERS = {
-    alias: kind for kind, aliases in {
-        "image": "foto fotos fotografia fotografias imagem imagens imagen imagenes photo photos image images picture pictures photographie photographies",
-        "video": "video videos filme filmes pelicula peliculas movie movies film films",
-        "document": "documento documentos document documents",
-        "audio": "audio audios musica musicas music musique musiques sonido sonidos son sons sound sounds",
-        "file": "arquivo arquivos archivo archivos file files fichier fichiers",
-    }.items() for alias in aliases.split()
+    alias: kind for kind, target in (("image", "fotos"), ("video", "videos"),
+                                   ("document", "documentos"), ("audio", "audios"),
+                                   ("file", "arquivos"))
+    for alias in FILE_COMMANDS[target].split()
 }
 
 
@@ -169,21 +166,12 @@ class FileSearchEngine:
         def ranked():
             for item in entries:
                 name = item.normalized_name
-                if name == text:
-                    score = 140.0
-                elif name.startswith(text):
-                    score = 110.0 + len(text) / len(name) * 20.0
-                elif text in name:
-                    score = 80.0 + len(text) / len(name) * 15.0
-                else:
-                    score = fuzz.ratio(text, name, score_cutoff=50)
-                if score > 50:
+                score = search_score(text, name)
+                if score:
                     yield score, item
 
-        if limit is None:
-            matches = sorted(ranked(), key=itemgetter(0), reverse=True)
-        else:
-            matches = nlargest(limit, ranked(), key=itemgetter(0))
+        order = lambda pair: (-pair[0], pair[1].normalized_name, pair[1].path)
+        matches = sorted(ranked(), key=order) if limit is None else nsmallest(limit, ranked(), key=order)
         return [replace(item, score=score) for score, item in matches]
 
     def open_item(self, item: FileEntry) -> bool:
