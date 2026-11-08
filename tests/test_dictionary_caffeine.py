@@ -79,6 +79,7 @@ class DictionaryCaffeineTests(unittest.TestCase):
             schema = source.return_value.lookup.return_value
             schema.has_key.return_value = True
             actions = system_actions('caffeine')
+            self.assertEqual([action.title for action in system_actions('c')], ['Caffeine'])
         self.assertEqual([action.command[-1] for action in actions[1:]], ['0', '1', '2', '3'])
 
     def test_caffeine_timer_sets_duration_index(self):

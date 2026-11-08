@@ -12,7 +12,7 @@ from src import APP_ID, LOCALE_DIR
 from src.files import FileEntry, FileSearchEngine
 from src.indexer import AppIndexer
 from src.matcher import MatchResult
-from src.search import search_score, word_distance, result_key
+from src.search import search_score, word_distance, result_key, label_score
 from src.search_commands import command_query, command_suggestion
 from src.system_actions import system_actions
 from src.tools import ToolsEngine
@@ -35,6 +35,68 @@ class SmartSearchTests(unittest.TestCase):
             self.assertEqual(word_distance(term, candidate), expected)
         for query in ('zzzxq', 'pdf xyz', 'code; touch unsafe'):
             self.assertEqual(search_score(query, 'Code Editor'), 0)
+
+    def test_short_queries_only_match_visible_name_prefix(self):
+        for query in ('v', 've', 'b', 'bl'):
+            for name in ('Visual Studio Code', 'Bloquear tela', 'Editor'):
+                with self.subTest(query=query, name=name):
+                    score = search_score(query, name, 'v ve b bl', 'v ve b bl', 'v|ve|b|bl')
+                    self.assertEqual(score, 4000 if name.lower().startswith(query) else 0)
+        self.assertEqual(search_score('B', 'B'), 5000)
+        self.assertEqual(search_score('é', 'Éditeur'), 4000)
+        self.assertEqual(search_score('v', 'Visual Studio Code'), search_score('v', 'Viewer'))
+        self.assertEqual(label_score('p', 'Configurações do SpotLauncher', ('preferences',)), 0)
+
+    def test_short_action_search_respects_visible_language_and_keeps_full_aliases(self):
+        for language in ('pt', 'en', 'es', 'fr'):
+            catalog = gettext.translation(APP_ID, LOCALE_DIR, languages=[language], fallback=True)
+            title = catalog.gettext('Bloquear tela')
+            with self.subTest(language=language), patch('src.system_actions._', catalog.gettext), \
+                 patch('src.system_actions.shutil.which', return_value='/bin/true'), \
+                 patch('src.system_actions.Path.exists', return_value=False):
+                for query in ('v', 've', 'b', 'bl', 'l', 'lo'):
+                    actions = system_actions(query)
+                    self.assertTrue(all(action.title.lower().startswith(query) for action in actions))
+                    lock = [action for action in actions if action.command == ('loginctl', 'lock-session')]
+                    self.assertEqual(bool(lock), title.lower().startswith(query))
+                lock, = system_actions('verrouiller')
+                self.assertEqual(lock.command, ('loginctl', 'lock-session'))
+                self.assertEqual(lock.score, 5000)
+        self.assertLess(label_score('verr', 'Bloquear tela', ('verrouiller',)),
+                        search_score('verr', 'Verr Viewer'))
+
+    def test_screenshot_prefixes_merge_apps_and_actions_alphabetically(self):
+        apps = [app(name) for name in ('Boxes', 'Bazaar', 'Bem-estar', 'Bluetooth',
+                                      'Visual Studio Code', 'Visualizador de imagens')]
+        catalog = gettext.translation(APP_ID, LOCALE_DIR, languages=['pt'], fallback=True)
+        for query in ('v', 'b'):
+            matches = sorted([MatchResult(entry, search_score(query, entry.name)) for entry in apps
+                              if search_score(query, entry.name)], key=result_key)
+            window = SimpleNamespace(_clear_results=Mock(), _append_page=Mock(),
+                                     _match_row=lambda item: SimpleNamespace(title=item.entry.name),
+                                     scrolled_window=Mock(), list_box=Mock(), _result_count=1)
+            with patch('src.system_actions._', catalog.gettext), \
+                 patch('src.system_actions.shutil.which', return_value='/bin/true'), \
+                 patch('src.system_actions.Path.exists', return_value=False), \
+                 patch('src.window.Adw.ActionRow', side_effect=lambda **kwargs: SimpleNamespace(**kwargs, add_prefix=Mock())), \
+                 patch('src.window.Gtk.Image.new_from_icon_name'):
+                LauncherWindow._render_matches(window, matches, [], 0, None, actions=system_actions(query))
+                titles = [row.title for row in window._remaining_rows]
+            expected = ['Visual Studio Code', 'Visualizador de imagens'] if query == 'v' else [
+                'Bazaar', 'Bem-estar', 'Bloquear tela', 'Bluetooth', 'Boxes']
+            self.assertEqual(titles, expected)
+
+    def test_exact_files_stay_after_relevant_apps_and_render_lazily(self):
+        matches = [MatchResult(app('Code Editor'), 1098)]
+        exact = FileEntry('Code', '/code', False, '', score=5000)
+        window = SimpleNamespace(_clear_results=Mock(), _append_page=Mock(), _match_row=Mock(side_effect=lambda item: item),
+                                 scrolled_window=Mock(), list_box=Mock(), _result_count=1)
+        LauncherWindow._render_matches(window, matches, [exact], 0, None)
+        self.assertIs(next(window._remaining_rows), matches[0])
+        window._match_row.assert_called_once_with(matches[0])
+        self.assertIs(next(window._remaining_rows), exact)
+        LauncherWindow._render_matches(window, [], [exact], 0, None)
+        self.assertEqual(list(window._remaining_rows), [exact])
 
     def test_files_share_tokens_accents_hyphens_and_typos(self):
         engine = FileSearchEngine('/unused')
@@ -202,9 +264,9 @@ class SmartSearchTests(unittest.TestCase):
                                            web_search('code'), actions=[suggestion])
             rows = list(window._remaining_rows)
         self.assertIs(rows[0], local_app)
-        self.assertIs(rows[1], file)
-        self.assertTrue(rows[2]._settings)
-        self.assertEqual(rows[3]._search_query, 'calendar')
+        self.assertTrue(rows[1]._settings)
+        self.assertEqual(rows[2]._search_query, 'calendar')
+        self.assertIs(rows[3], file)
         self.assertEqual(rows[-2:], ['web', 'maps'])
 
     def test_query_acceptance_is_independent_of_interface_language(self):

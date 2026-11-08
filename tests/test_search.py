@@ -66,6 +66,18 @@ class SearchTests(unittest.TestCase):
         self.history.record_launch(setting.id)
         self.assertIs(self.matcher.search("", [normal, favorite, setting], 1)[0].entry, favorite)
 
+    def test_short_prefixes_use_history_instead_of_name_length(self):
+        short, long = app("Boxes"), app("Bluetooth Preferences")
+        hidden_match = app("Editor", ["boxes"], "Bluetooth tool")
+        results = self.matcher.search("B", [short, hidden_match, long])
+        self.assertEqual([result.entry for result in results], [long, short])
+        self.assertEqual(results[0].score, results[1].score)
+        self.history.record_launch(short.id, "b")
+        self.assertIs(self.matcher.search("b", [long, short])[0].entry, short)
+        self.history.record_launch(long.id, "bl")
+        self.assertIs(self.matcher.search("bl", [short, long])[0].entry, long)
+        self.assertEqual(self.matcher.search("ox", [short, hidden_match, long]), [])
+
     def test_legacy_history_validation_and_bounded_learning(self):
         path = Path(self.history.file_path)
         path.parent.mkdir(parents=True, exist_ok=True)

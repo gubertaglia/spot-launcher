@@ -71,7 +71,9 @@ def search_score(query, name, metadata="", description="", aliases=""):
     if query == name:
         return 5000
     if name.startswith(query):
-        return 4000 + min(99, int(100 * len(query) / len(name)))
+        return 4000 if len(query) <= 2 else 4000 + min(99, int(100 * len(query) / len(name)))
+    if len(query) <= 2:
+        return 0
     terms = query_terms(query)
     if terms == tuple(query.split()) and all(term in name for term in terms):
         return 3000 + min(99, int(100 * sum(map(len, terms)) / max(1, len(name))))
@@ -97,9 +99,21 @@ def search_score(query, name, metadata="", description="", aliases=""):
     return 1000 + max(0, 99 - sum(distances))
 
 
+def label_score(query, title, aliases=()):
+    """Short queries use the visible title; partial aliases stay below name prefixes."""
+    score = search_score(query, title)
+    query = search_text(query)
+    if len(query) <= 2:
+        return score
+    for alias in aliases:
+        alias_score = 5000 if query == search_text(alias) else min(2090, search_score(query, alias))
+        score = max(score, alias_score)
+    return score
+
+
 def result_key(item):
     """A deterministic ordering also used when merging different providers."""
     entry = getattr(item, "entry", item)
     name = getattr(entry, "name", getattr(entry, "title", ""))
     identity = getattr(entry, "id", getattr(entry, "path", name))
-    return (-item.score, 0 if hasattr(item, "entry") else 1, search_text(name), identity)
+    return (-item.score, 1 if hasattr(entry, "path") else 0, search_text(name), identity)

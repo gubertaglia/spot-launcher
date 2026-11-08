@@ -15,7 +15,7 @@ from src import _
 from src.history import HistoryManager
 from src.indexer import AppIndexer
 from src.matcher import SearchMatcher
-from src.search import search_score, result_key
+from src.search import search_score, result_key, label_score, search_text
 from src.search_commands import command_query, command_suggestion, CommandSuggestion
 from src.calculator import CalculatorPlugin
 from src.files import FileSearchEngine, file_query
@@ -842,7 +842,7 @@ class LauncherWindow(Gtk.Window):
                                 if action in command.split() and any(term in command.split() for term in ("spot", "spotlauncher", "launcher"))), None)
         if not kind and launcher_action:
             actions.insert(0, (launcher_action, lambda: self._restart() if launcher_action in ("reiniciar", "reset", "restart", "reboot", "redemarrer") else self.get_application().quit()))
-        show_settings = 0 if kind else max(search_score(query, alias) for alias in (
+        show_settings = 0 if kind else label_score(query, _("Configurações do SpotLauncher"), (
             "Configurações do SpotLauncher", "SpotLauncher settings", "ajustes de SpotLauncher",
             "parametres de SpotLauncher", "config", "settings", "preferences", "preferencias",
             "ajustes", "configuracao", "configuracoes", "configuracion", "parametres", "reglages"))
@@ -888,36 +888,39 @@ class LauncherWindow(Gtk.Window):
                     row.add_prefix(Gtk.Image.new_from_icon_name("preferences-system-symbolic"))
                     row._settings = True
                     return row
-                ranked.append(((-float(show_settings), 1, "settings", "settings"), settings_row))
+                ranked.append(((-float(show_settings), 0, search_text(_("Configurações do SpotLauncher")), "settings"), settings_row))
             for action in actions:
                 if isinstance(action, CommandSuggestion):
                     def suggestion_row(action=action):
                         row = Adw.ActionRow(title=GLib.markup_escape_text(action.query), activatable=True)
                         row._search_query = action.query
                         return row
-                    ranked.append(((-action.score, 1, action.query, action.query), suggestion_row))
+                    ranked.append(((-action.score, 0, search_text(action.query), action.query), suggestion_row))
                     continue
                 if isinstance(action, tuple):
                     name, callback = action
-                    def launcher_row(name=name, callback=callback):
-                        row = Adw.ActionRow(title=_("Reiniciar SpotLauncher") if name in ("reiniciar", "reset", "restart", "reboot", "redemarrer") else _("Fechar SpotLauncher"), activatable=True)
+                    title = _("Reiniciar SpotLauncher") if name in ("reiniciar", "reset", "restart", "reboot", "redemarrer") else _("Fechar SpotLauncher")
+                    def launcher_row(title=title, callback=callback):
+                        row = Adw.ActionRow(title=title, activatable=True)
                         row._launcher_action = callback
                         return row
                     score = max(search_score(query, name + " " + target)
                                 for target in ("spot", "spotlauncher", "launcher"))
-                    ranked.append(((-score, 1, name, name), launcher_row))
+                    ranked.append(((-score, 0, search_text(title), name), launcher_row))
                     continue
                 def action_row(action=action):
                     row = Adw.ActionRow(title=action.title, subtitle=action.subtitle, activatable=True)
                     row.add_prefix(Gtk.Image.new_from_icon_name(action.icon))
                     row._system_action = action
                     return row
-                ranked.append(((-action.score, 1, action.title, str(action.command)), action_row))
+                ranked.append(((-action.score, 0, search_text(action.title), str(action.command)), action_row))
             local_rows = ((result_key(item), lambda item=item: self._match_row(item))
-                          for item in merge(apps, files, key=result_key))
+                          for item in apps)
             for rank, make_row in merge(local_rows, sorted(ranked, key=lambda item: item[0]),
                                         key=lambda item: item[0]):
                 yield make_row()
+            for item in files:
+                yield self._match_row(item)
             if web_result:
                 yield self._web_row(web_result)
                 # shortcut: offer maps for any text; add place recognition if suggestions become distracting.

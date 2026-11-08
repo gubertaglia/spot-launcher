@@ -7,7 +7,7 @@ from pathlib import Path
 from gi.repository import Gio, GLib
 from src import _
 from src.tools import normalize_text
-from src.search import search_score, search_text
+from src.search import label_score, search_text
 
 
 @dataclass(frozen=True)
@@ -28,7 +28,7 @@ def system_actions(query):
         term in query for term in ("reiniciar", "restart", "reset", "reboot", "redemarrer", "fechar", "close", "sair", "quit", "cerrar", "fermer", "quitter")
     ):
         return []
-    caffeine_score = max(search_score(query, alias) for alias in ("caffeine", "cafeina"))
+    caffeine_score = label_score(query, "Caffeine", ("cafeina",))
     if caffeine_score:
         for root in (Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local/share")), Path('/usr/share')):
             directory = root / 'gnome-shell/extensions/caffeine@patapon.info/schemas'
@@ -44,7 +44,7 @@ def system_actions(query):
                                         ('gsettings', '--schemadir', str(directory), 'set',
                                          'org.gnome.shell.extensions.caffeine', 'cli-toggle',
                                          'false' if enabled else 'true'), score=caffeine_score)]
-                if schema.has_key('duration-timer-list') and schema.has_key('duration-timer'):
+                if len(search_text(query)) > 2 and schema.has_key('duration-timer-list') and schema.has_key('duration-timer'):
                     durations = settings.get_value('duration-timer-list').unpack()
                     for index, seconds in enumerate((*durations, 0)):
                         label = _('Ativar Caffeine por tempo ilimitado') if seconds == 0 else _(
@@ -84,7 +84,7 @@ def system_actions(query):
     prefixes = next((prefixes for name, prefixes in preferred.items() if name in desktop), ())
     results = []
     for title, subtitle, icon, aliases, commands, confirm in actions:
-        score = max(search_score(query, label) for label in (title, *aliases.split("|")))
+        score = label_score(query, title, aliases.split("|"))
         if query in ("sistema", "system", "systeme", "sistema operativo"):
             score = 2050
         if not score:

@@ -1,8 +1,16 @@
 # Spot Launcher
 
-Launcher para Linux com Python, GTK 4 e libadwaita.
+Um launcher para Linux que reúne aplicativos, arquivos, buscas e ferramentas em uma só janela.
+Feito com Python, GTK 4 e libadwaita.
 
-Versão atual: **1.7.0**.
+[![Versão](https://img.shields.io/badge/vers%C3%A3o-1.8.0-blue)](https://github.com/gubertaglia/spot-launcher/releases/tag/v1.8.0)
+[![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-green)](LICENSE)
+
+**[Começar](#executar)** · **[Busca](#busca-e-aprendizado-local)** · **[Ferramentas](#dicionário)** · **[Atalhos](#atalhos-super-e-panorama-no-gnome)** · **[Atualizações](#atualizações)**
+
+Busque aplicativos e arquivos, consulte clima e calendário, traduza textos,
+execute comandos e controle ações do sistema sem sair do launcher. A interface
+está disponível em português, inglês, espanhol e francês.
 
 ## Executar
 
@@ -97,10 +105,18 @@ inglês, espanhol e francês, independentemente do idioma da interface. Frases
 como `navegar na internet`, `browse the internet`, `navegar por internet` e
 `naviguer sur internet` reconhecem intenções comuns com vocabulário local.
 
-Apps, arquivos, configurações e ações compartilham a ordem: nome exato, prefixo,
-palavras no nome, metadados ou sinônimos e aproximações. O histórico desempata
-correspondências equivalentes. Apps vencem empates com arquivos. Google aparece
-depois dos resultados locais e antes das sugestões genéricas de mapas.
+Com uma ou duas letras, a busca considera somente o início do nome exibido.
+Prefixos curtos têm a mesma relevância: nomes menores não ganham prioridade.
+O histórico desempata apps equivalentes; os demais empates seguem o nome.
+Assim, `V` encontra Visual Studio Code e visualizadores, sem incluir Bloquear tela
+pelo alias francês. A partir de três caracteres, aliases dos quatro idiomas
+continuam disponíveis; aliases parciais não ultrapassam prefixos do nome exibido.
+
+Apps, painéis e ações relevantes aparecem antes dos arquivos, mesmo quando um
+arquivo tem o nome exato. Filtros como `documentos:` continuam buscando somente
+arquivos. Dentro de cada grupo, a ordem é nome exato, prefixo, palavras no nome,
+metadados ou sinônimos e aproximações. Google aparece depois dos resultados
+locais e antes das sugestões genéricas de mapas.
 
 Comandos com erro aparecem como sugestões: `calendrio`, `clmia em São Paulo`
 e `documntos: relatório`. Selecione a sugestão para confirmar a correção e abrir
@@ -255,7 +271,7 @@ em segundo plano para manter a interface responsiva.
 
 A posição padrão fica centralizada horizontalmente e acima do centro vertical
 em X11/XWayland. Em Wayland nativo, o compositor decide a posição da janela.
-Uma posição salva com Ao reabrir, o monitor do ponteiro tem prioridade: **Lembrar a posição** só
+Ao reabrir, o monitor do ponteiro tem prioridade: **Lembrar a posição** só
 restaura uma posição que pertença a esse monitor. Com Super configurado, a
 extensão também faz o posicionamento nativo, mesmo sem ativar a opção separada.
 Depois de atualizar a extensão, saia e entre na sessão para carregar o novo código.
