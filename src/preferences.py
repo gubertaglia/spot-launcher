@@ -1,4 +1,4 @@
-from src.storage import write_json
+from src.storage import write_json_ui as write_json, write_json as write_json_sync, flush_writes
 import json
 import os
 import subprocess
@@ -84,7 +84,20 @@ class ConfigManager:
         if os.path.exists(CONFIG_FILE):
             try:
                 with open(CONFIG_FILE, "r", encoding="utf-8") as f:
-                    self.config.update(json.load(f))
+                    data = json.load(f)
+                    if isinstance(data, dict):
+                        self.config.update({key: value for key, value in data.items()
+                                            if key not in DEFAULT_CONFIG and key != "window_position"})
+                        for key, default in DEFAULT_CONFIG.items():
+                            value = data.get(key, default)
+                            if type(value) is type(default):
+                                self.config[key] = value
+                        value = self.config["max_results"]
+                        self.config["max_results"] = value if 3 <= value <= 15 else 7
+                        self.config["scale"] = launcher_scale(self.config)
+                        position = data.get("window_position")
+                        if isinstance(position, list) and len(position) == 2 and all(type(n) is int for n in position):
+                            self.config["window_position"] = position
             except Exception as e:
                 print(f"[Config] Erro ao carregar: {e}")
 
@@ -100,35 +113,20 @@ class ConfigManager:
 
     def set(self, key, value):
         self.config[key] = value
+        if key == "language":
+            flush_writes()
+            try:
+                write_json_sync(CONFIG_FILE, self.config)
+                return True
+            except Exception as error:
+                print(f"[Config] Erro ao salvar: {error}")
+                return False
         return self.save()
 
 
 def launcher_scale(config):
     value = config.get("scale", 100)
     return value if type(value) is int and 50 <= value <= 200 and value % 25 == 0 else 100
-
-
-def configure_blur(enabled, config):
-    directory = Path(GLib.get_user_data_dir()) / "gnome-shell/extensions/blur-my-shell@aunetx/schemas"
-    if not (directory / "gschemas.compiled").exists():
-        return
-    source = Gio.SettingsSchemaSource.new_from_directory(str(directory), Gio.SettingsSchemaSource.get_default(), False)
-    schema = source.lookup("org.gnome.shell.extensions.blur-my-shell.applications", False)
-    if not schema or not {"blur", "whitelist"}.issubset(schema.list_keys()):
-        return
-    settings = Gio.Settings.new_full(schema, None, None)
-    windows = settings.get_strv("whitelist")
-    if enabled:
-        if "SpotLauncher" not in windows:
-            settings.set_strv("whitelist", windows + ["SpotLauncher"])
-        if not settings.get_boolean("blur"):
-            if config.set("spot_enabled_application_blur", True):
-                settings.set_boolean("blur", True)
-    else:
-        settings.set_strv("whitelist", [name for name in windows if name != "SpotLauncher"])
-        if config.get("spot_enabled_application_blur", False):
-            settings.set_boolean("blur", False)
-            config.set("spot_enabled_application_blur", False)
 
 
 class PreferencesWindow(Adw.PreferencesWindow):
@@ -138,7 +136,7 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self.connect("realize", hide_from_dock)
         self.config = config_manager
         self._gnome_worker = LatestRequestWorker(GLib.idle_add)
-        self.connect("close-request", lambda *_: self._gnome_worker.close())
+        self.set_hide_on_close(True)
         self.set_title(_("Configurações do Spot"))
         self.set_default_size(500, 540)
 
@@ -371,7 +369,6 @@ class PreferencesWindow(Adw.PreferencesWindow):
 
     def _on_blur_changed(self, row, param):
         self.config.set("blur_my_shell", row.get_active())
-        configure_blur(row.get_active(), self.config)
         self.get_transient_for().set_blur_compatibility()
 
     def _on_move_changed(self, row, param):

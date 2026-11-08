@@ -11,6 +11,7 @@ from typing import Dict, List, Optional
 import urllib.parse
 import urllib.request
 import zoneinfo
+import unicodedata
 
 import gi
 
@@ -403,7 +404,11 @@ class ToolsEngine:
             val_in_usd = val / self._rates[c_from]
             res = val_in_usd * self._rates[c_to]
 
-            fmt_res = locale.format_string("%.2f" if res >= 0.01 else "%.6f", res, grouping=True)
+            if not math.isfinite(res):
+                return {"title": _("Cotação indisponível"), "sub": _("Resultado fora dos limites"),
+                        "icon": "dialog-warning-symbolic", "copy": None}
+            precision = 2 if abs(res) >= 0.01 else 6
+            fmt_res = locale.format_string("%.2f" if precision == 2 else "%.6f", res, grouping=True)
             sub = _("{value} {source} para {target} — Coinbase, {updated}").format(
                 value=locale.str(val), source=c_from, target=c_to,
                 updated=datetime.fromtimestamp(self._rates_timestamp).strftime(regional_date_format() + " %H:%M"),
@@ -414,7 +419,7 @@ class ToolsEngine:
                 "title": f"= {fmt_res} {c_to}",
                 "sub": sub,
                 "icon": "help-about-symbolic",
-                "copy": f"{res:.2f}",
+                "copy": f"{res:.{precision}f}",
             }
 
         return {"title": _("Cotação indisponível"),
@@ -468,8 +473,8 @@ class ToolsEngine:
     # 3. MOTOR CIENTÍFICO DE UNIDADES (Via Pint)
     # ==========================================================
     def convert_units(self, query: str) -> Optional[dict]:
-        clean = normalize_text(command_query(query) or query)
-        match = CONVERSION_QUERY.fullmatch(clean)
+        clean = "".join(c for c in unicodedata.normalize("NFKD", command_query(query) or query) if not unicodedata.combining(c))
+        match = re.fullmatch(CONVERSION_QUERY.pattern, clean.strip(), re.IGNORECASE)
         if not match:
             return None
 
@@ -482,8 +487,14 @@ class ToolsEngine:
         if not math.isfinite(val):
             return None
 
-        u_a = UNIT_ALIASES.get(u_from, u_from)
-        u_b = UNIT_ALIASES.get(u_to, u_to)
+        def symbol(token):
+            alias = normalize_text(token)
+            # SI symbols are case-sensitive; natural-language aliases are not.
+            if token.islower() or len(token) > 2 or alias in ("c", "f", "k", "°c", "°f"):
+                return UNIT_ALIASES.get(alias, token)
+            return token
+
+        u_a, u_b = symbol(u_from), symbol(u_to)
 
         # O registro é carregado sob demanda na thread de ferramentas.
         ureg = self._unit_registry()

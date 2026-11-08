@@ -1,0 +1,3764 @@
+{
+  "method": "30 fresh processes per startup/daemon; 30 reopens excluding initial opening; usable=100% opacity; startup includes private D-Bus launch; OS cache not cleared",
+  "results": {
+    "wayland_startup": {
+      "samples": 30,
+      "median_ms": 743.562,
+      "p95_ms": 846.342
+    },
+    "wayland_daemon": {
+      "samples": 30,
+      "median_ms": 114.696,
+      "p95_ms": 119.226
+    },
+    "wayland_reopen": {
+      "samples": 30,
+      "median_ms": 112.273,
+      "p95_ms": 125.616
+    },
+    "x11_startup": {
+      "samples": 30,
+      "median_ms": 529.837,
+      "p95_ms": 981.547
+    },
+    "x11_daemon": {
+      "samples": 30,
+      "median_ms": 123.986,
+      "p95_ms": 129.726
+    },
+    "x11_reopen": {
+      "samples": 30,
+      "median_ms": 114.871,
+      "p95_ms": 129.214
+    },
+    "auto_startup": {
+      "samples": 30,
+      "median_ms": 617.614,
+      "p95_ms": 972.029
+    },
+    "auto_daemon": {
+      "samples": 30,
+      "median_ms": 124.898,
+      "p95_ms": 158.017
+    },
+    "auto_reopen": {
+      "samples": 30,
+      "median_ms": 114.567,
+      "p95_ms": 116.112
+    }
+  },
+  "raw": {
+    "wayland_startup": [
+      {
+        "process_to_frame_ms": 968.233,
+        "trigger_to_frame_ms": 968.233,
+        "first_frame_opacity": 0.011764705882352941,
+        "process_to_usable_ms": 1065.479,
+        "trigger_to_usable_ms": 1065.479,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1326.284
+      },
+      {
+        "process_to_frame_ms": 674.482,
+        "trigger_to_frame_ms": 674.482,
+        "first_frame_opacity": 0.01568627450980392,
+        "process_to_usable_ms": 770.691,
+        "trigger_to_usable_ms": 770.691,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1058.139
+      },
+      {
+        "process_to_frame_ms": 684.313,
+        "trigger_to_frame_ms": 684.313,
+        "first_frame_opacity": 0.01568627450980392,
+        "process_to_usable_ms": 781.885,
+        "trigger_to_usable_ms": 781.885,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1042.802
+      },
+      {
+        "process_to_frame_ms": 711.052,
+        "trigger_to_frame_ms": 711.052,
+        "first_frame_opacity": 0.0196078431372549,
+        "process_to_usable_ms": 809.01,
+        "trigger_to_usable_ms": 809.01,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1073.371
+      },
+      {
+        "process_to_frame_ms": 664.684,
+        "trigger_to_frame_ms": 664.684,
+        "first_frame_opacity": 0.00784313725490196,
+        "process_to_usable_ms": 764.437,
+        "trigger_to_usable_ms": 764.437,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1023.297
+      },
+      {
+        "process_to_frame_ms": 661.35,
+        "trigger_to_frame_ms": 661.35,
+        "first_frame_opacity": 0.011764705882352941,
+        "process_to_usable_ms": 759.288,
+        "trigger_to_usable_ms": 759.288,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1017.607
+      },
+      {
+        "process_to_frame_ms": 698.458,
+        "trigger_to_frame_ms": 698.458,
+        "first_frame_opacity": 0.01568627450980392,
+        "process_to_usable_ms": 796.44,
+        "trigger_to_usable_ms": 796.44,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1055.784
+      },
+      {
+        "process_to_frame_ms": 732.453,
+        "trigger_to_frame_ms": 732.453,
+        "first_frame_opacity": 0.01568627450980392,
+        "process_to_usable_ms": 830.599,
+        "trigger_to_usable_ms": 830.599,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1110.006
+      },
+      {
+        "process_to_frame_ms": 748.298,
+        "trigger_to_frame_ms": 748.298,
+        "first_frame_opacity": 0.011764705882352941,
+        "process_to_usable_ms": 846.342,
+        "trigger_to_usable_ms": 846.342,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1109.494
+      },
+      {
+        "process_to_frame_ms": 684.586,
+        "trigger_to_frame_ms": 684.586,
+        "first_frame_opacity": 0.011764705882352941,
+        "process_to_usable_ms": 782.412,
+        "trigger_to_usable_ms": 782.412,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1039.529
+      },
+      {
+        "process_to_frame_ms": 667.667,
+        "trigger_to_frame_ms": 667.667,
+        "first_frame_opacity": 0.011764705882352941,
+        "process_to_usable_ms": 766.07,
+        "trigger_to_usable_ms": 766.07,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1031.39
+      },
+      {
+        "process_to_frame_ms": 605.656,
+        "trigger_to_frame_ms": 605.656,
+        "first_frame_opacity": 0.011764705882352941,
+        "process_to_usable_ms": 703.756,
+        "trigger_to_usable_ms": 703.756,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 949.715
+      },
+      {
+        "process_to_frame_ms": 551.115,
+        "trigger_to_frame_ms": 551.115,
+        "first_frame_opacity": 0.0196078431372549,
+        "process_to_usable_ms": 646.139,
+        "trigger_to_usable_ms": 646.139,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 899.55
+      },
+      {
+        "process_to_frame_ms": 598.154,
+        "trigger_to_frame_ms": 598.154,
+        "first_frame_opacity": 0.01568627450980392,
+        "process_to_usable_ms": 695.647,
+        "trigger_to_usable_ms": 695.647,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 954.041
+      },
+      {
+        "process_to_frame_ms": 619.071,
+        "trigger_to_frame_ms": 619.071,
+        "first_frame_opacity": 0.0196078431372549,
+        "process_to_usable_ms": 715.028,
+        "trigger_to_usable_ms": 715.028,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 975.792
+      },
+      {
+        "process_to_frame_ms": 616.931,
+        "trigger_to_frame_ms": 616.931,
+        "first_frame_opacity": 0.01568627450980392,
+        "process_to_usable_ms": 714.063,
+        "trigger_to_usable_ms": 714.063,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 976.802
+      },
+      {
+        "process_to_frame_ms": 679.036,
+        "trigger_to_frame_ms": 679.036,
+        "first_frame_opacity": 0.0196078431372549,
+        "process_to_usable_ms": 776.132,
+        "trigger_to_usable_ms": 776.132,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1028.877
+      },
+      {
+        "process_to_frame_ms": 603.157,
+        "trigger_to_frame_ms": 603.157,
+        "first_frame_opacity": 0.011764705882352941,
+        "process_to_usable_ms": 701.121,
+        "trigger_to_usable_ms": 701.121,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 966.323
+      },
+      {
+        "process_to_frame_ms": 548.884,
+        "trigger_to_frame_ms": 548.884,
+        "first_frame_opacity": 0.00784313725490196,
+        "process_to_usable_ms": 648.445,
+        "trigger_to_usable_ms": 648.445,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 897.425
+      },
+      {
+        "process_to_frame_ms": 482.097,
+        "trigger_to_frame_ms": 482.097,
+        "first_frame_opacity": 0.00784313725490196,
+        "process_to_usable_ms": 580.926,
+        "trigger_to_usable_ms": 580.926,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 822.716
+      },
+      {
+        "process_to_frame_ms": 557.421,
+        "trigger_to_frame_ms": 557.421,
+        "first_frame_opacity": 0.00784313725490196,
+        "process_to_usable_ms": 655.515,
+        "trigger_to_usable_ms": 655.515,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 955.775
+      },
+      {
+        "process_to_frame_ms": 646.609,
+        "trigger_to_frame_ms": 646.609,
+        "first_frame_opacity": 0.01568627450980392,
+        "process_to_usable_ms": 745.017,
+        "trigger_to_usable_ms": 745.017,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 990.648
+      },
+      {
+        "process_to_frame_ms": 640.175,
+        "trigger_to_frame_ms": 640.175,
+        "first_frame_opacity": 0.01568627450980392,
+        "process_to_usable_ms": 742.108,
+        "trigger_to_usable_ms": 742.108,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1004.238
+      },
+      {
+        "process_to_frame_ms": 629.855,
+        "trigger_to_frame_ms": 629.855,
+        "first_frame_opacity": 0.00784313725490196,
+        "process_to_usable_ms": 729.727,
+        "trigger_to_usable_ms": 729.727,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 983.971
+      },
+      {
+        "process_to_frame_ms": 496.979,
+        "trigger_to_frame_ms": 496.979,
+        "first_frame_opacity": 0.011764705882352941,
+        "process_to_usable_ms": 595.851,
+        "trigger_to_usable_ms": 595.851,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 846.059
+      },
+      {
+        "process_to_frame_ms": 553.423,
+        "trigger_to_frame_ms": 553.423,
+        "first_frame_opacity": 0.0196078431372549,
+        "process_to_usable_ms": 650.688,
+        "trigger_to_usable_ms": 650.688,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 914.459
+      },
+      {
+        "process_to_frame_ms": 700.04,
+        "trigger_to_frame_ms": 700.04,
+        "first_frame_opacity": 0.01568627450980392,
+        "process_to_usable_ms": 796.669,
+        "trigger_to_usable_ms": 796.669,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1063.327
+      },
+      {
+        "process_to_frame_ms": 621.913,
+        "trigger_to_frame_ms": 621.913,
+        "first_frame_opacity": 0.01568627450980392,
+        "process_to_usable_ms": 717.997,
+        "trigger_to_usable_ms": 717.997,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 975.893
+      },
+      {
+        "process_to_frame_ms": 671.698,
+        "trigger_to_frame_ms": 671.698,
+        "first_frame_opacity": 0.01568627450980392,
+        "process_to_usable_ms": 768.88,
+        "trigger_to_usable_ms": 768.88,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1025.479
+      },
+      {
+        "process_to_frame_ms": 623.667,
+        "trigger_to_frame_ms": 623.667,
+        "first_frame_opacity": 0.011764705882352941,
+        "process_to_usable_ms": 721.749,
+        "trigger_to_usable_ms": 721.749,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 981.904
+      }
+    ],
+    "wayland_daemon": [
+      {
+        "process_to_frame_ms": 776.477,
+        "trigger_to_frame_ms": 15.986,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 874.153,
+        "trigger_to_usable_ms": 113.663,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1133.296
+      },
+      {
+        "process_to_frame_ms": 747.819,
+        "trigger_to_frame_ms": 20.109,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 845.52,
+        "trigger_to_usable_ms": 117.811,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1143.563
+      },
+      {
+        "process_to_frame_ms": 835.987,
+        "trigger_to_frame_ms": 15.082,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 933.689,
+        "trigger_to_usable_ms": 112.785,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1197.057
+      },
+      {
+        "process_to_frame_ms": 708.574,
+        "trigger_to_frame_ms": 12.934,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 807.635,
+        "trigger_to_usable_ms": 111.996,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1063.109
+      },
+      {
+        "process_to_frame_ms": 748.323,
+        "trigger_to_frame_ms": 19.259,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 845.708,
+        "trigger_to_usable_ms": 116.644,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1112.46
+      },
+      {
+        "process_to_frame_ms": 952.261,
+        "trigger_to_frame_ms": 18.456,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 1050.839,
+        "trigger_to_usable_ms": 117.034,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1349.763
+      },
+      {
+        "process_to_frame_ms": 1022.282,
+        "trigger_to_frame_ms": 13.65,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 1122.986,
+        "trigger_to_usable_ms": 114.354,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1441.638
+      },
+      {
+        "process_to_frame_ms": 716.014,
+        "trigger_to_frame_ms": 15.093,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 816.708,
+        "trigger_to_usable_ms": 115.787,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1065.249
+      },
+      {
+        "process_to_frame_ms": 732.734,
+        "trigger_to_frame_ms": 26.905,
+        "first_frame_opacity": 0.011764705882352941,
+        "process_to_usable_ms": 826.41,
+        "trigger_to_usable_ms": 120.58,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1082.083
+      },
+      {
+        "process_to_frame_ms": 727.981,
+        "trigger_to_frame_ms": 16.107,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 824.959,
+        "trigger_to_usable_ms": 113.086,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1071.133
+      },
+      {
+        "process_to_frame_ms": 618.456,
+        "trigger_to_frame_ms": 15.025,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 716.763,
+        "trigger_to_usable_ms": 113.333,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 968.464
+      },
+      {
+        "process_to_frame_ms": 608.207,
+        "trigger_to_frame_ms": 16.152,
+        "first_frame_opacity": 0.00784313725490196,
+        "process_to_usable_ms": 706.645,
+        "trigger_to_usable_ms": 114.591,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 955.877
+      },
+      {
+        "process_to_frame_ms": 575.024,
+        "trigger_to_frame_ms": 17.0,
+        "first_frame_opacity": 0.00784313725490196,
+        "process_to_usable_ms": 673.282,
+        "trigger_to_usable_ms": 115.258,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 920.03
+      },
+      {
+        "process_to_frame_ms": 596.662,
+        "trigger_to_frame_ms": 20.089,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 692.85,
+        "trigger_to_usable_ms": 116.278,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 937.748
+      },
+      {
+        "process_to_frame_ms": 620.992,
+        "trigger_to_frame_ms": 17.009,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 719.277,
+        "trigger_to_usable_ms": 115.295,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 965.795
+      },
+      {
+        "process_to_frame_ms": 657.156,
+        "trigger_to_frame_ms": 22.41,
+        "first_frame_opacity": 0.00784313725490196,
+        "process_to_usable_ms": 753.973,
+        "trigger_to_usable_ms": 119.226,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1003.862
+      },
+      {
+        "process_to_frame_ms": 630.023,
+        "trigger_to_frame_ms": 16.219,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 729.895,
+        "trigger_to_usable_ms": 116.091,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1004.235
+      },
+      {
+        "process_to_frame_ms": 767.265,
+        "trigger_to_frame_ms": 20.602,
+        "first_frame_opacity": 0.00784313725490196,
+        "process_to_usable_ms": 863.842,
+        "trigger_to_usable_ms": 117.179,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1126.611
+      },
+      {
+        "process_to_frame_ms": 734.881,
+        "trigger_to_frame_ms": 20.261,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 832.847,
+        "trigger_to_usable_ms": 118.226,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1107.679
+      },
+      {
+        "process_to_frame_ms": 734.25,
+        "trigger_to_frame_ms": 13.136,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 833.728,
+        "trigger_to_usable_ms": 112.614,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 1071.066
+      },
+      {
+        "process_to_frame_ms": 577.452,
+        "trigger_to_frame_ms": 12.714,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 676.856,
+        "trigger_to_usable_ms": 112.118,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 926.393
+      },
+      {
+        "process_to_frame_ms": 567.402,
+        "trigger_to_frame_ms": 16.089,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 665.613,
+        "trigger_to_usable_ms": 114.3,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 913.292
+      },
+      {
+        "process_to_frame_ms": 550.337,
+        "trigger_to_frame_ms": 17.118,
+        "first_frame_opacity": 0.00784313725490196,
+        "process_to_usable_ms": 648.5,
+        "trigger_to_usable_ms": 115.281,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 898.786
+      },
+      {
+        "process_to_frame_ms": 574.572,
+        "trigger_to_frame_ms": 14.778,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 671.902,
+        "trigger_to_usable_ms": 112.108,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 905.263
+      },
+      {
+        "process_to_frame_ms": 501.527,
+        "trigger_to_frame_ms": 12.917,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 600.305,
+        "trigger_to_usable_ms": 111.696,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 836.568
+      },
+      {
+        "process_to_frame_ms": 512.461,
+        "trigger_to_frame_ms": 12.785,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 611.343,
+        "trigger_to_usable_ms": 111.668,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 852.407
+      },
+      {
+        "process_to_frame_ms": 519.003,
+        "trigger_to_frame_ms": 12.674,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 618.025,
+        "trigger_to_usable_ms": 111.697,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 864.164
+      },
+      {
+        "process_to_frame_ms": 571.178,
+        "trigger_to_frame_ms": 13.944,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 669.953,
+        "trigger_to_usable_ms": 112.719,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 907.279
+      },
+      {
+        "process_to_frame_ms": 532.249,
+        "trigger_to_frame_ms": 19.524,
+        "first_frame_opacity": 0.00784313725490196,
+        "process_to_usable_ms": 628.86,
+        "trigger_to_usable_ms": 116.135,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 874.197
+      },
+      {
+        "process_to_frame_ms": 566.169,
+        "trigger_to_frame_ms": 16.4,
+        "first_frame_opacity": 0.00392156862745098,
+        "process_to_usable_ms": 664.57,
+        "trigger_to_usable_ms": 114.801,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 900.396
+      }
+    ],
+    "wayland_reopen": [
+      {
+        "process_to_frame_ms": 831.174,
+        "trigger_to_frame_ms": 13.007,
+        "first_frame_opacity": 0.054901960784313725,
+        "process_to_usable_ms": 930.772,
+        "trigger_to_usable_ms": 112.605,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 1210.683,
+        "trigger_to_frame_ms": 8.437,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 1328.008,
+        "trigger_to_usable_ms": 125.762,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 1608.645,
+        "trigger_to_frame_ms": 9.293,
+        "first_frame_opacity": 0.25098039215686274,
+        "process_to_usable_ms": 1699.5,
+        "trigger_to_usable_ms": 100.148,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 1965.235,
+        "trigger_to_frame_ms": 12.902,
+        "first_frame_opacity": 0.058823529411764705,
+        "process_to_usable_ms": 2064.65,
+        "trigger_to_usable_ms": 112.317,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 2344.594,
+        "trigger_to_frame_ms": 8.418,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 2461.793,
+        "trigger_to_usable_ms": 125.616,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 2742.838,
+        "trigger_to_frame_ms": 8.971,
+        "first_frame_opacity": 0.2784313725490196,
+        "process_to_usable_ms": 2825.488,
+        "trigger_to_usable_ms": 91.621,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 3106.871,
+        "trigger_to_frame_ms": 8.168,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 3224.134,
+        "trigger_to_usable_ms": 125.431,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 3506.116,
+        "trigger_to_frame_ms": 8.809,
+        "first_frame_opacity": 0.30980392156862746,
+        "process_to_usable_ms": 3588.861,
+        "trigger_to_usable_ms": 91.554,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 3869.493,
+        "trigger_to_frame_ms": 9.173,
+        "first_frame_opacity": 0.3058823529411765,
+        "process_to_usable_ms": 3952.314,
+        "trigger_to_usable_ms": 91.994,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 4233.356,
+        "trigger_to_frame_ms": 8.366,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 4337.481,
+        "trigger_to_usable_ms": 112.491,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 4602.876,
+        "trigger_to_frame_ms": 13.382,
+        "first_frame_opacity": 0.03529411764705882,
+        "process_to_usable_ms": 4701.238,
+        "trigger_to_usable_ms": 111.744,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 4980.614,
+        "trigger_to_frame_ms": 7.044,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 5097.889,
+        "trigger_to_usable_ms": 124.319,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 5378.872,
+        "trigger_to_frame_ms": 9.369,
+        "first_frame_opacity": 0.24705882352941178,
+        "process_to_usable_ms": 5461.383,
+        "trigger_to_usable_ms": 91.88,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 5740.446,
+        "trigger_to_frame_ms": 7.009,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 5857.776,
+        "trigger_to_usable_ms": 124.339,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 6105.944,
+        "trigger_to_frame_ms": 16.836,
+        "first_frame_opacity": 0.06274509803921569,
+        "process_to_usable_ms": 6205.378,
+        "trigger_to_usable_ms": 116.27,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 6485.976,
+        "trigger_to_frame_ms": 9.212,
+        "first_frame_opacity": 0.3137254901960784,
+        "process_to_usable_ms": 6574.275,
+        "trigger_to_usable_ms": 97.511,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 6839.557,
+        "trigger_to_frame_ms": 13.201,
+        "first_frame_opacity": 0.07058823529411765,
+        "process_to_usable_ms": 6942.485,
+        "trigger_to_usable_ms": 116.129,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 7207.081,
+        "trigger_to_frame_ms": 12.146,
+        "first_frame_opacity": 0.047058823529411764,
+        "process_to_usable_ms": 7306.961,
+        "trigger_to_usable_ms": 112.026,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 7587.769,
+        "trigger_to_frame_ms": 16.653,
+        "first_frame_opacity": 0.3137254901960784,
+        "process_to_usable_ms": 7675.77,
+        "trigger_to_usable_ms": 104.653,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 7940.924,
+        "trigger_to_frame_ms": 12.511,
+        "first_frame_opacity": 0.07058823529411765,
+        "process_to_usable_ms": 8040.648,
+        "trigger_to_usable_ms": 112.234,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 8320.79,
+        "trigger_to_frame_ms": 8.721,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 8437.484,
+        "trigger_to_usable_ms": 125.416,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 8717.965,
+        "trigger_to_frame_ms": 17.932,
+        "first_frame_opacity": 0.27058823529411763,
+        "process_to_usable_ms": 8806.385,
+        "trigger_to_usable_ms": 106.352,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 9071.191,
+        "trigger_to_frame_ms": 13.472,
+        "first_frame_opacity": 0.050980392156862744,
+        "process_to_usable_ms": 9170.403,
+        "trigger_to_usable_ms": 112.684,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 9451.254,
+        "trigger_to_frame_ms": 8.256,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 9555.894,
+        "trigger_to_usable_ms": 112.896,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 9819.852,
+        "trigger_to_frame_ms": 12.192,
+        "first_frame_opacity": 0.01568627450980392,
+        "process_to_usable_ms": 9919.972,
+        "trigger_to_usable_ms": 112.312,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 10200.801,
+        "trigger_to_frame_ms": 8.032,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 10302.159,
+        "trigger_to_usable_ms": 109.389,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 10583.52,
+        "trigger_to_frame_ms": 9.802,
+        "first_frame_opacity": 0.3137254901960784,
+        "process_to_usable_ms": 10665.715,
+        "trigger_to_usable_ms": 91.998,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 10944.953,
+        "trigger_to_frame_ms": 6.961,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 11062.273,
+        "trigger_to_usable_ms": 124.281,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 11344.597,
+        "trigger_to_frame_ms": 8.918,
+        "first_frame_opacity": 0.27058823529411763,
+        "process_to_usable_ms": 11426.852,
+        "trigger_to_usable_ms": 91.173,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay"
+      },
+      {
+        "process_to_frame_ms": 11707.858,
+        "trigger_to_frame_ms": 9.422,
+        "first_frame_opacity": 0.2980392156862745,
+        "process_to_usable_ms": 11790.497,
+        "trigger_to_usable_ms": 92.061,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkWaylandDisplay",
+        "parent_total_ms": 12008.76
+      }
+    ],
+    "x11_startup": [
+      {
+        "process_to_frame_ms": 999.188,
+        "trigger_to_frame_ms": 999.188,
+        "first_frame_opacity": 0.8,
+        "process_to_usable_ms": 1016.585,
+        "trigger_to_usable_ms": 1016.585,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1301.236
+      },
+      {
+        "process_to_frame_ms": 540.778,
+        "trigger_to_frame_ms": 540.778,
+        "first_frame_opacity": 0.4627450980392157,
+        "process_to_usable_ms": 612.083,
+        "trigger_to_usable_ms": 612.083,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 864.137
+      },
+      {
+        "process_to_frame_ms": 445.29,
+        "trigger_to_frame_ms": 445.29,
+        "first_frame_opacity": 0.45098039215686275,
+        "process_to_usable_ms": 533.832,
+        "trigger_to_usable_ms": 533.832,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 785.508
+      },
+      {
+        "process_to_frame_ms": 397.72,
+        "trigger_to_frame_ms": 397.72,
+        "first_frame_opacity": 0.4,
+        "process_to_usable_ms": 489.524,
+        "trigger_to_usable_ms": 489.524,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 765.308
+      },
+      {
+        "process_to_frame_ms": 470.119,
+        "trigger_to_frame_ms": 470.119,
+        "first_frame_opacity": 0.4470588235294118,
+        "process_to_usable_ms": 563.255,
+        "trigger_to_usable_ms": 563.255,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 818.401
+      },
+      {
+        "process_to_frame_ms": 604.597,
+        "trigger_to_frame_ms": 604.597,
+        "first_frame_opacity": 0.4470588235294118,
+        "process_to_usable_ms": 691.355,
+        "trigger_to_usable_ms": 691.355,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 968.598
+      },
+      {
+        "process_to_frame_ms": 452.373,
+        "trigger_to_frame_ms": 452.373,
+        "first_frame_opacity": 0.5294117647058824,
+        "process_to_usable_ms": 516.185,
+        "trigger_to_usable_ms": 516.185,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 899.261
+      },
+      {
+        "process_to_frame_ms": 913.845,
+        "trigger_to_frame_ms": 913.845,
+        "first_frame_opacity": 0.49019607843137253,
+        "process_to_usable_ms": 981.547,
+        "trigger_to_usable_ms": 981.547,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1291.062
+      },
+      {
+        "process_to_frame_ms": 437.49,
+        "trigger_to_frame_ms": 437.49,
+        "first_frame_opacity": 0.4745098039215686,
+        "process_to_usable_ms": 509.373,
+        "trigger_to_usable_ms": 509.373,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 749.448
+      },
+      {
+        "process_to_frame_ms": 453.283,
+        "trigger_to_frame_ms": 453.283,
+        "first_frame_opacity": 0.4549019607843137,
+        "process_to_usable_ms": 525.842,
+        "trigger_to_usable_ms": 525.842,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 800.757
+      },
+      {
+        "process_to_frame_ms": 510.449,
+        "trigger_to_frame_ms": 510.449,
+        "first_frame_opacity": 0.4470588235294118,
+        "process_to_usable_ms": 597.533,
+        "trigger_to_usable_ms": 597.533,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 868.436
+      },
+      {
+        "process_to_frame_ms": 423.714,
+        "trigger_to_frame_ms": 423.714,
+        "first_frame_opacity": 0.41568627450980394,
+        "process_to_usable_ms": 515.196,
+        "trigger_to_usable_ms": 515.196,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 758.994
+      },
+      {
+        "process_to_frame_ms": 408.856,
+        "trigger_to_frame_ms": 408.856,
+        "first_frame_opacity": 0.44313725490196076,
+        "process_to_usable_ms": 497.799,
+        "trigger_to_usable_ms": 497.799,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 741.012
+      },
+      {
+        "process_to_frame_ms": 473.878,
+        "trigger_to_frame_ms": 473.878,
+        "first_frame_opacity": 0.4196078431372549,
+        "process_to_usable_ms": 564.885,
+        "trigger_to_usable_ms": 564.885,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 837.185
+      },
+      {
+        "process_to_frame_ms": 429.428,
+        "trigger_to_frame_ms": 429.428,
+        "first_frame_opacity": 0.396078431372549,
+        "process_to_usable_ms": 523.619,
+        "trigger_to_usable_ms": 523.619,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 780.895
+      },
+      {
+        "process_to_frame_ms": 466.23,
+        "trigger_to_frame_ms": 466.23,
+        "first_frame_opacity": 0.4235294117647059,
+        "process_to_usable_ms": 558.776,
+        "trigger_to_usable_ms": 558.776,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 824.715
+      },
+      {
+        "process_to_frame_ms": 575.502,
+        "trigger_to_frame_ms": 575.502,
+        "first_frame_opacity": 0.41568627450980394,
+        "process_to_usable_ms": 666.85,
+        "trigger_to_usable_ms": 666.85,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 908.084
+      },
+      {
+        "process_to_frame_ms": 452.647,
+        "trigger_to_frame_ms": 452.647,
+        "first_frame_opacity": 0.48627450980392156,
+        "process_to_usable_ms": 521.636,
+        "trigger_to_usable_ms": 521.636,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 775.473
+      },
+      {
+        "process_to_frame_ms": 427.32,
+        "trigger_to_frame_ms": 427.32,
+        "first_frame_opacity": 0.403921568627451,
+        "process_to_usable_ms": 518.648,
+        "trigger_to_usable_ms": 518.648,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 765.057
+      },
+      {
+        "process_to_frame_ms": 386.556,
+        "trigger_to_frame_ms": 386.556,
+        "first_frame_opacity": 0.4,
+        "process_to_usable_ms": 479.113,
+        "trigger_to_usable_ms": 479.113,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 724.846
+      },
+      {
+        "process_to_frame_ms": 581.883,
+        "trigger_to_frame_ms": 581.883,
+        "first_frame_opacity": 0.5098039215686274,
+        "process_to_usable_ms": 650.433,
+        "trigger_to_usable_ms": 650.433,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 911.606
+      },
+      {
+        "process_to_frame_ms": 430.213,
+        "trigger_to_frame_ms": 430.213,
+        "first_frame_opacity": 0.4549019607843137,
+        "process_to_usable_ms": 500.681,
+        "trigger_to_usable_ms": 500.681,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 760.649
+      },
+      {
+        "process_to_frame_ms": 510.55,
+        "trigger_to_frame_ms": 510.55,
+        "first_frame_opacity": 0.4235294117647059,
+        "process_to_usable_ms": 601.816,
+        "trigger_to_usable_ms": 601.816,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 850.681
+      },
+      {
+        "process_to_frame_ms": 691.07,
+        "trigger_to_frame_ms": 691.07,
+        "first_frame_opacity": 0.5019607843137255,
+        "process_to_usable_ms": 760.111,
+        "trigger_to_usable_ms": 760.111,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1028.569
+      },
+      {
+        "process_to_frame_ms": 520.063,
+        "trigger_to_frame_ms": 520.063,
+        "first_frame_opacity": 0.38823529411764707,
+        "process_to_usable_ms": 613.441,
+        "trigger_to_usable_ms": 613.441,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 853.899
+      },
+      {
+        "process_to_frame_ms": 428.632,
+        "trigger_to_frame_ms": 428.632,
+        "first_frame_opacity": 0.43137254901960786,
+        "process_to_usable_ms": 519.009,
+        "trigger_to_usable_ms": 519.009,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 764.499
+      },
+      {
+        "process_to_frame_ms": 424.069,
+        "trigger_to_frame_ms": 424.069,
+        "first_frame_opacity": 0.40784313725490196,
+        "process_to_usable_ms": 514.958,
+        "trigger_to_usable_ms": 514.958,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 768.411
+      },
+      {
+        "process_to_frame_ms": 445.837,
+        "trigger_to_frame_ms": 445.837,
+        "first_frame_opacity": 0.5019607843137255,
+        "process_to_usable_ms": 512.505,
+        "trigger_to_usable_ms": 512.505,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 757.255
+      },
+      {
+        "process_to_frame_ms": 477.081,
+        "trigger_to_frame_ms": 477.081,
+        "first_frame_opacity": 0.44313725490196076,
+        "process_to_usable_ms": 566.65,
+        "trigger_to_usable_ms": 566.65,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 811.405
+      },
+      {
+        "process_to_frame_ms": 400.417,
+        "trigger_to_frame_ms": 400.417,
+        "first_frame_opacity": 0.4,
+        "process_to_usable_ms": 493.665,
+        "trigger_to_usable_ms": 493.665,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 744.933
+      }
+    ],
+    "x11_daemon": [
+      {
+        "process_to_frame_ms": 582.709,
+        "trigger_to_frame_ms": 33.678,
+        "first_frame_opacity": 0.027450980392156862,
+        "process_to_usable_ms": 665.45,
+        "trigger_to_usable_ms": 116.419,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 927.573
+      },
+      {
+        "process_to_frame_ms": 717.53,
+        "trigger_to_frame_ms": 18.709,
+        "first_frame_opacity": 0.03529411764705882,
+        "process_to_usable_ms": 822.232,
+        "trigger_to_usable_ms": 123.411,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1076.958
+      },
+      {
+        "process_to_frame_ms": 514.633,
+        "trigger_to_frame_ms": 13.733,
+        "first_frame_opacity": 0.07058823529411765,
+        "process_to_usable_ms": 624.572,
+        "trigger_to_usable_ms": 123.672,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 888.616
+      },
+      {
+        "process_to_frame_ms": 516.166,
+        "trigger_to_frame_ms": 14.033,
+        "first_frame_opacity": 0.09803921568627451,
+        "process_to_usable_ms": 625.874,
+        "trigger_to_usable_ms": 123.741,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 880.22
+      },
+      {
+        "process_to_frame_ms": 506.81,
+        "trigger_to_frame_ms": 16.443,
+        "first_frame_opacity": 0.06666666666666667,
+        "process_to_usable_ms": 614.891,
+        "trigger_to_usable_ms": 124.523,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 856.784
+      },
+      {
+        "process_to_frame_ms": 526.53,
+        "trigger_to_frame_ms": 14.785,
+        "first_frame_opacity": 0.08627450980392157,
+        "process_to_usable_ms": 634.686,
+        "trigger_to_usable_ms": 122.941,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 888.939
+      },
+      {
+        "process_to_frame_ms": 501.078,
+        "trigger_to_frame_ms": 15.876,
+        "first_frame_opacity": 0.0784313725490196,
+        "process_to_usable_ms": 609.612,
+        "trigger_to_usable_ms": 124.41,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 852.612
+      },
+      {
+        "process_to_frame_ms": 471.262,
+        "trigger_to_frame_ms": 16.302,
+        "first_frame_opacity": 0.08235294117647059,
+        "process_to_usable_ms": 578.51,
+        "trigger_to_usable_ms": 123.551,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 817.478
+      },
+      {
+        "process_to_frame_ms": 463.97,
+        "trigger_to_frame_ms": 15.202,
+        "first_frame_opacity": 0.10196078431372549,
+        "process_to_usable_ms": 572.306,
+        "trigger_to_usable_ms": 123.538,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 820.667
+      },
+      {
+        "process_to_frame_ms": 466.652,
+        "trigger_to_frame_ms": 14.662,
+        "first_frame_opacity": 0.058823529411764705,
+        "process_to_usable_ms": 575.982,
+        "trigger_to_usable_ms": 123.993,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 829.258
+      },
+      {
+        "process_to_frame_ms": 477.075,
+        "trigger_to_frame_ms": 12.111,
+        "first_frame_opacity": 0.058823529411764705,
+        "process_to_usable_ms": 588.086,
+        "trigger_to_usable_ms": 123.122,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 844.001
+      },
+      {
+        "process_to_frame_ms": 553.94,
+        "trigger_to_frame_ms": 26.461,
+        "first_frame_opacity": 0.1803921568627451,
+        "process_to_usable_ms": 637.01,
+        "trigger_to_usable_ms": 109.531,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 893.876
+      },
+      {
+        "process_to_frame_ms": 549.348,
+        "trigger_to_frame_ms": 15.168,
+        "first_frame_opacity": 0.09803921568627451,
+        "process_to_usable_ms": 658.146,
+        "trigger_to_usable_ms": 123.966,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 914.817
+      },
+      {
+        "process_to_frame_ms": 522.275,
+        "trigger_to_frame_ms": 19.484,
+        "first_frame_opacity": 0.09803921568627451,
+        "process_to_usable_ms": 629.269,
+        "trigger_to_usable_ms": 126.479,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 879.084
+      },
+      {
+        "process_to_frame_ms": 503.024,
+        "trigger_to_frame_ms": 17.441,
+        "first_frame_opacity": 0.08627450980392157,
+        "process_to_usable_ms": 612.167,
+        "trigger_to_usable_ms": 126.584,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 857.594
+      },
+      {
+        "process_to_frame_ms": 513.389,
+        "trigger_to_frame_ms": 34.26,
+        "first_frame_opacity": 0.054901960784313725,
+        "process_to_usable_ms": 614.112,
+        "trigger_to_usable_ms": 134.982,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 882.05
+      },
+      {
+        "process_to_frame_ms": 581.19,
+        "trigger_to_frame_ms": 28.998,
+        "first_frame_opacity": 0.1450980392156863,
+        "process_to_usable_ms": 663.057,
+        "trigger_to_usable_ms": 110.865,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 942.077
+      },
+      {
+        "process_to_frame_ms": 574.191,
+        "trigger_to_frame_ms": 18.352,
+        "first_frame_opacity": 0.10588235294117647,
+        "process_to_usable_ms": 680.091,
+        "trigger_to_usable_ms": 124.252,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 925.009
+      },
+      {
+        "process_to_frame_ms": 471.505,
+        "trigger_to_frame_ms": 16.044,
+        "first_frame_opacity": 0.07450980392156863,
+        "process_to_usable_ms": 582.074,
+        "trigger_to_usable_ms": 126.613,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 841.484
+      },
+      {
+        "process_to_frame_ms": 494.67,
+        "trigger_to_frame_ms": 16.008,
+        "first_frame_opacity": 0.09411764705882353,
+        "process_to_usable_ms": 604.324,
+        "trigger_to_usable_ms": 125.662,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 882.718
+      },
+      {
+        "process_to_frame_ms": 679.278,
+        "trigger_to_frame_ms": 24.52,
+        "first_frame_opacity": 0.10588235294117647,
+        "process_to_usable_ms": 784.484,
+        "trigger_to_usable_ms": 129.726,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1052.129
+      },
+      {
+        "process_to_frame_ms": 604.765,
+        "trigger_to_frame_ms": 13.497,
+        "first_frame_opacity": 0.01568627450980392,
+        "process_to_usable_ms": 715.246,
+        "trigger_to_usable_ms": 123.978,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 975.762
+      },
+      {
+        "process_to_frame_ms": 584.613,
+        "trigger_to_frame_ms": 17.678,
+        "first_frame_opacity": 0.03529411764705882,
+        "process_to_usable_ms": 693.035,
+        "trigger_to_usable_ms": 126.1,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 941.702
+      },
+      {
+        "process_to_frame_ms": 558.685,
+        "trigger_to_frame_ms": 14.391,
+        "first_frame_opacity": 0.07058823529411765,
+        "process_to_usable_ms": 667.474,
+        "trigger_to_usable_ms": 123.18,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 935.645
+      },
+      {
+        "process_to_frame_ms": 618.785,
+        "trigger_to_frame_ms": 14.405,
+        "first_frame_opacity": 0.06274509803921569,
+        "process_to_usable_ms": 729.005,
+        "trigger_to_usable_ms": 124.624,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1003.955
+      },
+      {
+        "process_to_frame_ms": 555.669,
+        "trigger_to_frame_ms": 14.341,
+        "first_frame_opacity": 0.09019607843137255,
+        "process_to_usable_ms": 664.793,
+        "trigger_to_usable_ms": 123.465,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 927.855
+      },
+      {
+        "process_to_frame_ms": 595.934,
+        "trigger_to_frame_ms": 19.269,
+        "first_frame_opacity": 0.027450980392156862,
+        "process_to_usable_ms": 701.552,
+        "trigger_to_usable_ms": 124.886,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 936.944
+      },
+      {
+        "process_to_frame_ms": 654.74,
+        "trigger_to_frame_ms": 13.988,
+        "first_frame_opacity": 0.0784313725490196,
+        "process_to_usable_ms": 764.052,
+        "trigger_to_usable_ms": 123.299,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1012.282
+      },
+      {
+        "process_to_frame_ms": 656.718,
+        "trigger_to_frame_ms": 17.152,
+        "first_frame_opacity": 0.07058823529411765,
+        "process_to_usable_ms": 764.432,
+        "trigger_to_usable_ms": 124.866,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1012.725
+      },
+      {
+        "process_to_frame_ms": 539.182,
+        "trigger_to_frame_ms": 13.694,
+        "first_frame_opacity": 0.023529411764705882,
+        "process_to_usable_ms": 649.552,
+        "trigger_to_usable_ms": 124.063,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 898.414
+      }
+    ],
+    "x11_reopen": [
+      {
+        "process_to_frame_ms": 893.751,
+        "trigger_to_frame_ms": 2.62,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 990.814,
+        "trigger_to_usable_ms": 99.683,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 1247.231,
+        "trigger_to_frame_ms": 2.704,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 1373.742,
+        "trigger_to_usable_ms": 129.214,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 1628.685,
+        "trigger_to_frame_ms": 3.71,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 1740.859,
+        "trigger_to_usable_ms": 115.884,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 1995.925,
+        "trigger_to_frame_ms": 3.734,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 2106.974,
+        "trigger_to_usable_ms": 114.783,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 2360.723,
+        "trigger_to_frame_ms": 2.45,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 2473.342,
+        "trigger_to_usable_ms": 115.07,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 2727.909,
+        "trigger_to_frame_ms": 3.382,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 2839.914,
+        "trigger_to_usable_ms": 115.387,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 3116.081,
+        "trigger_to_frame_ms": 4.834,
+        "first_frame_opacity": 0.17647058823529413,
+        "process_to_usable_ms": 3206.774,
+        "trigger_to_usable_ms": 95.527,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 3461.712,
+        "trigger_to_frame_ms": 3.745,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 3573.28,
+        "trigger_to_usable_ms": 115.312,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 3849.768,
+        "trigger_to_frame_ms": 4.835,
+        "first_frame_opacity": 0.10588235294117647,
+        "process_to_usable_ms": 3940.241,
+        "trigger_to_usable_ms": 95.308,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 4194.452,
+        "trigger_to_frame_ms": 2.988,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 4307.848,
+        "trigger_to_usable_ms": 116.383,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 4586.855,
+        "trigger_to_frame_ms": 5.759,
+        "first_frame_opacity": 0.16862745098039217,
+        "process_to_usable_ms": 4674.575,
+        "trigger_to_usable_ms": 93.479,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 4929.771,
+        "trigger_to_frame_ms": 2.391,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 5040.219,
+        "trigger_to_usable_ms": 112.839,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 5317.914,
+        "trigger_to_frame_ms": 6.291,
+        "first_frame_opacity": 0.1843137254901961,
+        "process_to_usable_ms": 5407.009,
+        "trigger_to_usable_ms": 95.386,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 5661.174,
+        "trigger_to_frame_ms": 3.028,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 5773.133,
+        "trigger_to_usable_ms": 114.988,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 6048.497,
+        "trigger_to_frame_ms": 4.045,
+        "first_frame_opacity": 0.11372549019607843,
+        "process_to_usable_ms": 6139.834,
+        "trigger_to_usable_ms": 95.382,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 6393.352,
+        "trigger_to_frame_ms": 2.304,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 6507.717,
+        "trigger_to_usable_ms": 116.67,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 6774.798,
+        "trigger_to_frame_ms": 13.641,
+        "first_frame_opacity": 0.0784313725490196,
+        "process_to_usable_ms": 6874.085,
+        "trigger_to_usable_ms": 112.928,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 7152.359,
+        "trigger_to_frame_ms": 4.726,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 7273.756,
+        "trigger_to_usable_ms": 126.124,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 7551.647,
+        "trigger_to_frame_ms": 6.552,
+        "first_frame_opacity": 0.1843137254901961,
+        "process_to_usable_ms": 7640.151,
+        "trigger_to_usable_ms": 95.055,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 7894.711,
+        "trigger_to_frame_ms": 3.293,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 8006.557,
+        "trigger_to_usable_ms": 115.139,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 8283.837,
+        "trigger_to_frame_ms": 5.896,
+        "first_frame_opacity": 0.1450980392156863,
+        "process_to_usable_ms": 8373.84,
+        "trigger_to_usable_ms": 95.9,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 8628.317,
+        "trigger_to_frame_ms": 3.169,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 8740.108,
+        "trigger_to_usable_ms": 114.96,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 9014.343,
+        "trigger_to_frame_ms": 6.083,
+        "first_frame_opacity": 0.09803921568627451,
+        "process_to_usable_ms": 9106.849,
+        "trigger_to_usable_ms": 98.589,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 9362.798,
+        "trigger_to_frame_ms": 4.335,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 9475.321,
+        "trigger_to_usable_ms": 116.858,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 9736.441,
+        "trigger_to_frame_ms": 4.471,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 9841.999,
+        "trigger_to_usable_ms": 110.029,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 10099.483,
+        "trigger_to_frame_ms": 4.52,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 10208.683,
+        "trigger_to_usable_ms": 113.719,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 10464.47,
+        "trigger_to_frame_ms": 8.382,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 10591.632,
+        "trigger_to_usable_ms": 135.544,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 10870.493,
+        "trigger_to_frame_ms": 5.556,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 10975.433,
+        "trigger_to_usable_ms": 110.496,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 11232.763,
+        "trigger_to_frame_ms": 4.432,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 11350.11,
+        "trigger_to_usable_ms": 121.779,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 11634.455,
+        "trigger_to_frame_ms": 18.658,
+        "first_frame_opacity": 0.2196078431372549,
+        "process_to_usable_ms": 11733.484,
+        "trigger_to_usable_ms": 117.686,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 12026.27
+      }
+    ],
+    "auto_startup": [
+      {
+        "process_to_frame_ms": 892.218,
+        "trigger_to_frame_ms": 892.218,
+        "first_frame_opacity": 0.6588235294117647,
+        "process_to_usable_ms": 972.029,
+        "trigger_to_usable_ms": 972.029,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1240.508
+      },
+      {
+        "process_to_frame_ms": 506.927,
+        "trigger_to_frame_ms": 506.927,
+        "first_frame_opacity": 0.4117647058823529,
+        "process_to_usable_ms": 598.1,
+        "trigger_to_usable_ms": 598.1,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 846.823
+      },
+      {
+        "process_to_frame_ms": 520.067,
+        "trigger_to_frame_ms": 520.067,
+        "first_frame_opacity": 0.4392156862745098,
+        "process_to_usable_ms": 610.629,
+        "trigger_to_usable_ms": 610.629,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 862.385
+      },
+      {
+        "process_to_frame_ms": 520.49,
+        "trigger_to_frame_ms": 520.49,
+        "first_frame_opacity": 0.4470588235294118,
+        "process_to_usable_ms": 611.282,
+        "trigger_to_usable_ms": 611.282,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 846.149
+      },
+      {
+        "process_to_frame_ms": 493.335,
+        "trigger_to_frame_ms": 493.335,
+        "first_frame_opacity": 0.4196078431372549,
+        "process_to_usable_ms": 584.591,
+        "trigger_to_usable_ms": 584.591,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 826.664
+      },
+      {
+        "process_to_frame_ms": 526.453,
+        "trigger_to_frame_ms": 526.453,
+        "first_frame_opacity": 0.4235294117647059,
+        "process_to_usable_ms": 618.855,
+        "trigger_to_usable_ms": 618.855,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 861.674
+      },
+      {
+        "process_to_frame_ms": 519.251,
+        "trigger_to_frame_ms": 519.251,
+        "first_frame_opacity": 0.40784313725490196,
+        "process_to_usable_ms": 601.791,
+        "trigger_to_usable_ms": 601.791,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 836.441
+      },
+      {
+        "process_to_frame_ms": 481.862,
+        "trigger_to_frame_ms": 481.862,
+        "first_frame_opacity": 0.396078431372549,
+        "process_to_usable_ms": 574.155,
+        "trigger_to_usable_ms": 574.155,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 814.422
+      },
+      {
+        "process_to_frame_ms": 489.302,
+        "trigger_to_frame_ms": 489.302,
+        "first_frame_opacity": 0.40784313725490196,
+        "process_to_usable_ms": 581.31,
+        "trigger_to_usable_ms": 581.31,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 819.889
+      },
+      {
+        "process_to_frame_ms": 499.637,
+        "trigger_to_frame_ms": 499.637,
+        "first_frame_opacity": 0.4,
+        "process_to_usable_ms": 591.581,
+        "trigger_to_usable_ms": 591.581,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 833.879
+      },
+      {
+        "process_to_frame_ms": 495.268,
+        "trigger_to_frame_ms": 495.268,
+        "first_frame_opacity": 0.4235294117647059,
+        "process_to_usable_ms": 586.005,
+        "trigger_to_usable_ms": 586.005,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 826.613
+      },
+      {
+        "process_to_frame_ms": 526.668,
+        "trigger_to_frame_ms": 526.668,
+        "first_frame_opacity": 0.42745098039215684,
+        "process_to_usable_ms": 617.193,
+        "trigger_to_usable_ms": 617.193,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 861.503
+      },
+      {
+        "process_to_frame_ms": 498.917,
+        "trigger_to_frame_ms": 498.917,
+        "first_frame_opacity": 0.44313725490196076,
+        "process_to_usable_ms": 587.068,
+        "trigger_to_usable_ms": 587.068,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 828.012
+      },
+      {
+        "process_to_frame_ms": 493.187,
+        "trigger_to_frame_ms": 493.187,
+        "first_frame_opacity": 0.4235294117647059,
+        "process_to_usable_ms": 584.562,
+        "trigger_to_usable_ms": 584.562,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 817.795
+      },
+      {
+        "process_to_frame_ms": 544.589,
+        "trigger_to_frame_ms": 544.589,
+        "first_frame_opacity": 0.43137254901960786,
+        "process_to_usable_ms": 635.126,
+        "trigger_to_usable_ms": 635.126,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 875.665
+      },
+      {
+        "process_to_frame_ms": 490.68,
+        "trigger_to_frame_ms": 490.68,
+        "first_frame_opacity": 0.396078431372549,
+        "process_to_usable_ms": 582.995,
+        "trigger_to_usable_ms": 582.995,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 816.809
+      },
+      {
+        "process_to_frame_ms": 481.535,
+        "trigger_to_frame_ms": 481.535,
+        "first_frame_opacity": 0.4,
+        "process_to_usable_ms": 573.146,
+        "trigger_to_usable_ms": 573.146,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 808.968
+      },
+      {
+        "process_to_frame_ms": 490.055,
+        "trigger_to_frame_ms": 490.055,
+        "first_frame_opacity": 0.40784313725490196,
+        "process_to_usable_ms": 579.88,
+        "trigger_to_usable_ms": 579.88,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 820.622
+      },
+      {
+        "process_to_frame_ms": 525.614,
+        "trigger_to_frame_ms": 525.614,
+        "first_frame_opacity": 0.396078431372549,
+        "process_to_usable_ms": 618.035,
+        "trigger_to_usable_ms": 618.035,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 883.44
+      },
+      {
+        "process_to_frame_ms": 596.146,
+        "trigger_to_frame_ms": 596.146,
+        "first_frame_opacity": 0.5019607843137255,
+        "process_to_usable_ms": 664.967,
+        "trigger_to_usable_ms": 664.967,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 921.847
+      },
+      {
+        "process_to_frame_ms": 688.008,
+        "trigger_to_frame_ms": 688.008,
+        "first_frame_opacity": 0.5294117647058824,
+        "process_to_usable_ms": 744.88,
+        "trigger_to_usable_ms": 744.88,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1031.618
+      },
+      {
+        "process_to_frame_ms": 983.809,
+        "trigger_to_frame_ms": 983.809,
+        "first_frame_opacity": 0.615686274509804,
+        "process_to_usable_ms": 1059.805,
+        "trigger_to_usable_ms": 1059.805,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1326.473
+      },
+      {
+        "process_to_frame_ms": 722.064,
+        "trigger_to_frame_ms": 722.064,
+        "first_frame_opacity": 0.4588235294117647,
+        "process_to_usable_ms": 791.037,
+        "trigger_to_usable_ms": 791.037,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1088.014
+      },
+      {
+        "process_to_frame_ms": 740.104,
+        "trigger_to_frame_ms": 740.104,
+        "first_frame_opacity": 0.45098039215686275,
+        "process_to_usable_ms": 811.832,
+        "trigger_to_usable_ms": 811.832,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1107.751
+      },
+      {
+        "process_to_frame_ms": 751.77,
+        "trigger_to_frame_ms": 751.77,
+        "first_frame_opacity": 0.615686274509804,
+        "process_to_usable_ms": 830.309,
+        "trigger_to_usable_ms": 830.309,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1092.911
+      },
+      {
+        "process_to_frame_ms": 603.152,
+        "trigger_to_frame_ms": 603.152,
+        "first_frame_opacity": 0.44313725490196076,
+        "process_to_usable_ms": 693.152,
+        "trigger_to_usable_ms": 693.152,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 946.077
+      },
+      {
+        "process_to_frame_ms": 624.915,
+        "trigger_to_frame_ms": 624.915,
+        "first_frame_opacity": 0.43137254901960786,
+        "process_to_usable_ms": 714.607,
+        "trigger_to_usable_ms": 714.607,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 986.18
+      },
+      {
+        "process_to_frame_ms": 669.095,
+        "trigger_to_frame_ms": 669.095,
+        "first_frame_opacity": 0.5450980392156862,
+        "process_to_usable_ms": 733.791,
+        "trigger_to_usable_ms": 733.791,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 992.735
+      },
+      {
+        "process_to_frame_ms": 593.264,
+        "trigger_to_frame_ms": 593.264,
+        "first_frame_opacity": 0.7019607843137254,
+        "process_to_usable_ms": 641.432,
+        "trigger_to_usable_ms": 641.432,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 907.976
+      },
+      {
+        "process_to_frame_ms": 773.457,
+        "trigger_to_frame_ms": 773.457,
+        "first_frame_opacity": 0.49411764705882355,
+        "process_to_usable_ms": 844.433,
+        "trigger_to_usable_ms": 844.433,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1092.08
+      }
+    ],
+    "auto_daemon": [
+      {
+        "process_to_frame_ms": 705.068,
+        "trigger_to_frame_ms": 14.678,
+        "first_frame_opacity": 0.08235294117647059,
+        "process_to_usable_ms": 813.914,
+        "trigger_to_usable_ms": 123.524,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1067.629
+      },
+      {
+        "process_to_frame_ms": 834.444,
+        "trigger_to_frame_ms": 22.287,
+        "first_frame_opacity": 0.03529411764705882,
+        "process_to_usable_ms": 923.279,
+        "trigger_to_usable_ms": 111.123,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1208.112
+      },
+      {
+        "process_to_frame_ms": 827.402,
+        "trigger_to_frame_ms": 23.929,
+        "first_frame_opacity": 0.15294117647058825,
+        "process_to_usable_ms": 913.887,
+        "trigger_to_usable_ms": 110.414,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1184.805
+      },
+      {
+        "process_to_frame_ms": 952.938,
+        "trigger_to_frame_ms": 66.558,
+        "first_frame_opacity": 0.27058823529411763,
+        "process_to_usable_ms": 1044.398,
+        "trigger_to_usable_ms": 158.017,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1310.97
+      },
+      {
+        "process_to_frame_ms": 866.606,
+        "trigger_to_frame_ms": 16.365,
+        "first_frame_opacity": 0.10588235294117647,
+        "process_to_usable_ms": 974.442,
+        "trigger_to_usable_ms": 124.2,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1233.112
+      },
+      {
+        "process_to_frame_ms": 698.128,
+        "trigger_to_frame_ms": 20.862,
+        "first_frame_opacity": 0.10980392156862745,
+        "process_to_usable_ms": 804.63,
+        "trigger_to_usable_ms": 127.363,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1130.52
+      },
+      {
+        "process_to_frame_ms": 809.092,
+        "trigger_to_frame_ms": 17.31,
+        "first_frame_opacity": 0.027450980392156862,
+        "process_to_usable_ms": 902.497,
+        "trigger_to_usable_ms": 110.715,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1152.872
+      },
+      {
+        "process_to_frame_ms": 681.485,
+        "trigger_to_frame_ms": 17.719,
+        "first_frame_opacity": 0.09411764705882353,
+        "process_to_usable_ms": 789.366,
+        "trigger_to_usable_ms": 125.6,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1033.63
+      },
+      {
+        "process_to_frame_ms": 878.178,
+        "trigger_to_frame_ms": 15.078,
+        "first_frame_opacity": 0.08235294117647059,
+        "process_to_usable_ms": 986.392,
+        "trigger_to_usable_ms": 123.292,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1239.426
+      },
+      {
+        "process_to_frame_ms": 725.319,
+        "trigger_to_frame_ms": 19.439,
+        "first_frame_opacity": 0.09411764705882353,
+        "process_to_usable_ms": 831.49,
+        "trigger_to_usable_ms": 125.609,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1080.819
+      },
+      {
+        "process_to_frame_ms": 813.135,
+        "trigger_to_frame_ms": 22.393,
+        "first_frame_opacity": 0.15294117647058825,
+        "process_to_usable_ms": 899.673,
+        "trigger_to_usable_ms": 108.932,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1152.212
+      },
+      {
+        "process_to_frame_ms": 891.481,
+        "trigger_to_frame_ms": 14.435,
+        "first_frame_opacity": 0.07058823529411765,
+        "process_to_usable_ms": 1002.249,
+        "trigger_to_usable_ms": 125.203,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1286.741
+      },
+      {
+        "process_to_frame_ms": 887.994,
+        "trigger_to_frame_ms": 16.517,
+        "first_frame_opacity": 0.10980392156862745,
+        "process_to_usable_ms": 995.259,
+        "trigger_to_usable_ms": 123.782,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1253.299
+      },
+      {
+        "process_to_frame_ms": 691.377,
+        "trigger_to_frame_ms": 14.125,
+        "first_frame_opacity": 0.023529411764705882,
+        "process_to_usable_ms": 801.607,
+        "trigger_to_usable_ms": 124.354,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1048.568
+      },
+      {
+        "process_to_frame_ms": 615.865,
+        "trigger_to_frame_ms": 15.678,
+        "first_frame_opacity": 0.06274509803921569,
+        "process_to_usable_ms": 725.419,
+        "trigger_to_usable_ms": 125.232,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 972.905
+      },
+      {
+        "process_to_frame_ms": 643.163,
+        "trigger_to_frame_ms": 15.116,
+        "first_frame_opacity": 0.09019607843137255,
+        "process_to_usable_ms": 751.953,
+        "trigger_to_usable_ms": 123.906,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1003.931
+      },
+      {
+        "process_to_frame_ms": 638.162,
+        "trigger_to_frame_ms": 18.748,
+        "first_frame_opacity": 0.07058823529411765,
+        "process_to_usable_ms": 745.418,
+        "trigger_to_usable_ms": 126.004,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 994.822
+      },
+      {
+        "process_to_frame_ms": 638.634,
+        "trigger_to_frame_ms": 14.617,
+        "first_frame_opacity": 0.027450980392156862,
+        "process_to_usable_ms": 748.608,
+        "trigger_to_usable_ms": 124.592,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 998.98
+      },
+      {
+        "process_to_frame_ms": 636.515,
+        "trigger_to_frame_ms": 18.706,
+        "first_frame_opacity": 0.03529411764705882,
+        "process_to_usable_ms": 748.711,
+        "trigger_to_usable_ms": 130.902,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1021.124
+      },
+      {
+        "process_to_frame_ms": 710.106,
+        "trigger_to_frame_ms": 21.019,
+        "first_frame_opacity": 0.06666666666666667,
+        "process_to_usable_ms": 816.291,
+        "trigger_to_usable_ms": 127.204,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1083.786
+      },
+      {
+        "process_to_frame_ms": 748.349,
+        "trigger_to_frame_ms": 22.062,
+        "first_frame_opacity": 0.1607843137254902,
+        "process_to_usable_ms": 851.974,
+        "trigger_to_usable_ms": 125.687,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1118.743
+      },
+      {
+        "process_to_frame_ms": 900.953,
+        "trigger_to_frame_ms": 21.592,
+        "first_frame_opacity": 0.12156862745098039,
+        "process_to_usable_ms": 1009.389,
+        "trigger_to_usable_ms": 130.027,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1294.05
+      },
+      {
+        "process_to_frame_ms": 907.231,
+        "trigger_to_frame_ms": 13.731,
+        "first_frame_opacity": 0.023529411764705882,
+        "process_to_usable_ms": 1018.759,
+        "trigger_to_usable_ms": 125.26,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1353.484
+      },
+      {
+        "process_to_frame_ms": 748.637,
+        "trigger_to_frame_ms": 26.456,
+        "first_frame_opacity": 0.1450980392156863,
+        "process_to_usable_ms": 833.031,
+        "trigger_to_usable_ms": 110.85,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1095.187
+      },
+      {
+        "process_to_frame_ms": 734.84,
+        "trigger_to_frame_ms": 22.303,
+        "first_frame_opacity": 0.054901960784313725,
+        "process_to_usable_ms": 838.734,
+        "trigger_to_usable_ms": 126.197,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1098.929
+      },
+      {
+        "process_to_frame_ms": 671.895,
+        "trigger_to_frame_ms": 26.534,
+        "first_frame_opacity": 0.08627450980392157,
+        "process_to_usable_ms": 816.796,
+        "trigger_to_usable_ms": 171.435,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1133.957
+      },
+      {
+        "process_to_frame_ms": 881.473,
+        "trigger_to_frame_ms": 15.404,
+        "first_frame_opacity": 0.10196078431372549,
+        "process_to_usable_ms": 990.187,
+        "trigger_to_usable_ms": 124.118,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1235.04
+      },
+      {
+        "process_to_frame_ms": 780.769,
+        "trigger_to_frame_ms": 19.934,
+        "first_frame_opacity": 0.11764705882352941,
+        "process_to_usable_ms": 889.139,
+        "trigger_to_usable_ms": 128.304,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1148.74
+      },
+      {
+        "process_to_frame_ms": 676.079,
+        "trigger_to_frame_ms": 17.769,
+        "first_frame_opacity": 0.10588235294117647,
+        "process_to_usable_ms": 782.82,
+        "trigger_to_usable_ms": 124.51,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1038.482
+      },
+      {
+        "process_to_frame_ms": 654.454,
+        "trigger_to_frame_ms": 13.157,
+        "first_frame_opacity": 0.07058823529411765,
+        "process_to_usable_ms": 765.337,
+        "trigger_to_usable_ms": 124.04,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 1014.991
+      }
+    ],
+    "auto_reopen": [
+      {
+        "process_to_frame_ms": 918.13,
+        "trigger_to_frame_ms": 3.992,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 1028.954,
+        "trigger_to_usable_ms": 114.816,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 1283.993,
+        "trigger_to_frame_ms": 3.88,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 1395.689,
+        "trigger_to_usable_ms": 115.577,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 1650.067,
+        "trigger_to_frame_ms": 3.112,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 1746.355,
+        "trigger_to_usable_ms": 99.4,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 2002.157,
+        "trigger_to_frame_ms": 3.945,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 2112.611,
+        "trigger_to_usable_ms": 114.399,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 2370.491,
+        "trigger_to_frame_ms": 6.35,
+        "first_frame_opacity": 0.011764705882352941,
+        "process_to_usable_ms": 2479.204,
+        "trigger_to_usable_ms": 115.063,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 2734.462,
+        "trigger_to_frame_ms": 4.154,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 2846.42,
+        "trigger_to_usable_ms": 116.112,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 3125.903,
+        "trigger_to_frame_ms": 15.116,
+        "first_frame_opacity": 0.2549019607843137,
+        "process_to_usable_ms": 3221.005,
+        "trigger_to_usable_ms": 110.219,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 3497.693,
+        "trigger_to_frame_ms": 5.087,
+        "first_frame_opacity": 0.10588235294117647,
+        "process_to_usable_ms": 3587.97,
+        "trigger_to_usable_ms": 95.365,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 3842.446,
+        "trigger_to_frame_ms": 3.132,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 3954.131,
+        "trigger_to_usable_ms": 114.817,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 4232.784,
+        "trigger_to_frame_ms": 6.986,
+        "first_frame_opacity": 0.21176470588235294,
+        "process_to_usable_ms": 4321.647,
+        "trigger_to_usable_ms": 95.848,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 4575.942,
+        "trigger_to_frame_ms": 3.036,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 4687.323,
+        "trigger_to_usable_ms": 114.417,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 4964.282,
+        "trigger_to_frame_ms": 5.584,
+        "first_frame_opacity": 0.14901960784313725,
+        "process_to_usable_ms": 5054.181,
+        "trigger_to_usable_ms": 95.483,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 5308.329,
+        "trigger_to_frame_ms": 2.614,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 5421.59,
+        "trigger_to_usable_ms": 115.874,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 5702.916,
+        "trigger_to_frame_ms": 7.837,
+        "first_frame_opacity": 0.2235294117647059,
+        "process_to_usable_ms": 5787.979,
+        "trigger_to_usable_ms": 92.9,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 6042.227,
+        "trigger_to_frame_ms": 3.028,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 6154.144,
+        "trigger_to_usable_ms": 114.945,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 6430.607,
+        "trigger_to_frame_ms": 4.94,
+        "first_frame_opacity": 0.11764705882352941,
+        "process_to_usable_ms": 6521.144,
+        "trigger_to_usable_ms": 95.477,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 6777.393,
+        "trigger_to_frame_ms": 4.801,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 6887.9,
+        "trigger_to_usable_ms": 115.307,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 7142.441,
+        "trigger_to_frame_ms": 3.01,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 7254.15,
+        "trigger_to_usable_ms": 114.718,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 7507.765,
+        "trigger_to_frame_ms": 2.29,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 7621.066,
+        "trigger_to_usable_ms": 115.59,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 7901.44,
+        "trigger_to_frame_ms": 8.879,
+        "first_frame_opacity": 0.15294117647058825,
+        "process_to_usable_ms": 7989.306,
+        "trigger_to_usable_ms": 96.745,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 8244.475,
+        "trigger_to_frame_ms": 2.745,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 8338.446,
+        "trigger_to_usable_ms": 96.716,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 8592.935,
+        "trigger_to_frame_ms": 3.153,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 8704.15,
+        "trigger_to_usable_ms": 114.368,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 8958.432,
+        "trigger_to_frame_ms": 3.075,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 9054.965,
+        "trigger_to_usable_ms": 99.608,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 9308.159,
+        "trigger_to_frame_ms": 2.044,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 9420.834,
+        "trigger_to_usable_ms": 114.718,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 9675.599,
+        "trigger_to_frame_ms": 3.623,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 9787.796,
+        "trigger_to_usable_ms": 115.821,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 10064.017,
+        "trigger_to_frame_ms": 4.917,
+        "first_frame_opacity": 0.13333333333333333,
+        "process_to_usable_ms": 10154.056,
+        "trigger_to_usable_ms": 94.956,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 10408.304,
+        "trigger_to_frame_ms": 2.956,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 10520.856,
+        "trigger_to_usable_ms": 115.509,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 10775.146,
+        "trigger_to_frame_ms": 3.061,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 10871.063,
+        "trigger_to_usable_ms": 98.977,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 11125.369,
+        "trigger_to_frame_ms": 2.94,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 11237.485,
+        "trigger_to_usable_ms": 115.056,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display"
+      },
+      {
+        "process_to_frame_ms": 11491.55,
+        "trigger_to_frame_ms": 2.73,
+        "first_frame_opacity": 0.0,
+        "process_to_usable_ms": 11605.025,
+        "trigger_to_usable_ms": 116.206,
+        "mapped": true,
+        "size": [
+          580,
+          92
+        ],
+        "backend": "GdkX11Display",
+        "parent_total_ms": 11856.595
+      }
+    ]
+  },
+  "collection_note": "Forced backend measurements preserved; automatic backend remeasured after moving GDK backend selection before instrumentation GTK imports. Actual backend verified in every sample."
+}

@@ -46,3 +46,13 @@ class UpdaterTests(unittest.TestCase):
     def test_missing_upstream_is_safe(self):
         self.git(self.clone, "branch", "--unset-upstream")
         self.assertIsNone(updater.check_update())
+
+    def test_ignored_collision_is_preserved(self):
+        (self.clone / "local.pyc").write_text("private")
+        (self.clone / ".git/info/exclude").write_text("*.pyc\n")
+        (self.remote / "local.pyc").write_text("upstream")
+        self.git(self.remote, "add", "-f", "local.pyc")
+        self.git(self.remote, "commit", "-qm", "new tracked path")
+        commit = updater.check_update()
+        self.assertFalse(updater.install_update(commit))
+        self.assertEqual((self.clone / "local.pyc").read_text(), "private")

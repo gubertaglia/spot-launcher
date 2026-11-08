@@ -478,3 +478,12 @@ msgstr "Activar Caffeine durante %(duration)s min"
 
 msgid "Selecionar duração e ativar Caffeine"
 msgstr "Seleccionar duración y activar Caffeine"
+
+msgid "Resultado fora dos limites"
+msgstr "Resultado fuera de los límites"
+
+msgid "Não foi possível abrir o resultado"
+msgstr "No se pudo abrir el resultado"
+
+msgid "Verifique se o arquivo ou aplicativo ainda está disponível."
+msgstr "Comprueba si el archivo o la aplicación sigue disponible."

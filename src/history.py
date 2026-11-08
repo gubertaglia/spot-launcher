@@ -1,4 +1,4 @@
-from src.storage import write_json
+from src.storage import write_json_ui as write_json
 from src.tools import normalize_text
 import json
 import os

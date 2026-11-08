@@ -1,0 +1,54 @@
+[
+  {
+    "locale": "pt_BR.UTF-8",
+    "exit": 0,
+    "regional": {
+      "LC_ALL": "pt_BR.UTF-8",
+      "LANG": "pt_BR.UTF-8",
+      "runtime_LC_TIME": "pt_BR.UTF-8",
+      "runtime_date_format": "%d/%m/%Y",
+      "stored_date_format": "%d/%m/%Y",
+      "example_2026_11_08": "08/11/2026"
+    },
+    "watchdog": null
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "exit": 0,
+    "regional": {
+      "LC_ALL": "en_US.UTF-8",
+      "LANG": "en_US.UTF-8",
+      "runtime_LC_TIME": "en_US.UTF-8",
+      "runtime_date_format": "%m/%d/%Y",
+      "stored_date_format": "%m/%d/%Y",
+      "example_2026_11_08": "11/08/2026"
+    },
+    "watchdog": null
+  },
+  {
+    "locale": "en_GB.UTF-8",
+    "exit": 0,
+    "regional": {
+      "LC_ALL": "en_GB.UTF-8",
+      "LANG": "en_GB.UTF-8",
+      "runtime_LC_TIME": "en_GB.UTF-8",
+      "runtime_date_format": "%d/%m/%y",
+      "stored_date_format": "%d/%m/%y",
+      "example_2026_11_08": "08/11/26"
+    },
+    "watchdog": null
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "exit": 0,
+    "regional": {
+      "LC_ALL": "fr_FR.UTF-8",
+      "LANG": "fr_FR.UTF-8",
+      "runtime_LC_TIME": "fr_FR.UTF-8",
+      "runtime_date_format": "%d/%m/%Y",
+      "stored_date_format": "%d/%m/%Y",
+      "example_2026_11_08": "08/11/2026"
+    },
+    "watchdog": null
+  }
+]

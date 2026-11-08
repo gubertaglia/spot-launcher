@@ -1,0 +1,30 @@
+{
+  "mode": "startup",
+  "pid": 105658,
+  "samples": [
+    {
+      "process_to_frame_ms": 272.6,
+      "trigger_to_frame_ms": 272.6,
+      "first_frame_opacity": 0.011764705882352941,
+      "process_to_usable_ms": 371.037,
+      "trigger_to_usable_ms": 371.037,
+      "mapped": true,
+      "size": [
+        580,
+        92
+      ],
+      "backend": "GdkWaylandDisplay"
+    }
+  ],
+  "memory": [],
+  "checks": {},
+  "regional": {
+    "LC_ALL": "C.UTF-8",
+    "LANG": "pt_BR.UTF-8",
+    "runtime_LC_TIME": "pt_BR.UTF-8",
+    "runtime_date_format": "%d/%m/%Y",
+    "stored_date_format": "%m/%d/%y",
+    "example_2026_11_08": "11/08/26"
+  },
+  "exit_status": 0
+}

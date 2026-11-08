@@ -60,10 +60,15 @@ class Definitions(HTMLParser):
         del self.stack[index:]
 
 
+from src.worker import request_current
+
+
 def lookup(word, search_url):
     host = urlsplit(search_url).netloc
 
     def fetch(parameters):
+        if not request_current():
+            return {}
         url = 'https://' + host + '/w/api.php?' + urlencode({
             'format': 'json', 'formatversion': 2, **parameters,
         })

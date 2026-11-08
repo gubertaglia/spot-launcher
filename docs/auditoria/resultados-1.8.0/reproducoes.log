@@ -1,0 +1,24 @@
+/home/gubertaglia/spot-launcher/docs/auditoria/reproducoes.py:372: PyGIDeprecationWarning: Gio.DesktopAppInfo is deprecated; use GioUnix.DesktopAppInfo instead
+  info = Gio.DesktopAppInfo.new_from_filename(str(desktop))
+test_blur_removes_preexisting_user_entry (__main__.AuditReproductions.test_blur_removes_preexisting_user_entry) ... ok
+test_clipboard_has_count_limit_but_no_byte_limit (__main__.AuditReproductions.test_clipboard_has_count_limit_but_no_byte_limit) ... ok
+test_clipboard_io_blocks_glib_main_thread (__main__.AuditReproductions.test_clipboard_io_blocks_glib_main_thread) ... ok
+test_config_truncated_falls_back_and_scale_is_validated (__main__.AuditReproductions.test_config_truncated_falls_back_and_scale_is_validated) ... ok
+test_config_wrong_types_reach_pagination (__main__.AuditReproductions.test_config_wrong_types_reach_pagination) ... ok
+test_currency_copy_loses_small_values_and_overflows (__main__.AuditReproductions.test_currency_copy_loses_small_values_and_overflows) ... ok
+test_file_failure_hides_launcher (__main__.AuditReproductions.test_file_failure_hides_launcher) ... ok
+test_geocoding_and_weather_attempt_caches_grow (__main__.AuditReproductions.test_geocoding_and_weather_attempt_caches_grow) ... ok
+test_history_io_is_synchronous_on_caller (__main__.AuditReproductions.test_history_io_is_synchronous_on_caller) ... ok
+test_http_limits_and_malformed_responses (__main__.AuditReproductions.test_http_limits_and_malformed_responses) ... ok
+test_index_limit_refresh_and_permission_errors (__main__.AuditReproductions.test_index_limit_refresh_and_permission_errors) ... ok
+test_json_atomic_failure_permissions_and_symlink (__main__.AuditReproductions.test_json_atomic_failure_permissions_and_symlink) ... ok
+test_obsolete_dictionary_keeps_fetching_before_latest_task (__main__.AuditReproductions.test_obsolete_dictionary_keeps_fetching_before_latest_task) ... ok
+test_shutdown_worker_suppresses_delivery (__main__.AuditReproductions.test_shutdown_worker_suppresses_delivery) ... ok
+test_terminal_desktop_path_is_lost (__main__.AuditReproductions.test_terminal_desktop_path_is_lost) ... ok
+test_unit_prefix_case_changes_physical_value (__main__.AuditReproductions.test_unit_prefix_case_changes_physical_value) ... ok
+test_updater_divergence_untracked_and_ignored_data_loss (__main__.AuditReproductions.test_updater_divergence_untracked_and_ignored_data_loss) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 3.935s
+
+OK

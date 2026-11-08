@@ -1,0 +1,302 @@
+[
+  {
+    "unix_time": 1794165516.9523616,
+    "pid": 36972,
+    "Rss_kib": 63188,
+    "Pss_kib": 43126,
+    "Private_Clean_kib": 2184,
+    "Private_Dirty_kib": 39628,
+    "Swap_kib": 122512,
+    "SwapPss_kib": 121716
+  },
+  {
+    "unix_time": 1794165546.956555,
+    "pid": 36972,
+    "Rss_kib": 61452,
+    "Pss_kib": 41713,
+    "Private_Clean_kib": 1360,
+    "Private_Dirty_kib": 39280,
+    "Swap_kib": 122852,
+    "SwapPss_kib": 122056
+  },
+  {
+    "unix_time": 1794165576.9709554,
+    "pid": 36972,
+    "Rss_kib": 62768,
+    "Pss_kib": 42689,
+    "Private_Clean_kib": 1968,
+    "Private_Dirty_kib": 39628,
+    "Swap_kib": 122512,
+    "SwapPss_kib": 121716
+  },
+  {
+    "unix_time": 1794165606.9765577,
+    "pid": 36972,
+    "Rss_kib": 62372,
+    "Pss_kib": 42572,
+    "Private_Clean_kib": 1908,
+    "Private_Dirty_kib": 39584,
+    "Swap_kib": 122556,
+    "SwapPss_kib": 121760
+  },
+  {
+    "unix_time": 1794165636.9829504,
+    "pid": 36972,
+    "Rss_kib": 26400,
+    "Pss_kib": 5154,
+    "Private_Clean_kib": 0,
+    "Private_Dirty_kib": 4240,
+    "Swap_kib": 157900,
+    "SwapPss_kib": 157104
+  },
+  {
+    "unix_time": 1794165666.9867873,
+    "pid": 36972,
+    "Rss_kib": 62412,
+    "Pss_kib": 40283,
+    "Private_Clean_kib": 0,
+    "Private_Dirty_kib": 39008,
+    "Swap_kib": 123132,
+    "SwapPss_kib": 122336
+  },
+  {
+    "unix_time": 1794165696.991223,
+    "pid": 36972,
+    "Rss_kib": 43396,
+    "Pss_kib": 21285,
+    "Private_Clean_kib": 0,
+    "Private_Dirty_kib": 19948,
+    "Swap_kib": 142192,
+    "SwapPss_kib": 141396
+  },
+  {
+    "unix_time": 1794165727.0023017,
+    "pid": 36972,
+    "Rss_kib": 52740,
+    "Pss_kib": 30643,
+    "Private_Clean_kib": 0,
+    "Private_Dirty_kib": 29316,
+    "Swap_kib": 132824,
+    "SwapPss_kib": 132028
+  },
+  {
+    "unix_time": 1794165757.0046682,
+    "pid": 36972,
+    "Rss_kib": 62668,
+    "Pss_kib": 40564,
+    "Private_Clean_kib": 0,
+    "Private_Dirty_kib": 39244,
+    "Swap_kib": 122896,
+    "SwapPss_kib": 122100
+  },
+  {
+    "unix_time": 1794165787.0088162,
+    "pid": 36972,
+    "Rss_kib": 43604,
+    "Pss_kib": 21647,
+    "Private_Clean_kib": 48,
+    "Private_Dirty_kib": 20204,
+    "Swap_kib": 141936,
+    "SwapPss_kib": 141140
+  },
+  {
+    "unix_time": 1794165817.0151718,
+    "pid": 36972,
+    "Rss_kib": 63012,
+    "Pss_kib": 40962,
+    "Private_Clean_kib": 32,
+    "Private_Dirty_kib": 39648,
+    "Swap_kib": 122492,
+    "SwapPss_kib": 121696
+  },
+  {
+    "unix_time": 1794165847.0201662,
+    "pid": 36972,
+    "Rss_kib": 57600,
+    "Pss_kib": 37877,
+    "Private_Clean_kib": 0,
+    "Private_Dirty_kib": 36300,
+    "Swap_kib": 125840,
+    "SwapPss_kib": 125048
+  },
+  {
+    "unix_time": 1794165877.0262718,
+    "pid": 36972,
+    "Rss_kib": 60932,
+    "Pss_kib": 41214,
+    "Private_Clean_kib": 32,
+    "Private_Dirty_kib": 39592,
+    "Swap_kib": 122552,
+    "SwapPss_kib": 121756
+  },
+  {
+    "unix_time": 1794165907.0334146,
+    "pid": 36972,
+    "Rss_kib": 21796,
+    "Pss_kib": 2072,
+    "Private_Clean_kib": 128,
+    "Private_Dirty_kib": 256,
+    "Swap_kib": 161888,
+    "SwapPss_kib": 161092
+  },
+  {
+    "unix_time": 1794165937.0386002,
+    "pid": 36972,
+    "Rss_kib": 62116,
+    "Pss_kib": 42448,
+    "Private_Clean_kib": 1172,
+    "Private_Dirty_kib": 39632,
+    "Swap_kib": 122512,
+    "SwapPss_kib": 121716
+  },
+  {
+    "unix_time": 1794165967.0410419,
+    "pid": 36972,
+    "Rss_kib": 62208,
+    "Pss_kib": 42540,
+    "Private_Clean_kib": 1172,
+    "Private_Dirty_kib": 39724,
+    "Swap_kib": 122420,
+    "SwapPss_kib": 121624
+  },
+  {
+    "unix_time": 1794165997.04325,
+    "pid": 36972,
+    "Rss_kib": 60856,
+    "Pss_kib": 41202,
+    "Private_Clean_kib": 732,
+    "Private_Dirty_kib": 38832,
+    "Swap_kib": 123312,
+    "SwapPss_kib": 122516
+  },
+  {
+    "unix_time": 1794166027.0539706,
+    "pid": 36972,
+    "Rss_kib": 61436,
+    "Pss_kib": 41834,
+    "Private_Clean_kib": 432,
+    "Private_Dirty_kib": 39764,
+    "Swap_kib": 122380,
+    "SwapPss_kib": 121584
+  },
+  {
+    "unix_time": 1794166057.064881,
+    "pid": 36972,
+    "Rss_kib": 29300,
+    "Pss_kib": 9878,
+    "Private_Clean_kib": 308,
+    "Private_Dirty_kib": 7924,
+    "Swap_kib": 154220,
+    "SwapPss_kib": 153424
+  },
+  {
+    "unix_time": 1794166087.0768423,
+    "pid": 36972,
+    "Rss_kib": 60740,
+    "Pss_kib": 41345,
+    "Private_Clean_kib": 84,
+    "Private_Dirty_kib": 39660,
+    "Swap_kib": 122484,
+    "SwapPss_kib": 121688
+  },
+  {
+    "unix_time": 1794166117.0909688,
+    "pid": 36972,
+    "Rss_kib": 58492,
+    "Pss_kib": 39138,
+    "Private_Clean_kib": 244,
+    "Private_Dirty_kib": 37300,
+    "Swap_kib": 124844,
+    "SwapPss_kib": 124048
+  },
+  {
+    "unix_time": 1794166147.0967913,
+    "pid": 36972,
+    "Rss_kib": 46824,
+    "Pss_kib": 27548,
+    "Private_Clean_kib": 56,
+    "Private_Dirty_kib": 25908,
+    "Swap_kib": 136236,
+    "SwapPss_kib": 135440
+  },
+  {
+    "unix_time": 1794166177.102939,
+    "pid": 36972,
+    "Rss_kib": 60436,
+    "Pss_kib": 41299,
+    "Private_Clean_kib": 108,
+    "Private_Dirty_kib": 39700,
+    "Swap_kib": 122444,
+    "SwapPss_kib": 121648
+  },
+  {
+    "unix_time": 1794166207.1172419,
+    "pid": 36972,
+    "Rss_kib": 60152,
+    "Pss_kib": 41342,
+    "Private_Clean_kib": 560,
+    "Private_Dirty_kib": 39428,
+    "Swap_kib": 122716,
+    "SwapPss_kib": 121920
+  },
+  {
+    "unix_time": 1794166237.129019,
+    "pid": 36972,
+    "Rss_kib": 60628,
+    "Pss_kib": 41793,
+    "Private_Clean_kib": 656,
+    "Private_Dirty_kib": 39744,
+    "Swap_kib": 122404,
+    "SwapPss_kib": 121608
+  },
+  {
+    "unix_time": 1794166267.1317358,
+    "pid": 36972,
+    "Rss_kib": 60708,
+    "Pss_kib": 41873,
+    "Private_Clean_kib": 676,
+    "Private_Dirty_kib": 39804,
+    "Swap_kib": 122344,
+    "SwapPss_kib": 121548
+  },
+  {
+    "unix_time": 1794166297.1339915,
+    "pid": 36972,
+    "Rss_kib": 60656,
+    "Pss_kib": 41821,
+    "Private_Clean_kib": 548,
+    "Private_Dirty_kib": 39880,
+    "Swap_kib": 122268,
+    "SwapPss_kib": 121472
+  },
+  {
+    "unix_time": 1794166327.1369543,
+    "pid": 36972,
+    "Rss_kib": 60592,
+    "Pss_kib": 41757,
+    "Private_Clean_kib": 464,
+    "Private_Dirty_kib": 39900,
+    "Swap_kib": 122248,
+    "SwapPss_kib": 121452
+  },
+  {
+    "unix_time": 1794166357.1397164,
+    "pid": 36972,
+    "Rss_kib": 60640,
+    "Pss_kib": 41805,
+    "Private_Clean_kib": 436,
+    "Private_Dirty_kib": 39976,
+    "Swap_kib": 122172,
+    "SwapPss_kib": 121376
+  },
+  {
+    "unix_time": 1794166387.1421819,
+    "pid": 36972,
+    "Rss_kib": 60548,
+    "Pss_kib": 41708,
+    "Private_Clean_kib": 260,
+    "Private_Dirty_kib": 40060,
+    "Swap_kib": 122088,
+    "SwapPss_kib": 121292
+  }
+]

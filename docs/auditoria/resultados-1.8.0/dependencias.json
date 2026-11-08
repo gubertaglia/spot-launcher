@@ -1,0 +1,161 @@
+{
+  "packages": [
+    {
+      "name": "pycairo",
+      "version": "1.28.0",
+      "dependencies": []
+    },
+    {
+      "name": "Pint",
+      "version": "0.26.2",
+      "dependencies": [
+        "flexcache",
+        "flexparser",
+        "platformdirs",
+        "typing-extensions"
+      ]
+    },
+    {
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "dependencies": []
+    },
+    {
+      "name": "platformdirs",
+      "version": "4.13.5",
+      "dependencies": []
+    },
+    {
+      "name": "flexparser",
+      "version": "0.4",
+      "dependencies": [
+        "typing-extensions"
+      ]
+    },
+    {
+      "name": "flexcache",
+      "version": "0.3",
+      "dependencies": [
+        "typing-extensions"
+      ]
+    },
+    {
+      "name": "RapidFuzz",
+      "version": "3.14.5",
+      "dependencies": []
+    },
+    {
+      "name": "PyGObject",
+      "version": "3.58.1",
+      "dependencies": []
+    }
+  ],
+  "python": "3.15.0 (3.15.0-1.fc45.x86_64, Oct  9 2026, 00:00:00) [GCC 16.2.1 20260819 (Red Hat 16.2.1-2)]",
+  "platform": "Linux-7.2.15-300.fc45.x86_64-x86_64-with-glibc2.44",
+  "osv_url": "https://api.osv.dev/v1/querybatch",
+  "osv_results": [
+    {
+      "query": {
+        "package": {
+          "name": "pycairo",
+          "ecosystem": "PyPI"
+        },
+        "version": "1.28.0"
+      },
+      "result": {}
+    },
+    {
+      "query": {
+        "package": {
+          "name": "Pint",
+          "ecosystem": "PyPI"
+        },
+        "version": "0.26.2"
+      },
+      "result": {}
+    },
+    {
+      "query": {
+        "package": {
+          "name": "typing_extensions",
+          "ecosystem": "PyPI"
+        },
+        "version": "4.16.0"
+      },
+      "result": {}
+    },
+    {
+      "query": {
+        "package": {
+          "name": "platformdirs",
+          "ecosystem": "PyPI"
+        },
+        "version": "4.13.5"
+      },
+      "result": {}
+    },
+    {
+      "query": {
+        "package": {
+          "name": "flexparser",
+          "ecosystem": "PyPI"
+        },
+        "version": "0.4"
+      },
+      "result": {}
+    },
+    {
+      "query": {
+        "package": {
+          "name": "flexcache",
+          "ecosystem": "PyPI"
+        },
+        "version": "0.3"
+      },
+      "result": {}
+    },
+    {
+      "query": {
+        "package": {
+          "name": "RapidFuzz",
+          "ecosystem": "PyPI"
+        },
+        "version": "3.14.5"
+      },
+      "result": {}
+    },
+    {
+      "query": {
+        "package": {
+          "name": "PyGObject",
+          "ecosystem": "PyPI"
+        },
+        "version": "3.58.1"
+      },
+      "result": {}
+    }
+  ],
+  "rpm_packages": [
+    "gnome-shell-51.1-1.fc45.x86_64",
+    "mutter-51.1-1.fc45.x86_64",
+    "gtk4-4.24.1-1.fc45.x86_64",
+    "libadwaita-1.10.0-2.fc45.x86_64",
+    "gjs-1.90.1-1.fc45.x86_64",
+    "python3-gobject-3.58.1-6.fc45.x86_64"
+  ],
+  "fedora_cached_security_advisories": {
+    "command": "dnf5 --cacheonly advisory list --available --security",
+    "returncode": 0,
+    "stdout": "",
+    "stderr": "Updating and loading repositories:\nLast metadata expiration check: 0:00:55 ago on 2026-11-08 19:39:49.\nRepositories loaded.\n",
+    "limitation": "Only available advisories in local metadata; not an exhaustive vulnerability assessment."
+  },
+  "native_rpms": [
+    "python3-3.15.0-1.fc45.x86_64",
+    "python3-libs-3.15.0-1.fc45.x86_64",
+    "glib2-2.90.1-1.fc45.x86_64",
+    "cairo-1.18.6-1.fc45.x86_64",
+    "libX11-1.8.13-3.fc45.x86_64",
+    "openssl-libs-4.0.3-1.fc45.x86_64"
+  ]
+}

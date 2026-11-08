@@ -127,9 +127,14 @@ class AppIndexer:
                 if terminal_cmd:
                     exec_line = entry.app_info.get_commandline()
                     full_cmd = " ".join(terminal_cmd + [exec_line])
-                    Gio.AppInfo.create_from_commandline(
-                        full_cmd, None, Gio.AppInfoCreateFlags.NONE
-                    ).launch()
+                    desktop = GLib.KeyFile()
+                    desktop.set_string("Desktop Entry", "Type", "Application")
+                    desktop.set_string("Desktop Entry", "Name", entry.name)
+                    desktop.set_string("Desktop Entry", "Exec", full_cmd)
+                    working_directory = entry.app_info.get_string("Path")
+                    if working_directory:
+                        desktop.set_string("Desktop Entry", "Path", working_directory)
+                    Gio.DesktopAppInfo.new_from_keyfile(desktop).launch()
                     return True
 
             # Disparo padrão com suporte a cgroups e Wayland

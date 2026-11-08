@@ -1,0 +1,36 @@
+libmutter-Message: 16:29:40.213: Running GNOME Shell (using mutter 51.1) as a Wayland display server
+libmutter-Message: 16:29:40.504: Added device '/dev/dri/renderD128' (i915) using no mode setting.
+libmutter-Message: 16:29:40.610: Added device '/dev/dri/renderD129' (nvidia-drm) using no mode setting.
+libmutter-Message: 16:29:40.612: Created gbm renderer for '/dev/dri/renderD128'
+libmutter-Message: 16:29:40.614: Created gbm renderer for '/dev/dri/renderD129'
+libmutter-Message: 16:29:40.614: Boot VGA GPU /dev/dri/renderD128 selected as primary
+** Message: 16:29:40.615: Obtained a high priority EGL context
+libmutter-Message: 16:29:40.635: Added virtual monitor Meta-0
+libmutter-Message: 16:29:40.647: Using public X11 display :4, (using unix:/tmp/.X11-unix/X5 for managed services)
+libmutter-Message: 16:29:40.647: Using Wayland display name 'spot-audit'
+GNOME Shell-Message: 16:29:40.996: Unset XDG_SESSION_ID, getCurrentSessionProxy() called outside a user session. Asking logind directly.
+GNOME Shell-Message: 16:29:41.161: Registering session with GDM
+GNOME Shell-Message: 16:29:41.668: Will monitor session 1
+GNOME Shell-Message: 16:29:42.104: Error looking up permission: GDBus.Error:org.freedesktop.portal.Error.NotFound: No entry for geolocation
+GNOME Shell-Message: 16:29:42.407: Failed to register AuthenticationAgent
+** Message: 16:29:42.589: Failed to start camera monitor
+GNOME Shell-Message: 16:29:43.830: GNOME Shell started at Sun Nov 08 2026 16:29:41 GMT-0300 (Brasilia Standard Time)
+GNOME Shell-Message: 16:29:43.831: Registering display with GDM
+
+(gnome-shell:82283): GnomeDesktop-WARNING **: 16:29:43.861: Could not create transient scope for PID 83070: GDBus.Error:org.freedesktop.DBus.Error.NameHasNoOwner: Name "org.freedesktop.systemd1" does not exist
+The XKEYBOARD keymap compiler (xkbcomp) reports:
+> Warning:          Multiple symbols for level 1/group 1 on key <FK23>
+>                   Using F23, ignoring XF86TouchpadOff
+> Warning:          Symbol map for key <FK23> redefined
+>                   Using last definition for conflicting fields
+> Warning:          Symbol map for key <FK24> redefined
+>                   Using last definition for conflicting fields
+> Warning:          Could not resolve keysym XF86ElectronicPrivacyScreenOn
+> Warning:          Could not resolve keysym XF86ElectronicPrivacyScreenOff
+> Warning:          Could not resolve keysym XF86ActionOnSelection
+> Warning:          Could not resolve keysym XF86ContextualInsert
+> Warning:          Could not resolve keysym XF86ContextualQuery
+Errors from xkbcomp are not fatal to the X server
+** Message: 16:29:55.881: Shutting down GNOME Shell
+Gdk-Message: 16:29:55.969: Lost connection to Wayland compositor.
+libmutter-Message: 16:29:56.027: Removed virtual monitor Meta-0

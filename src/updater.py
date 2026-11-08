@@ -32,7 +32,7 @@ def install_update(commit):
     try:
         if git("status", "--porcelain", "--untracked-files=no"):
             return False
-        git("merge", "--ff-only", commit)
+        git("merge", "--ff-only", "--no-overwrite-ignore", commit)
         return True
     except (OSError, subprocess.SubprocessError):
         return False

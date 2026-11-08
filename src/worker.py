@@ -3,6 +3,14 @@ import logging
 import threading
 
 
+_request = threading.local()
+
+
+def request_current():
+    check = getattr(_request, "check", None)
+    return check is None or check()
+
+
 class LatestRequestWorker:
     def __init__(self, dispatch):
         self._dispatch = dispatch
@@ -42,11 +50,17 @@ class LatestRequestWorker:
                     return
                 generation, task, callback = self._pending
                 self._pending = None
+            def current():
+                with self._condition:
+                    return not self._closed and generation == self._generation
+            _request.check = current
             try:
                 result = task()
             except Exception:
                 logging.exception("Falha na consulta em segundo plano")
                 result = None
+            finally:
+                _request.check = None
             # Verificar novamente na entrega: o loop principal pode estar ocupado.
             self._dispatch(self._deliver, generation, callback, result)
             # The worker may now sleep for the rest of the session.

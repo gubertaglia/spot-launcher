@@ -10,7 +10,11 @@ export default class SpotExtension extends Extension {
         try {
             const file = Gio.File.new_for_path(GLib.build_filenamev([GLib.get_user_config_dir(), 'spot-launcher', 'config.json']));
             const [, contents] = file.load_contents(null);
-            return JSON.parse(new TextDecoder().decode(contents));
+            const settings = JSON.parse(new TextDecoder().decode(contents));
+            if (!settings || typeof settings !== 'object' || Array.isArray(settings))
+                return {};
+            return Object.fromEntries(['pointer_monitor', 'super_launcher', 'disable_overview']
+                .map(key => [key, settings[key] === true]));
         } catch (_) {
             return {};
         }

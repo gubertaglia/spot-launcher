@@ -1,0 +1,117 @@
+{
+  "commit": "3c7b8a6dbd2ebce6b3e47bc5e3df90383cee8810",
+  "tests": 17,
+  "failures": 0,
+  "errors": 0,
+  "note": "Passing defect tests confirm the defect in 1.8.0, not a fix.",
+  "evidence": {
+    "blur_ownership": "preexisting SpotLauncher whitelist entry removed even when Spot did not add it",
+    "clipboard_large": {
+      "input_bytes": 2097162,
+      "file_bytes": 2097170
+    },
+    "clipboard_main_thread": {
+      "injected_fsync_ms": 150,
+      "heartbeat_after_ms": 150.376
+    },
+    "config_truncated_and_scale": "approved",
+    "config_types": [
+      {
+        "value": "7",
+        "error": "TypeError"
+      },
+      {
+        "value": -2,
+        "error": "ValueError"
+      },
+      {
+        "value": 1.5,
+        "error": "ValueError"
+      },
+      {
+        "value": null,
+        "error": "TypeError"
+      },
+      {
+        "value": [],
+        "error": "TypeError"
+      }
+    ],
+    "currency": {
+      "small": {
+        "title": "= 0.000014 BTC",
+        "sub": "1 USD para BTC — Coinbase, 11/08/26 16:33",
+        "icon": "help-about-symbolic",
+        "copy": "0.00"
+      },
+      "overflow": {
+        "title": "= inf BRL",
+        "sub": "1e+308 USD para BRL — Coinbase, 11/08/26 16:33",
+        "icon": "help-about-symbolic",
+        "copy": "inf"
+      }
+    },
+    "open_failure": "open_item=False still calls hide_launcher; no user-visible error",
+    "unbounded_caches": {
+      "geocoding": 1000,
+      "weather_attempts": 1000,
+      "persisted_bytes": 79892
+    },
+    "history_sync": "record_launch writes before returning; called by GTK row activation",
+    "http_reads": [
+      {
+        "target": "urllib.request.urlopen",
+        "read_args": [],
+        "outcome": "handled"
+      },
+      {
+        "target": "urllib.request.urlopen",
+        "read_args": [],
+        "outcome": "handled"
+      },
+      {
+        "target": "src.translation.urlopen",
+        "read_args": [
+          2000000
+        ],
+        "outcome": "raises to worker"
+      },
+      {
+        "target": "src.dictionary.urlopen",
+        "read_args": [
+          2000000
+        ],
+        "outcome": "raises to worker"
+      }
+    ],
+    "index_limit_refresh_eacces": "approved; 10020 files capped at 10000; deletion refreshed",
+    "storage": "atomic failure preserved old data; mode 0600; final symlink replaced",
+    "obsolete_dictionary": {
+      "requests_after_invalidation": 3,
+      "latest_task_wait_ms": 245.798,
+      "synthetic_delay_per_request_ms": 60
+    },
+    "worker_shutdown": "approved; active task completes, old result suppressed, thread exits",
+    "terminal_desktop_path": {
+      "honored": false,
+      "observed_cwd": "/home/gubertaglia/spot-launcher"
+    },
+    "unit_case": {
+      "query": "1 Mm em m",
+      "expected": 1000000.0,
+      "observed": {
+        "title": "= 0.00 m",
+        "sub": "1 mm convertido para m (Sistema Universal)",
+        "icon": "emblem-synchronizing-symbolic",
+        "copy": "0.001"
+      },
+      "error_factor": 1000000000.0
+    },
+    "updater_ignored": {
+      "installed": true,
+      "ignored_local_content_preserved": false
+    },
+    "updater_diverged_untracked": "approved; ordinary untracked collision and divergent history rejected"
+  },
+  "unittest_log": "test_blur_removes_preexisting_user_entry (__main__.AuditReproductions.test_blur_removes_preexisting_user_entry) ... ok\ntest_clipboard_has_count_limit_but_no_byte_limit (__main__.AuditReproductions.test_clipboard_has_count_limit_but_no_byte_limit) ... ok\ntest_clipboard_io_blocks_glib_main_thread (__main__.AuditReproductions.test_clipboard_io_blocks_glib_main_thread) ... ok\ntest_config_truncated_falls_back_and_scale_is_validated (__main__.AuditReproductions.test_config_truncated_falls_back_and_scale_is_validated) ... ok\ntest_config_wrong_types_reach_pagination (__main__.AuditReproductions.test_config_wrong_types_reach_pagination) ... ok\ntest_currency_copy_loses_small_values_and_overflows (__main__.AuditReproductions.test_currency_copy_loses_small_values_and_overflows) ... ok\ntest_file_failure_hides_launcher (__main__.AuditReproductions.test_file_failure_hides_launcher) ... ok\ntest_geocoding_and_weather_attempt_caches_grow (__main__.AuditReproductions.test_geocoding_and_weather_attempt_caches_grow) ... ok\ntest_history_io_is_synchronous_on_caller (__main__.AuditReproductions.test_history_io_is_synchronous_on_caller) ... ok\ntest_http_limits_and_malformed_responses (__main__.AuditReproductions.test_http_limits_and_malformed_responses) ... ok\ntest_index_limit_refresh_and_permission_errors (__main__.AuditReproductions.test_index_limit_refresh_and_permission_errors) ... ok\ntest_json_atomic_failure_permissions_and_symlink (__main__.AuditReproductions.test_json_atomic_failure_permissions_and_symlink) ... ok\ntest_obsolete_dictionary_keeps_fetching_before_latest_task (__main__.AuditReproductions.test_obsolete_dictionary_keeps_fetching_before_latest_task) ... ok\ntest_shutdown_worker_suppresses_delivery (__main__.AuditReproductions.test_shutdown_worker_suppresses_delivery) ... ok\ntest_terminal_desktop_path_is_lost (__main__.AuditReproductions.test_terminal_desktop_path_is_lost) ... ok\ntest_unit_prefix_case_changes_physical_value (__main__.AuditReproductions.test_unit_prefix_case_changes_physical_value) ... ok\ntest_updater_divergence_untracked_and_ignored_data_loss (__main__.AuditReproductions.test_updater_divergence_untracked_and_ignored_data_loss) ... ok\n\n----------------------------------------------------------------------\nRan 17 tests in 3.935s\n\nOK\n"
+}

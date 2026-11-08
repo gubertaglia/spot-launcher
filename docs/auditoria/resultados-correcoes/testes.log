@@ -1,0 +1,32 @@
+......................................./usr/lib64/python3.15/site-packages/gi/events.py:803: DeprecationWarning: 'asyncio.AbstractEventLoopPolicy' is deprecated and slated for removal in Python 3.16
+  AbstractEventLoopPolicy = getattr(asyncio, "AbstractEventLoopPolicy", object)
+/usr/lib64/python3.15/site-packages/gi/events.py:890: DeprecationWarning: 'asyncio.get_event_loop_policy' is deprecated and slated for removal in Python 3.16
+  if not isinstance(_get_event_loop_policy(), GLibEventLoopPolicy):
+.........../home/gubertaglia/spot-launcher/tests/test_audit_fixes.py:119: PyGIDeprecationWarning: Gio.DesktopAppInfo is deprecated; use GioUnix.DesktopAppInfo instead
+  info = Gio.DesktopAppInfo.new_from_filename(str(desktop))
+/home/gubertaglia/spot-launcher/src/indexer.py:137: PyGIDeprecationWarning: Gio.DesktopAppInfo is deprecated; use GioUnix.DesktopAppInfo instead
+  Gio.DesktopAppInfo.new_from_keyfile(desktop).launch()
+......................../usr/lib64/python3.15/pkgutil.py:491: PyGIDeprecationWarning: Gio.DesktopAppInfo is deprecated; use GioUnix.DesktopAppInfo instead
+  result = getattr(result, p)
+/home/gubertaglia/spot-launcher/src/window.py:1038: PyGIDeprecationWarning: Gio.DesktopAppInfo is deprecated; use GioUnix.DesktopAppInfo instead
+  maps = Gio.DesktopAppInfo.new("org.gnome.Maps.desktop")
+........../home/gubertaglia/spot-launcher/tests/test_search.py:120: PyGIDeprecationWarning: Gio.DesktopAppInfo is deprecated; use GioUnix.DesktopAppInfo instead
+  entries.append(Gio.DesktopAppInfo.new_from_filename(str(path)))
+/home/gubertaglia/spot-launcher/src/indexer.py:56: PyGIDeprecationWarning: Gio.DesktopAppInfo is deprecated; use GioUnix.DesktopAppInfo instead
+  is_setting = (isinstance(app, Gio.DesktopAppInfo)
+/home/gubertaglia/spot-launcher/src/indexer.py:78: PyGIDeprecationWarning: Gio.DesktopAppInfo is deprecated; use GioUnix.DesktopAppInfo instead
+  if isinstance(app, Gio.DesktopAppInfo):
+......................../home/gubertaglia/spot-launcher/tests/test_smart_search.py:169: PyGIDeprecationWarning: Gio.DesktopAppInfo is deprecated; use GioUnix.DesktopAppInfo instead
+  desktop = Gio.DesktopAppInfo.new_from_filename(str(path))
+.................................................
+----------------------------------------------------------------------
+Ran 157 tests in 0.915s
+
+OK
+[Coinbase] Cotação indisponível; preservando cache: offline
+[Coinbase] Cotação indisponível; preservando cache: offline
+[Geocoding] Erro na consulta de 'lisboa': offline
+[Geocoding] Erro na consulta de 'paris': offline
+[Launcher] Abrindo: /missing
+[Launcher] Executando: Editor
+[Launcher] Executando: Editor

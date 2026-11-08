@@ -21,32 +21,18 @@ class BlurCompatibilityTests(unittest.TestCase):
     def test_preferences_save_and_refresh_parent_immediately(self):
         prefs, row = Mock(), Mock()
         row.get_active.return_value = True
-        with patch("src.preferences.configure_blur"):
-            PreferencesWindow._on_blur_changed(prefs, row, None)
+        PreferencesWindow._on_blur_changed(prefs, row, None)
         prefs.config.set.assert_called_once_with('blur_my_shell', True)
         prefs.get_transient_for.return_value.set_blur_compatibility.assert_called_once_with()
 
-    def test_blur_enable_and_disable_preserve_other_windows(self):
-        from src.preferences import configure_blur
-        settings, schema, source = Mock(), Mock(), Mock()
-        schema.list_keys.return_value = ['blur', 'whitelist']
-        source.lookup.return_value = schema
-        settings.get_strv.return_value = ['Other']
-        settings.get_boolean.return_value = False
-        values = {}
-        config = Mock()
-        config.get.side_effect = lambda key, default=None: values.get(key, default)
-        config.set.side_effect = lambda key, value: values.update({key: value}) or True
-        with patch('src.preferences.Path.exists', return_value=True), \
-             patch('src.preferences.Gio.SettingsSchemaSource.new_from_directory', return_value=source), \
-             patch('src.preferences.Gio.Settings.new_full', return_value=settings):
-            configure_blur(True, config)
-            settings.set_strv.assert_called_with('whitelist', ['Other', 'SpotLauncher'])
-            settings.set_boolean.assert_called_with('blur', True)
-            settings.get_strv.return_value = ['Other', 'SpotLauncher']
-            configure_blur(False, config)
-            settings.set_strv.assert_called_with('whitelist', ['Other'])
-            settings.set_boolean.assert_called_with('blur', False)
+    def test_blur_does_not_modify_external_settings(self):
+        prefs, row = Mock(), Mock()
+        with patch('src.preferences.Gio.Settings.new_full') as settings:
+            for enabled in (True, False):
+                row.get_active.return_value = enabled
+                PreferencesWindow._on_blur_changed(prefs, row, None)
+            settings.assert_not_called()
+
 
 
 class FadeTests(unittest.TestCase):

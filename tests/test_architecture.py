@@ -61,6 +61,8 @@ class ToolsTests(unittest.TestCase):
         window._on_clipboard_read(clipboard, object(), 1)
         clipboard.read_text_finish.return_value = "novo"
         window._on_clipboard_read(clipboard, object(), 2)
+        from src.storage import flush_writes
+        flush_writes()
         self.assertEqual(engine.get_clipboard_history(), ["novo"])
 
     def test_timezone_cache_works_offline(self):

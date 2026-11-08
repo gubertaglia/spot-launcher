@@ -97,7 +97,7 @@ class SearchTests(unittest.TestCase):
     def test_only_successful_launches_are_learned(self):
         entry = app("Editor")
         for successful in (False, True):
-            window = SimpleNamespace(indexer=Mock(), history=Mock(), search_entry=Mock(), hide_launcher=Mock(), _tool_copy_val=None)
+            window = SimpleNamespace(indexer=Mock(), history=Mock(), search_entry=Mock(), hide_launcher=Mock(), _launch_failed=Mock(), _tool_copy_val=None)
             window.indexer.launch.return_value = successful
             window.search_entry.get_text.return_value = "editor"
             row = SimpleNamespace(get_activatable=lambda: True, _app_entry=entry)

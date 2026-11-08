@@ -3,7 +3,7 @@
 Um launcher para Linux que reúne aplicativos, arquivos, buscas e ferramentas em uma só janela.
 Feito com Python, GTK 4 e libadwaita.
 
-[![Versão](https://img.shields.io/badge/vers%C3%A3o-1.8.0-blue)](https://github.com/gubertaglia/spot-launcher/releases/tag/v1.8.0)
+[![Versão](https://img.shields.io/badge/vers%C3%A3o-2.0.0-blue)](https://github.com/gubertaglia/spot-launcher/releases/tag/v2.0.0)
 [![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-green)](LICENSE)
 
 **[Começar](#executar)** · **[Busca](#busca-e-aprendizado-local)** · **[Ferramentas](#dicionário)** · **[Atalhos](#atalhos-super-e-panorama-no-gnome)** · **[Atualizações](#atualizações)**

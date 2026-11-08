@@ -1,0 +1,37 @@
+libmutter-Message: 16:58:17.578: Running GNOME Shell (using mutter 51.1) as a Wayland display server
+libmutter-Message: 16:58:17.640: Added device '/dev/dri/renderD128' (i915) using no mode setting.
+libmutter-Message: 16:58:17.749: Added device '/dev/dri/renderD129' (nvidia-drm) using no mode setting.
+libmutter-Message: 16:58:17.750: Created gbm renderer for '/dev/dri/renderD128'
+libmutter-Message: 16:58:17.751: Created gbm renderer for '/dev/dri/renderD129'
+libmutter-Message: 16:58:17.751: Boot VGA GPU /dev/dri/renderD128 selected as primary
+** Message: 16:58:17.753: Obtained a high priority EGL context
+libmutter-Message: 16:58:17.769: Added virtual monitor Meta-0
+libmutter-Message: 16:58:17.776: Using public X11 display :2, (using unix:/tmp/.X11-unix/X3 for managed services)
+libmutter-Message: 16:58:17.776: Using Wayland display name 'spot-audit'
+GNOME Shell-Message: 16:58:18.039: Unset XDG_SESSION_ID, getCurrentSessionProxy() called outside a user session. Asking logind directly.
+GNOME Shell-Message: 16:58:18.131: Registering session with GDM
+GNOME Shell-Message: 16:58:18.382: Will monitor session 1
+GNOME Shell-Message: 16:58:18.587: Error looking up permission: GDBus.Error:org.freedesktop.portal.Error.NotFound: No entry for geolocation
+GNOME Shell-Message: 16:58:18.729: Failed to register AuthenticationAgent
+** Message: 16:58:18.875: Failed to start camera monitor
+The XKEYBOARD keymap compiler (xkbcomp) reports:
+> Warning:          Multiple symbols for level 1/group 1 on key <FK23>
+>                   Using F23, ignoring XF86TouchpadOff
+> Warning:          Symbol map for key <FK23> redefined
+>                   Using last definition for conflicting fields
+> Warning:          Symbol map for key <FK24> redefined
+>                   Using last definition for conflicting fields
+> Warning:          Could not resolve keysym XF86ElectronicPrivacyScreenOn
+> Warning:          Could not resolve keysym XF86ElectronicPrivacyScreenOff
+> Warning:          Could not resolve keysym XF86ActionOnSelection
+> Warning:          Could not resolve keysym XF86ContextualInsert
+> Warning:          Could not resolve keysym XF86ContextualQuery
+Errors from xkbcomp are not fatal to the X server
+GNOME Shell-Message: 16:58:20.050: GNOME Shell started at Sun Nov 08 2026 16:58:18 GMT-0300 (Brasilia Standard Time)
+GNOME Shell-Message: 16:58:20.050: Registering display with GDM
+
+(gnome-shell:104672): GnomeDesktop-WARNING **: 16:58:20.067: Could not create transient scope for PID 105529: GDBus.Error:org.freedesktop.DBus.Error.NameHasNoOwner: Name "org.freedesktop.systemd1" does not exist
+------------------------------------------------------------
+------------------------------------------------------------
+** Message: 16:58:29.785: Shutting down GNOME Shell
+libmutter-Message: 16:58:29.868: Removed virtual monitor Meta-0

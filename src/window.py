@@ -12,6 +12,7 @@ gi.require_version("Gdk", "4.0")
 
 from gi.repository import Adw, Gdk, Gio, GLib, Gsk, Gtk
 from src import _
+from src.storage import submit_io, flush_writes
 from src.history import HistoryManager
 from src.indexer import AppIndexer
 from src.matcher import SearchMatcher
@@ -633,6 +634,9 @@ class LauncherWindow(Gtk.Window):
         self._file_worker.close()
         self._update_worker.close()
         self.files.close()
+        if self.preferences_window is not None:
+            self.preferences_window._gnome_worker.close()
+        flush_writes()
 
     def _clear_results(self):
         self._remaining_rows = None
@@ -729,7 +733,7 @@ class LauncherWindow(Gtk.Window):
                        "historial del portapapeles", "historique du presse-papiers",
                        "historico da area de transferencia"):
             self.scrolled_window.set_visible(False)
-            self._schedule_search(self._file_worker, self.tools.get_clipboard_history,
+            self._schedule_search(self._file_worker, lambda: submit_io(self.tools.get_clipboard_history).result(),
                                   self._show_clipboard, _("Carregando resultado…"), 80)
             return
 
@@ -875,6 +879,10 @@ class LauncherWindow(Gtk.Window):
                               }.get(kind, _("Pesquisando arquivos…")), 80)
 
     def _render_matches(self, apps, files, show_settings, web_result, message=None, actions=(), query=""):
+        selected = self.list_box.get_selected_row()
+        selected_entry = None
+        if isinstance(selected, Gtk.ListBoxRow):
+            selected_entry = getattr(selected, "_app_entry", None) or getattr(selected, "_file_entry", None)
         self._clear_results()
         if message:
             self._show_notice(message)
@@ -929,7 +937,22 @@ class LauncherWindow(Gtk.Window):
         self._remaining_rows = rows()
         self._append_page()
         self.scrolled_window.set_visible(self._result_count > 0)
-        self.list_box.select_row(self.list_box.get_row_at_index(0))
+        selected_row = self.list_box.get_row_at_index(0)
+        if selected_entry is not None:
+            selected_id = getattr(selected_entry, "id", None) or getattr(selected_entry, "path", None)
+            child = self.list_box.get_first_child()
+            while child is not None:
+                entry = getattr(child, "_app_entry", None) or getattr(child, "_file_entry", None)
+                identity = getattr(entry, "id", None) or getattr(entry, "path", None)
+                if selected_id is not None and identity == selected_id:
+                    selected_row = child
+                    break
+                index = child.get_index() + 1
+                child = child.get_next_sibling()
+                if child is None and self._remaining_rows is not None:
+                    self._append_page()
+                    child = self.list_box.get_row_at_index(index)
+        self.list_box.select_row(selected_row)
 
     def _match_row(self, item):
         if hasattr(item, "entry"):
@@ -1120,8 +1143,10 @@ class LauncherWindow(Gtk.Window):
         # Se for um arquivo ou pasta
         if hasattr(row, "_file_entry"):
             print(f"[Launcher] Abrindo: {row._file_entry.path}")
-            self.files.open_item(row._file_entry)
-            self.hide_launcher()
+            if self.files.open_item(row._file_entry):
+                self.hide_launcher()
+            else:
+                self._launch_failed()
             return
 
         # Se for um aplicativo
@@ -1130,8 +1155,18 @@ class LauncherWindow(Gtk.Window):
             print(f"[Launcher] Executando: {app.name}")
             if self.indexer.launch(app):
                 self.history.record_launch(app.id, self.search_entry.get_text())
-            self.hide_launcher()
+                self.hide_launcher()
+            else:
+                self._launch_failed()
             return
+
+    def _launch_failed(self):
+        self._is_prefs_open = True
+        dialog = Adw.MessageDialog.new(self, _("Não foi possível abrir o resultado"),
+                                      _("Verifique se o arquivo ou aplicativo ainda está disponível."))
+        dialog.add_response("close", _("Fechar"))
+        dialog.connect("response", lambda *_: setattr(self, "_is_prefs_open", False))
+        dialog.present()
 
     def _on_emoji_picked(self, chooser, emoji):
         self.clipboard.set(emoji)
@@ -1180,7 +1215,6 @@ class LauncherWindow(Gtk.Window):
         self.preferences_window.present()
 
     def _preferences_closed(self, *args):
-        self.preferences_window = None
         self._is_prefs_open = False
 
     def _cancel_fade(self):
@@ -1244,6 +1278,8 @@ class LauncherWindow(Gtk.Window):
 
     def _on_clipboard_changed(self, clipboard):
         self._clipboard_generation += 1
+        if clipboard.get_formats().contain_mime_type("x-kde-passwordManagerHint") is True:
+            return
         generation = self._clipboard_generation
         clipboard.read_text_async(None, self._on_clipboard_read, generation)
 
@@ -1251,7 +1287,7 @@ class LauncherWindow(Gtk.Window):
         try:
             text = clipboard.read_text_finish(result)
             if text and generation == self._clipboard_generation:
-                self.tools.record_clipboard(text)
+                submit_io(self.tools.record_clipboard, text)
         except Exception:
             pass
 
@@ -1266,7 +1302,7 @@ class LauncherWindow(Gtk.Window):
         self._fade_to(0)
 
     def toggle_launcher(self):
-        if self.is_visible() and not getattr(self, "_closing", False) and self.preferences_window is None:
+        if self.is_visible() and not getattr(self, "_closing", False) and not self._is_prefs_open:
             self.hide_launcher()
         else:
             self.show_launcher()

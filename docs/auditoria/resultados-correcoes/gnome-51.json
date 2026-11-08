@@ -1,0 +1,78 @@
+{
+  "version": "51.1",
+  "checks": {
+    "loaded": true,
+    "initialState": 1,
+    "overviewPatched": true,
+    "normalSuperOpensOverview": true,
+    "nullConfigBreaksSuper": false,
+    "validConfigRestoresSuper": true,
+    "disabledOverviewStaysHidden": true,
+    "superWithoutLauncherShellSurvived": true,
+    "clientExit": 0,
+    "clientLog": "\n(SpotLauncher:105658): Gtk-WARNING **: 16:58:25.542: Unable to acquire the address of the accessibility bus: GDBus.Error:org.freedesktop.DBus.Error.Spawn.ExecFailed: Failed to execute program org.a11y.Bus: Permission denied. If you are attempting to run GTK without a11y support, GTK_A11Y should be set to 'none'.\n",
+    "waylandMap": [
+      {
+        "x": 350,
+        "y": 269,
+        "width": 580,
+        "height": 92,
+        "clientType": 0
+      }
+    ],
+    "oldExportsAlive": 0,
+    "enableDisableCycles": 200,
+    "restoredOverview": true,
+    "disconnectedOverlay": true,
+    "disconnectedMap": true,
+    "superAfterDisable": true,
+    "competingOverviewHookRebase": true
+  },
+  "memory": [
+    {
+      "label": "before_cycles",
+      "Rss_kib": 303756,
+      "Pss_kib": 194920,
+      "Private_Clean_kib": 18148,
+      "Private_Dirty_kib": 139192,
+      "Swap_kib": 0,
+      "SwapPss_kib": 0
+    },
+    {
+      "label": "after_50_cycles",
+      "Rss_kib": 306424,
+      "Pss_kib": 197588,
+      "Private_Clean_kib": 18148,
+      "Private_Dirty_kib": 141860,
+      "Swap_kib": 0,
+      "SwapPss_kib": 0
+    },
+    {
+      "label": "after_100_cycles",
+      "Rss_kib": 306732,
+      "Pss_kib": 197896,
+      "Private_Clean_kib": 18148,
+      "Private_Dirty_kib": 142168,
+      "Swap_kib": 0,
+      "SwapPss_kib": 0
+    },
+    {
+      "label": "after_200_cycles",
+      "Rss_kib": 306392,
+      "Pss_kib": 196777,
+      "Private_Clean_kib": 17248,
+      "Private_Dirty_kib": 141832,
+      "Swap_kib": 0,
+      "SwapPss_kib": 0
+    },
+    {
+      "label": "after_settle",
+      "Rss_kib": 301036,
+      "Pss_kib": 191864,
+      "Private_Clean_kib": 17492,
+      "Private_Dirty_kib": 136540,
+      "Swap_kib": 0,
+      "SwapPss_kib": 0
+    }
+  ]
+}
