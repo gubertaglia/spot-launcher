@@ -1,0 +1,1 @@
+Nomes de países e capitais derivados de [mledoze/countries](https://github.com/mledoze/countries), sob a [Open Database License](LICENSE.md). Cada registro contém o código ISO, a primeira capital listada e os nomes em inglês, português, espanhol e francês.

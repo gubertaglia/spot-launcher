@@ -1,0 +1,339 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Spot Launcher 1.1.0\n"
+"PO-Revision-Date: 2026-11-07 00:00+0000\n"
+"Last-Translator: Spot Launcher\n"
+"Language-Team: Spot Launcher\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Abre o Spot Launcher em segundo plano ao ligar o computador"
+msgstr "Ejecutar Spot Launcher en segundo plano al encender el equipo"
+
+msgid "Abrir pesquisa no navegador padrão"
+msgstr "Abrir la búsqueda en el navegador predeterminado"
+
+msgid "Apaga o que foi digitado sempre que a janela for ocultada"
+msgstr "Borrar el texto de búsqueda cada vez que se oculte la ventana"
+
+msgid "Arquivo"
+msgstr "Archivo"
+
+msgid "Carregando resultado…"
+msgstr "Cargando resultado…"
+
+msgid "Chuva"
+msgstr "Lluvia"
+
+#, python-format
+msgid "Clima indisponível para '%s'"
+msgstr "Tiempo no disponible para «%s»"
+
+msgid "Comportamento"
+msgstr "Comportamiento"
+
+msgid "Condições indisponíveis"
+msgstr "Condiciones no disponibles"
+
+msgid "Configurações do Spot"
+msgstr "Ajustes de Spot"
+
+msgid "Configurações do Spot Launcher"
+msgstr "Ajustes de Spot Launcher"
+
+msgid "Copiar data"
+msgstr "Copiar fecha"
+
+msgid "Cotação indisponível"
+msgstr "Tipo de cambio no disponible"
+
+msgid "Céu limpo"
+msgstr "Cielo despejado"
+
+msgid "Data copiada"
+msgstr "Fecha copiada"
+
+#, python-brace-format
+msgid "Data: {date} (Fuso Oficial: {zone})"
+msgstr "Fecha: {date} (zona horaria: {zone})"
+
+msgid "Desatualizado; falha ao atualizar"
+msgstr "Datos desactualizados · Error al actualizar"
+
+msgid "Fechar"
+msgstr "Cerrar"
+
+msgid "Garoa"
+msgstr "Llovizna"
+
+msgid "Hoje"
+msgstr "Hoy"
+
+msgid "Iniciador de aplicativos rápido e nativo"
+msgstr "Lanzador de aplicaciones rápido y nativo"
+
+msgid "Iniciar com o sistema"
+msgstr "Iniciar con el sistema"
+
+msgid "Limpar busca ao fechar"
+msgstr "Borrar la búsqueda al cerrar"
+
+#, python-format
+msgid "Localização indisponível para '%s'"
+msgstr "Ubicación no disponible para «%s»"
+
+msgid "Máximo de Resultados"
+msgstr "Máximo de resultados"
+
+msgid "Neve"
+msgstr "Nieve"
+
+msgid "Nevoeiro"
+msgstr "Niebla"
+
+msgid "Nublado"
+msgstr "Nublado"
+
+msgid "Não foi possível abrir o navegador"
+msgstr "No se pudo abrir el navegador"
+
+msgid "Não foi possível obter uma cotação para essas moedas"
+msgstr "No se pudo obtener el tipo de cambio para estas monedas"
+
+msgid "Parcialmente nublado"
+msgstr "Parcialmente nublado"
+
+msgid "Pasta"
+msgstr "Carpeta"
+
+msgid "Personalizar comportamento e preferências"
+msgstr "Personalizar el comportamiento y las preferencias"
+
+msgid "Pesquisar aplicativos, arquivos ou na web..."
+msgstr "Buscar aplicaciones, archivos o en la web..."
+
+#, python-format
+msgid "Pesquisar no Google: %s"
+msgstr "Buscar en Google: %s"
+
+msgid "Pressione Enter para copiar"
+msgstr "Pulsa Intro para copiar"
+
+msgid "Pressione Enter para copiar o resultado"
+msgstr "Pulsa Intro para copiar el resultado"
+
+msgid "Quantidade de itens exibidos simultaneamente"
+msgstr "Número de elementos que se muestran a la vez"
+
+#, python-brace-format
+msgid "Sensação: {feels} °C · Umidade: {humidity}% · Vento: {wind} km/h · Open-Meteo · {time} (hora local)"
+msgstr "Sensación térmica: {feels} °C · Humedad: {humidity}% · Viento: {wind} km/h · Open-Meteo · {time} (hora local)"
+
+msgid "Sobre"
+msgstr "Acerca de"
+
+msgid "Spot Launcher"
+msgstr "Spot Launcher"
+
+#, python-brace-format
+msgid "São {time} em {place}"
+msgstr "Hora en {place}: {time}"
+
+msgid "Tempestade"
+msgstr "Tormenta"
+
+msgid "Verifique a cidade pesquisada e sua conexão"
+msgstr "Comprueba el nombre de la ciudad y tu conexión"
+
+msgid "Verifique a localização pesquisada e sua conexão"
+msgstr "Comprueba el nombre del lugar y tu conexión"
+
+
+#, python-brace-format
+msgid "{name} ({country}, capital)"
+msgstr "{name} (capital de {country})"
+
+#, python-brace-format
+msgid "{quote} (desatualizada)"
+msgstr "{quote} (desactualizado)"
+
+#, python-brace-format
+msgid "{temperature} °C em {place} — {condition}"
+msgstr "{temperature} °C en {place} — {condition}"
+
+#, python-brace-format
+msgid "{value} {source} convertido para {target} (Sistema Universal)"
+msgstr "{value} {source} en {target}"
+
+#, python-brace-format
+msgid "{value} {source} para {target} — Coinbase, {updated}"
+msgstr "{value} {source} a {target} — Coinbase, {updated}"
+
+msgid "Enter"
+msgstr "Intro"
+
+msgid "Idioma"
+msgstr "Idioma"
+
+
+msgid "Idioma do sistema"
+msgstr "Idioma del sistema"
+
+msgid "Tema"
+msgstr "Tema"
+
+msgid "Tema do sistema"
+msgstr "Tema del sistema"
+
+msgid "Claro"
+msgstr "Claro"
+
+msgid "Escuro"
+msgstr "Oscuro"
+
+msgid "Permitir mover a janela"
+msgstr "Permitir mover la ventana"
+
+msgid "Arraste a alça ao lado da busca para mover o Spot"
+msgstr "Arrastra el control junto al campo de búsqueda para mover Spot"
+
+msgid "Mover janela"
+msgstr "Mover ventana"
+
+#, python-brace-format
+msgid "Versão {version} · Launcher de aplicativos, arquivos e ferramentas para Linux"
+msgstr "Versión {version} · Lanzador de aplicaciones, archivos y herramientas para Linux"
+
+msgid "Arraste o Spot para reposicioná-lo"
+msgstr "Arrastra Spot para moverlo"
+
+msgid "Lembrar a posição"
+msgstr "Recordar la posición"
+
+msgid "Restaurar a posição requer X11 ou XWayland"
+msgstr "Restaurar la posición requiere X11 o XWayland"
+
+msgid "Permitir rolagem nos resultados"
+msgstr "Permitir desplazarse por los resultados"
+
+msgid "Role para ver os resultados além do limite visível"
+msgstr "Desplázate para ver los resultados que superan el límite visible"
+
+msgid "Foto"
+msgstr "Foto"
+
+msgid "Vídeo"
+msgstr "Vídeo"
+
+msgid "Áudio"
+msgstr "Audio"
+
+msgid "Documento"
+msgstr "Documento"
+
+msgid "O histórico da área de transferência está vazio"
+msgstr "El historial del portapapeles está vacío"
+
+msgid "Não foi possível pesquisar os arquivos"
+msgstr "No se pudieron buscar los archivos"
+
+msgid "Nenhum arquivo encontrado"
+msgstr "No se encontraron archivos"
+
+msgid "Pesquisando arquivos…"
+msgstr "Buscando archivos…"
+
+msgid "Configurações do sistema"
+msgstr "Configuración del sistema"
+
+msgid "Abrir as preferências do desktop"
+msgstr "Abrir las preferencias del escritorio"
+
+msgid "Forçar encerramento (Force Quit)"
+msgstr "Forzar cierre (Force Quit)"
+
+msgid "Escolha um processo no monitor do sistema para encerrá-lo"
+msgstr "Elige un proceso en el monitor del sistema para terminarlo"
+
+msgid "Bloquear tela"
+msgstr "Bloquear pantalla"
+
+msgid "Bloquear a sessão atual"
+msgstr "Bloquear la sesión actual"
+
+msgid "Suspender"
+msgstr "Suspender"
+
+msgid "Colocar o computador em suspensão"
+msgstr "Poner el equipo en suspensión"
+
+msgid "Reiniciar"
+msgstr "Reiniciar"
+
+msgid "Reiniciar o computador"
+msgstr "Reiniciar el equipo"
+
+msgid "Desligar"
+msgstr "Apagar"
+
+msgid "Desligar o computador"
+msgstr "Apagar el equipo"
+
+msgid "Sair da sessão"
+msgstr "Cerrar sesión"
+
+msgid "Encerrar a sessão do desktop"
+msgstr "Finalizar la sesión del escritorio"
+
+msgid "O comando do sistema falhou"
+msgstr "El comando del sistema falló"
+
+msgid "Não foi possível executar a ação"
+msgstr "No se pudo ejecutar la acción"
+
+msgid "Salve seu trabalho antes de continuar. Aplicativos abertos podem ser fechados."
+msgstr "Guarda tu trabajo antes de continuar. Las aplicaciones abiertas pueden cerrarse."
+
+msgid "Cancelar"
+msgstr "Cancelar"
+
+msgid "Pesquisando fotos…"
+msgstr "Buscando fotos…"
+
+msgid "Pesquisando documentos…"
+msgstr "Buscando documentos…"
+
+msgid "Pesquisando áudios…"
+msgstr "Buscando archivos de audio…"
+
+msgid "Pesquisando vídeos…"
+msgstr "Buscando vídeos…"
+
+msgid "Abrir o Spot com Super"
+msgstr "Abrir Spot con Super"
+
+msgid "Usa a tecla Super sozinha no GNOME Shell"
+msgstr "Usar solo la tecla Super en GNOME Shell"
+
+msgid "Desabilitar o panorama"
+msgstr "Desactivar la vista general"
+
+msgid "Desativa o panorama do GNOME Shell"
+msgstr "Desactiva la vista general de GNOME Shell"
+
+msgid "Não foi possível ativar a integração com GNOME"
+msgstr "No se pudo activar la integración con GNOME"
+
+msgid "Executar no terminal"
+msgstr "Ejecutar en la terminal"
+
+msgid "Nenhum terminal encontrado"
+msgstr "No se encontró ninguna terminal"
+
+msgid "Não foi possível abrir o terminal"
+msgstr "No se pudo abrir la terminal"
+msgid "Extensão instalada. Saia da sessão e entre novamente; depois ative esta opção."
+msgstr "Extensión instalada. Cierra la sesión y vuelve a entrar; después activa esta opción."
+

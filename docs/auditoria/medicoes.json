@@ -1,0 +1,128 @@
+{
+  "environment": {
+    "python": "3.15.0 (3.15.0-1.fc45.x86_64, Oct  9 2026, 00:00:00) [GCC 16.2.1 20260819 (Red Hat 16.2.1-2)]",
+    "platform": "Linux-7.2.15-300.fc45.x86_64-x86_64-with-glibc2.44",
+    "packages": {
+      "PyGObject": "3.58.1",
+      "RapidFuzz": "3.14.5",
+      "Pint": "0.26.2"
+    }
+  },
+  "imports": {
+    "baseline": {
+      "median_ms": 0.001,
+      "p95_ms": 0.001,
+      "samples": 7,
+      "median_peak_rss_mib": 19.08
+    },
+    "gtk_adw": {
+      "median_ms": 84.951,
+      "p95_ms": 120.405,
+      "samples": 7,
+      "median_peak_rss_mib": 50.9
+    },
+    "pint_registry": {
+      "median_ms": 179.632,
+      "p95_ms": 252.557,
+      "samples": 7,
+      "median_peak_rss_mib": 30.62
+    },
+    "app_module": {
+      "median_ms": 264.111,
+      "p95_ms": 361.916,
+      "samples": 7,
+      "median_peak_rss_mib": 71.36
+    }
+  },
+  "search": {
+    "rapidfuzz_backend": "rapidfuzz.fuzz_cpp_avx2",
+    "apps": {
+      "entries": 48,
+      "searches": {
+        "fire": {
+          "median_ms": 0.076,
+          "p95_ms": 0.122,
+          "samples": 120
+        },
+        "code": {
+          "median_ms": 0.052,
+          "p95_ms": 0.085,
+          "samples": 120
+        },
+        "terminal": {
+          "median_ms": 0.056,
+          "p95_ms": 0.065,
+          "samples": 120
+        },
+        "arquivos": {
+          "median_ms": 0.054,
+          "p95_ms": 0.06,
+          "samples": 120
+        },
+        "zzzxq": {
+          "median_ms": 0.049,
+          "p95_ms": 0.052,
+          "samples": 120
+        }
+      },
+      "reload": {
+        "median_ms": 4.89,
+        "p95_ms": 5.576,
+        "samples": 20
+      }
+    },
+    "files_synthetic": {
+      "1000": {
+        "relatorio": {
+          "median_ms": 0.284,
+          "p95_ms": 0.309,
+          "samples": 120
+        },
+        "doc": {
+          "median_ms": 0.278,
+          "p95_ms": 0.291,
+          "samples": 120
+        },
+        "zzzxq": {
+          "median_ms": 0.245,
+          "p95_ms": 0.259,
+          "samples": 120
+        }
+      },
+      "10000": {
+        "relatorio": {
+          "median_ms": 3.066,
+          "p95_ms": 3.989,
+          "samples": 120
+        },
+        "doc": {
+          "median_ms": 3.141,
+          "p95_ms": 3.808,
+          "samples": 120
+        },
+        "zzzxq": {
+          "median_ms": 2.556,
+          "p95_ms": 2.901,
+          "samples": 120
+        }
+      },
+      "50000": {
+        "relatorio": {
+          "median_ms": 16.018,
+          "p95_ms": 20.162,
+          "samples": 120
+        },
+        "doc": {
+          "median_ms": 16.756,
+          "p95_ms": 20.677,
+          "samples": 120
+        },
+        "zzzxq": {
+          "median_ms": 13.378,
+          "p95_ms": 17.412,
+          "samples": 120
+        }
+      }
+    }
+  }
+}
