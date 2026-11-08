@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Spot Launcher 1.1.0\n"
+"Project-Id-Version: Spot Launcher 1.6.0\n"
 "PO-Revision-Date: 2026-11-07 00:00+0000\n"
 "Last-Translator: Spot Launcher\n"
 "Language-Team: Spot Launcher\n"
@@ -361,3 +361,69 @@ msgstr "Escape cancela; Retroceso elimina el atajo."
 
 msgid "Atalho indisponível ou já utilizado."
 msgstr "Atajo no disponible o ya utilizado."
+
+msgid "Atualizações"
+msgstr "Actualizaciones"
+
+msgid "Atualizações automáticas"
+msgstr "Actualizaciones automáticas"
+
+msgid "Instala atualizações e reinicia o Spot automaticamente"
+msgstr "Instala actualizaciones y reinicia Spot automáticamente"
+
+msgid "Atualização disponível"
+msgstr "Actualización disponible"
+
+msgid "Atualizar"
+msgstr "Actualizar"
+
+msgid "Reiniciar Spot Launcher"
+msgstr "Reiniciar Spot Launcher"
+
+msgid "Fechar Spot Launcher"
+msgstr "Cerrar Spot Launcher"
+
+msgid "Uma nova versão do Spot Launcher está disponível."
+msgstr "Hay una nueva versión de Spot Launcher disponible."
+
+msgid "Não exibir novamente até a próxima atualização"
+msgstr "No volver a mostrar hasta la próxima actualización"
+
+msgid "Nunca mais exibir novamente"
+msgstr "No volver a mostrar nunca"
+
+msgid "Não foi possível atualizar"
+msgstr "No se pudo actualizar"
+
+msgid "Verifique a conexão e as alterações locais no repositório Git."
+msgstr "Comprueba la conexión y los cambios locales en el repositorio Git."
+
+msgid "Abre o SpotLauncher em segundo plano ao ligar o computador"
+msgstr "Ejecutar SpotLauncher en segundo plano al encender el equipo"
+
+msgid "Configurações do SpotLauncher"
+msgstr "Ajustes de SpotLauncher"
+
+msgid "SpotLauncher"
+msgstr "SpotLauncher"
+
+msgid "Reiniciar SpotLauncher"
+msgstr "Reiniciar SpotLauncher"
+
+msgid "Fechar SpotLauncher"
+msgstr "Cerrar SpotLauncher"
+
+msgid "Uma nova versão do SpotLauncher está disponível."
+msgstr "Hay una nueva versión de SpotLauncher disponible."
+
+msgid "Versão {version} - Clique para abrir o repositório no GitHub"
+msgstr "Versión {version} - Haz clic para abrir el repositorio en GitHub"
+
+msgid "Compatibilidade com Blur my Shell"
+msgstr "Compatibilidad con Blur my Shell"
+
+msgid "Ative o desfoque de aplicativos na extensão e adicione o Spot à lista permitida"
+msgstr "Activa el desenfoque de aplicaciones en la extensión y añade Spot a la lista permitida"
+
+msgid "Solte Super para usá-la sozinha. Escape cancela; Backspace remove o atalho."
+msgstr "Suelta Super para usarla sola. Escape cancela; Retroceso elimina el atajo."

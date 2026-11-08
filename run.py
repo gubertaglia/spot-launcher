@@ -34,6 +34,8 @@ def main():
         os.environ.pop("LANGUAGE", None)
     else:
         os.environ["LANGUAGE"] = session_language
+    if app.restart_launcher:
+        os.execv(sys.executable, [sys.executable, str(Path(__file__).resolve())])
     if app.reopen_preferences:
         os.execv(sys.executable, [sys.executable, str(Path(__file__).resolve()), "--preferences"])
     return status

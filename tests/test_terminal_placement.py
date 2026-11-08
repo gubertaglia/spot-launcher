@@ -59,19 +59,20 @@ class GnomeIntegrationTests(unittest.TestCase):
     def test_preferences_defer_installation_and_recover_after_failure(self):
         from src.preferences import PreferencesWindow
         prefs = Mock()
+        prefs._enable_gnome.side_effect = lambda callback: PreferencesWindow._enable_gnome(prefs, callback)
         row = Mock()
         row.get_active.return_value = True
         with patch('src.preferences.enable_integration', side_effect=RuntimeError('failed')) as install:
-            PreferencesWindow._on_gnome_changed(prefs, row, None, 'super_launcher')
+            PreferencesWindow._on_gnome_changed(prefs, row, None, 'disable_overview')
             install.assert_not_called()
-            prefs.row_super.set_sensitive.assert_called_with(False)
+            prefs.row_shortcut.set_sensitive.assert_called_with(False)
             task, complete = prefs._gnome_worker.submit.call_args.args
             result = task()
             complete(result)
-        prefs.row_super.set_sensitive.assert_called_with(True)
+        prefs.row_shortcut.set_sensitive.assert_called_with(True)
         prefs.row_overview.set_sensitive.assert_called_with(True)
         row.set_active.assert_called_once_with(False)
-        prefs.config.set.assert_called_once_with('super_launcher', False)
+        prefs.config.set.assert_called_once_with('disable_overview', False)
         row.set_subtitle.assert_called_once_with('failed')
 
     def test_rejects_other_desktops(self):

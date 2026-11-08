@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Spot Launcher 1.1.0\n"
+"Project-Id-Version: Spot Launcher 1.6.0\n"
 "PO-Revision-Date: 2026-11-07 00:00+0000\n"
 "Last-Translator: Spot Launcher\n"
 "Language-Team: Spot Launcher\n"
@@ -361,3 +361,69 @@ msgstr "Escape cancels; Backspace removes the shortcut."
 
 msgid "Atalho indisponível ou já utilizado."
 msgstr "Shortcut unavailable or already in use."
+
+msgid "Atualizações"
+msgstr "Updates"
+
+msgid "Atualizações automáticas"
+msgstr "Automatic updates"
+
+msgid "Instala atualizações e reinicia o Spot automaticamente"
+msgstr "Installs updates and restarts Spot automatically"
+
+msgid "Atualização disponível"
+msgstr "Update available"
+
+msgid "Atualizar"
+msgstr "Update"
+
+msgid "Reiniciar Spot Launcher"
+msgstr "Restart Spot Launcher"
+
+msgid "Fechar Spot Launcher"
+msgstr "Quit Spot Launcher"
+
+msgid "Uma nova versão do Spot Launcher está disponível."
+msgstr "A new version of Spot Launcher is available."
+
+msgid "Não exibir novamente até a próxima atualização"
+msgstr "Do not show again until the next update"
+
+msgid "Nunca mais exibir novamente"
+msgstr "Never show again"
+
+msgid "Não foi possível atualizar"
+msgstr "Could not update"
+
+msgid "Verifique a conexão e as alterações locais no repositório Git."
+msgstr "Check the connection and local changes in the Git repository."
+
+msgid "Abre o SpotLauncher em segundo plano ao ligar o computador"
+msgstr "Run SpotLauncher in the background when the computer starts"
+
+msgid "Configurações do SpotLauncher"
+msgstr "SpotLauncher Settings"
+
+msgid "SpotLauncher"
+msgstr "SpotLauncher"
+
+msgid "Reiniciar SpotLauncher"
+msgstr "Restart SpotLauncher"
+
+msgid "Fechar SpotLauncher"
+msgstr "Quit SpotLauncher"
+
+msgid "Uma nova versão do SpotLauncher está disponível."
+msgstr "A new version of SpotLauncher is available."
+
+msgid "Versão {version} - Clique para abrir o repositório no GitHub"
+msgstr "Version {version} - Click to open the repository on GitHub"
+
+msgid "Compatibilidade com Blur my Shell"
+msgstr "Blur my Shell compatibility"
+
+msgid "Ative o desfoque de aplicativos na extensão e adicione o Spot à lista permitida"
+msgstr "Enable application blur in the extension and add Spot to the whitelist"
+
+msgid "Solte Super para usá-la sozinha. Escape cancela; Backspace remove o atalho."
+msgstr "Release Super to use it alone. Escape cancels; Backspace removes the shortcut."

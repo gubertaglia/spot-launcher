@@ -8,6 +8,9 @@ gi.require_version("Gio", "2.0")
 
 from gi.repository import Adw, Gio, GLib
 
+GLib.set_application_name("SpotLauncher")
+GLib.set_prgname("SpotLauncher")
+
 
 # Filtra os avisos internos inofensivos do Wayland/Gdk
 def _silence_gdk_warnings(domain, level, message, user_data):
@@ -31,6 +34,7 @@ class SpotApplication(Adw.Application):
         self.indexer = None
         self.window = None
         self.reopen_preferences = False
+        self.restart_launcher = False
 
         # Conecta aos sinais nativos de ciclo de vida (imune a segfaults)
         self.connect("startup", self._on_startup)

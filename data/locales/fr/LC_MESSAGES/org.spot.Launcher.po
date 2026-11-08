@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Spot Launcher 1.1.0\n"
+"Project-Id-Version: Spot Launcher 1.6.0\n"
 "PO-Revision-Date: 2026-11-07 00:00+0000\n"
 "Last-Translator: Spot Launcher\n"
 "Language-Team: Spot Launcher\n"
@@ -361,3 +361,69 @@ msgstr "Échap annule ; Retour arrière supprime le raccourci."
 
 msgid "Atalho indisponível ou já utilizado."
 msgstr "Raccourci indisponible ou déjà utilisé."
+
+msgid "Atualizações"
+msgstr "Mises à jour"
+
+msgid "Atualizações automáticas"
+msgstr "Mises à jour automatiques"
+
+msgid "Instala atualizações e reinicia o Spot automaticamente"
+msgstr "Installe les mises à jour et redémarre Spot automatiquement"
+
+msgid "Atualização disponível"
+msgstr "Mise à jour disponible"
+
+msgid "Atualizar"
+msgstr "Mettre à jour"
+
+msgid "Reiniciar Spot Launcher"
+msgstr "Redémarrer Spot Launcher"
+
+msgid "Fechar Spot Launcher"
+msgstr "Quitter Spot Launcher"
+
+msgid "Uma nova versão do Spot Launcher está disponível."
+msgstr "Une nouvelle version de Spot Launcher est disponible."
+
+msgid "Não exibir novamente até a próxima atualização"
+msgstr "Ne plus afficher avant la prochaine mise à jour"
+
+msgid "Nunca mais exibir novamente"
+msgstr "Ne plus jamais afficher"
+
+msgid "Não foi possível atualizar"
+msgstr "Impossible de mettre à jour"
+
+msgid "Verifique a conexão e as alterações locais no repositório Git."
+msgstr "Vérifiez la connexion et les modifications locales du dépôt Git."
+
+msgid "Abre o SpotLauncher em segundo plano ao ligar o computador"
+msgstr "Lancer SpotLauncher en arrière-plan au démarrage de l’ordinateur"
+
+msgid "Configurações do SpotLauncher"
+msgstr "Paramètres de SpotLauncher"
+
+msgid "SpotLauncher"
+msgstr "SpotLauncher"
+
+msgid "Reiniciar SpotLauncher"
+msgstr "Redémarrer SpotLauncher"
+
+msgid "Fechar SpotLauncher"
+msgstr "Quitter SpotLauncher"
+
+msgid "Uma nova versão do SpotLauncher está disponível."
+msgstr "Une nouvelle version de SpotLauncher est disponible."
+
+msgid "Versão {version} - Clique para abrir o repositório no GitHub"
+msgstr "Version {version} - Cliquez pour ouvrir le dépôt sur GitHub"
+
+msgid "Compatibilidade com Blur my Shell"
+msgstr "Compatibilité avec Blur my Shell"
+
+msgid "Ative o desfoque de aplicativos na extensão e adicione o Spot à lista permitida"
+msgstr "Activez le flou des applications dans l’extension et ajoutez Spot à la liste autorisée"
+
+msgid "Solte Super para usá-la sozinha. Escape cancela; Backspace remove o atalho."
+msgstr "Relâchez Super pour l’utiliser seule. Échap annule ; Retour arrière supprime le raccourci."

@@ -21,6 +21,10 @@ def system_actions(query):
     query = normalize_text(query)
     if not query:
         return []
+    if any(term in query for term in ("spot", "launcher")) and any(
+        term in query for term in ("reiniciar", "restart", "reset", "fechar", "close", "sair", "quit")
+    ):
+        return []
     actions = (
         (_("Configurações do sistema"), _("Abrir as preferências do desktop"),
          "preferences-system-symbolic", "configuracoes do sistema|system settings|configuracion del sistema|parametres du systeme",

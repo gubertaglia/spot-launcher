@@ -20,6 +20,7 @@ from src.tools import ToolsEngine
 from src.tools import normalize_text
 from src.calendar_view import CalendarView
 from src.worker import LatestRequestWorker
+from src.updater import check_update, install_update
 from src.web import map_search, web_search
 from src.system_actions import system_actions, execute_action
 from src.placement import hide_from_dock, position, default_position
@@ -45,6 +46,10 @@ window.spotlight-window > contents {
     border: 1px solid alpha(@borders, 0.5);
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
     padding: 12px;
+}
+
+window.blur-my-shell .spotlight-card {
+    background-color: alpha(@window_bg_color, 0.78);
 }
 
 .search-field {
@@ -106,7 +111,7 @@ class LauncherWindow(Gtk.Window):
         self._result_count = 0
         self._viewport_tick = 0
 
-        self.set_title(_("Spot Launcher"))
+        self.set_title(_("SpotLauncher"))
         self.set_default_size(580, -1)  # Altura dinâmica automática!
         self.set_resizable(False)
         self.set_decorated(False)
@@ -119,6 +124,11 @@ class LauncherWindow(Gtk.Window):
         self.tools = ToolsEngine()
         self._tools_worker = LatestRequestWorker(GLib.idle_add)
         self._file_worker = LatestRequestWorker(GLib.idle_add)
+        self._update_worker = LatestRequestWorker(GLib.idle_add)
+        self.available_update = None
+        self.update_busy = False
+        self._update_prompted = None
+        self._last_update_check = 0
         self.files = FileSearchEngine()
         self._calc_result = None
         self._tool_copy_val = None
@@ -128,6 +138,7 @@ class LauncherWindow(Gtk.Window):
         self.connect("notify::is-active", self._on_active_changed)
 
         self._apply_css()
+        self.set_blur_compatibility()
         self._build_ui()
         self._setup_events()
         self.clipboard = Gdk.Display.get_default().get_clipboard()
@@ -137,6 +148,7 @@ class LauncherWindow(Gtk.Window):
         self._moving = False
         self.connect("map", self._on_map)
         self.connect("hide", self._on_hide)
+        self.check_updates()
 
     def _on_close_request(self, window):
         self.hide_launcher()
@@ -150,6 +162,12 @@ class LauncherWindow(Gtk.Window):
             provider,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
         )
+
+    def set_blur_compatibility(self):
+        if self.config.get("blur_my_shell", False):
+            self.add_css_class("blur-my-shell")
+        else:
+            self.remove_css_class("blur-my-shell")
 
     def _build_ui(self):
         self.card_box = Gtk.Box(
@@ -201,9 +219,17 @@ class LauncherWindow(Gtk.Window):
     def _setup_events(self):
         self.context_menu = Gtk.Popover(autohide=True, has_arrow=False)
         self.context_menu.set_parent(self.card_box)
-        settings_button = Gtk.Button(label=_("Configurações do Spot Launcher"))
+        settings_button = Gtk.Button(label=_("Configurações do SpotLauncher"))
         settings_button.connect("clicked", self._context_settings)
-        self.context_menu.set_child(settings_button)
+        menu = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        menu.append(settings_button)
+        restart_button = Gtk.Button(label=_("Reiniciar SpotLauncher"))
+        restart_button.connect("clicked", self._restart)
+        menu.append(restart_button)
+        quit_button = Gtk.Button(label=_("Fechar SpotLauncher"))
+        quit_button.connect("clicked", lambda *_: self.get_application().quit())
+        menu.append(quit_button)
+        self.context_menu.set_child(menu)
         self.context_menu.connect("closed", self._context_closed)
         secondary = Gtk.GestureClick(button=3)
         secondary.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
@@ -238,6 +264,84 @@ class LauncherWindow(Gtk.Window):
         rect.x, rect.y, rect.width, rect.height = int(x), int(y), 1, 1
         self.context_menu.set_pointing_to(rect)
         self.context_menu.popup()
+
+    def _restart(self, *args):
+        app = self.get_application()
+        app.restart_launcher = True
+        app.quit()
+
+    def check_updates(self):
+        if self.update_busy:
+            return
+        self.update_busy = True
+        self._last_update_check = time.monotonic()
+        self._update_worker.submit(check_update, self._update_checked)
+
+    def _update_checked(self, available):
+        self.update_busy = False
+        self.available_update = available
+        self._refresh_update_settings()
+        if available and self.config.get("auto_update", False):
+            self.install_update()
+        elif available and self.is_visible():
+            self._show_update_prompt()
+
+    def _refresh_update_settings(self):
+        if self.preferences_window is not None:
+            self.preferences_window.update_status(self.available_update, self.update_busy)
+
+    def _show_update_prompt(self):
+        version = self.available_update
+        if (not version or self._update_prompted == version or self.config.get("hide_updates")
+                or self.config.get("hide_update_version") == version or self._is_prefs_open):
+            return
+        self._update_prompted = version
+        self._is_prefs_open = True
+        dialog = Adw.MessageDialog.new(self, _("Atualização disponível"),
+                                      _("Uma nova versão do SpotLauncher está disponível."))
+        choices = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        until_next = Gtk.CheckButton(label=_("Não exibir novamente até a próxima atualização"))
+        never = Gtk.CheckButton(label=_("Nunca mais exibir novamente"))
+        choices.append(until_next)
+        choices.append(never)
+        dialog.set_extra_child(choices)
+        dialog.add_response("close", _("Fechar"))
+        dialog.add_response("update", _("Atualizar"))
+        dialog.set_default_response("close")
+        dialog.set_close_response("close")
+
+        def respond(dialog, response):
+            self._is_prefs_open = False
+            if until_next.get_active():
+                self.config.set("hide_update_version", version)
+            if never.get_active():
+                self.config.set("hide_updates", True)
+            if response == "update":
+                self.install_update()
+
+        dialog.connect("response", respond)
+        dialog.present()
+
+    def install_update(self):
+        if self.update_busy or not self.available_update:
+            return
+        self.update_busy = True
+        self._refresh_update_settings()
+        version = self.available_update
+        self._update_worker.submit(lambda: install_update(version), self._update_installed)
+
+    def _update_installed(self, success):
+        self.update_busy = False
+        self._refresh_update_settings()
+        if success:
+            self._restart()
+            return
+        self._is_prefs_open = True
+        dialog = Adw.MessageDialog.new(self, _("Não foi possível atualizar"),
+            _("Verifique a conexão e as alterações locais no repositório Git."))
+        dialog.add_response("close", _("Fechar"))
+        dialog.connect("response", lambda *_: setattr(self, "_is_prefs_open", False))
+        dialog.present()
 
     def _context_settings(self, button):
         self.open_preferences()
@@ -412,6 +516,7 @@ class LauncherWindow(Gtk.Window):
         self._cancel_pending_search()
         self._tools_worker.close()
         self._file_worker.close()
+        self._update_worker.close()
         self.files.close()
 
     def _clear_results(self):
@@ -569,6 +674,10 @@ class LauncherWindow(Gtk.Window):
         command = normalize_text(query)
         kind, text = file_query(query)
         actions = [] if kind else system_actions(query)
+        launcher_action = next((action for action in ("reiniciar", "reset", "restart", "reboot", "fechar", "close", "encerrar", "sair", "quit")
+                                if command == action or (action in command.split() and any(term in command for term in ("spot", "launcher")))), None)
+        if not kind and launcher_action:
+            actions.insert(0, (launcher_action, lambda: self._restart() if launcher_action in ("reiniciar", "reset", "restart", "reboot") else self.get_application().quit()))
         show_settings = any(
             command.startswith(key) or key.startswith(command)
             for key in ("config", "settings", "preferences", "preferencias", "ajustes",
@@ -605,7 +714,7 @@ class LauncherWindow(Gtk.Window):
     def _render_matches(self, apps, files, show_settings, web_result, message=None, actions=()):
         self._clear_results()
         if show_settings:
-            row = Adw.ActionRow(title=_("Configurações do Spot Launcher"),
+            row = Adw.ActionRow(title=_("Configurações do SpotLauncher"),
                                 subtitle=_("Personalizar comportamento e preferências"), activatable=True)
             row.add_prefix(Gtk.Image.new_from_icon_name("preferences-system-symbolic"))
             row._settings = True
@@ -615,6 +724,12 @@ class LauncherWindow(Gtk.Window):
 
         def rows():
             for action in actions:
+                if isinstance(action, tuple):
+                    name, callback = action
+                    row = Adw.ActionRow(title=_("Reiniciar SpotLauncher") if name in ("reiniciar", "reset", "restart", "reboot") else _("Fechar SpotLauncher"), activatable=True)
+                    row._launcher_action = callback
+                    yield row
+                    continue
                 row = Adw.ActionRow(title=action.title, subtitle=action.subtitle, activatable=True)
                 row.add_prefix(Gtk.Image.new_from_icon_name(action.icon))
                 row._system_action = action
@@ -754,6 +869,9 @@ class LauncherWindow(Gtk.Window):
         if hasattr(row, "_system_action"):
             self._activate_system_action(row._system_action)
             return
+        if hasattr(row, "_launcher_action"):
+            row._launcher_action()
+            return
         if hasattr(row, "_web_url"):
             try:
                 if Gio.AppInfo.launch_default_for_uri(row._web_url, None):
@@ -859,6 +977,9 @@ class LauncherWindow(Gtk.Window):
         self.present()
         self.search_entry.grab_focus()
         self._on_clipboard_changed(self.clipboard)
+        self._show_update_prompt()
+        if time.monotonic() - self._last_update_check >= 300:
+            self.check_updates()
 
     def _on_clipboard_changed(self, clipboard):
         self._clipboard_generation += 1

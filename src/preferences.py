@@ -11,7 +11,7 @@ gi.require_version("Adw", "1")
 gi.require_version("GLib", "2.0")
 gi.require_version("Gdk", "4.0")
 
-from gi.repository import Adw, Gdk, GLib, Gtk
+from gi.repository import Adw, Gdk, Gio, GLib, Gtk
 from src import VERSION, _
 from src.placement import hide_from_dock
 from src.gnome import enable_integration, shortcut_settings, set_shortcut
@@ -33,7 +33,7 @@ def autostart_entry():
     ))
     entry = GLib.KeyFile()
     for key, value in {
-        "Type": "Application", "Name": "Spot Launcher",
+        "Type": "Application", "Name": "SpotLauncher",
         "Comment": _("Iniciador de aplicativos rápido e nativo"), "Exec": command,
         "Icon": "system-search", "Terminal": "false", "Categories": "Utility;",
         "X-GNOME-Autostart-enabled": "true",
@@ -61,8 +61,12 @@ DEFAULT_CONFIG = {
     "max_results": 7,
     "scroll_results": True,
     "clear_on_hide": True,
+    "blur_my_shell": False,
     "super_launcher": False,
     "disable_overview": False,
+    "auto_update": False,
+    "hide_update_version": "",
+    "hide_updates": False,
 }
 
 
@@ -137,6 +141,14 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self.row_theme.connect("notify::selected", self._on_theme_changed)
         group_general.add(self.row_theme)
 
+        self.row_blur = Adw.SwitchRow(
+            title=_("Compatibilidade com Blur my Shell"),
+            subtitle=_("Ative o desfoque de aplicativos na extensão e adicione o Spot à lista permitida"),
+            active=self.config.get("blur_my_shell", False),
+        )
+        self.row_blur.connect("notify::active", self._on_blur_changed)
+        group_general.add(self.row_blur)
+
         self.row_move = Adw.SwitchRow(
             title=_("Permitir mover a janela"),
             subtitle=_("Arraste o Spot para reposicioná-lo"),
@@ -197,7 +209,7 @@ class PreferencesWindow(Adw.PreferencesWindow):
         is_autostart = os.path.exists(AUTOSTART_FILE)
         self.row_autostart = Adw.SwitchRow(
             title=_("Iniciar com o sistema"),
-            subtitle=_("Abre o Spot Launcher em segundo plano ao ligar o computador"),
+            subtitle=_("Abre o SpotLauncher em segundo plano ao ligar o computador"),
             active=is_autostart,
         )
         self.row_autostart.connect("notify::active", self._on_autostart_changed)
@@ -207,19 +219,12 @@ class PreferencesWindow(Adw.PreferencesWindow):
         if settings and "GNOME" in os.environ.get("XDG_CURRENT_DESKTOP", "").upper():
             binding = shortcut.get_string("binding") if shortcut else ""
             self.row_shortcut = Adw.ActionRow(title=_("Atalho para abrir o Spot"),
-                subtitle=Gtk.accelerator_get_label(*Gtk.accelerator_parse(binding)[1:]) if binding else _("Nenhum"))
+                subtitle="Super" if self.config.get("super_launcher", False) else
+                Gtk.accelerator_get_label(*Gtk.accelerator_parse(binding)[1:]) if binding else _("Nenhum"))
             button = Gtk.Button(label=_("Alterar"), valign=Gtk.Align.CENTER)
             button.connect("clicked", self._choose_shortcut)
             self.row_shortcut.add_suffix(button)
             group_general.add(self.row_shortcut)
-
-        self.row_super = Adw.SwitchRow(
-            title=_("Abrir o Spot com Super"),
-            subtitle=_("Usa a tecla Super sozinha no GNOME Shell"),
-            active=self.config.get("super_launcher", False),
-        )
-        self.row_super.connect("notify::active", self._on_gnome_changed, "super_launcher")
-        group_general.add(self.row_super)
 
         self.row_overview = Adw.SwitchRow(
             title=_("Desabilitar o panorama"),
@@ -229,16 +234,43 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self.row_overview.connect("notify::active", self._on_gnome_changed, "disable_overview")
         group_general.add(self.row_overview)
 
+        group_updates = Adw.PreferencesGroup(title=_("Atualizações"))
+        page.add(group_updates)
+        self.row_auto_update = Adw.SwitchRow(
+            title=_("Atualizações automáticas"),
+            subtitle=_("Instala atualizações e reinicia o Spot automaticamente"),
+            active=self.config.get("auto_update", False),
+        )
+        self.row_auto_update.connect("notify::active", self._on_auto_update_changed)
+        group_updates.add(self.row_auto_update)
+        self.row_update = Adw.ActionRow(title=_("Atualização disponível"), visible=False)
+        self.update_button = Gtk.Button(label=_("Atualizar"), valign=Gtk.Align.CENTER)
+        self.update_button.connect("clicked", lambda *_: parent_window.install_update())
+        self.row_update.add_suffix(self.update_button)
+        group_updates.add(self.row_update)
+        self.update_status(parent_window.available_update, parent_window.update_busy)
+
         # Grupo: Sobre
         group_about = Adw.PreferencesGroup(title=_("Sobre"))
         page.add(group_about)
 
         row_about = Adw.ActionRow(
-            title=_("Spot Launcher"),
-            subtitle=_("Versão {version} · Launcher de aplicativos, arquivos e ferramentas para Linux").format(version=VERSION),
+            title=_("SpotLauncher"),
+            subtitle=_("Versão {version} - Clique para abrir o repositório no GitHub").format(version=VERSION),
         )
+        row_about.set_activatable(True)
+        row_about.connect("activated", lambda *_: Gio.AppInfo.launch_default_for_uri("https://github.com/gubertaglia/spot-launcher", None))
         group_about.add(row_about)
         self._set_header_drag(self, self.row_move.get_active())
+
+    def update_status(self, available, busy):
+        self.row_update.set_visible(bool(available))
+        self.update_button.set_sensitive(not busy)
+
+    def _on_auto_update_changed(self, row, param):
+        self.config.set("auto_update", row.get_active())
+        if row.get_active() and self.get_transient_for().available_update:
+            self.get_transient_for().install_update()
 
     def _set_header_drag(self, widget, enabled):
         if isinstance(widget, Gtk.WindowHandle):
@@ -264,6 +296,10 @@ class PreferencesWindow(Adw.PreferencesWindow):
         theme = list(THEMES)[row.get_selected()]
         self.config.set("theme", theme)
         apply_theme(theme)
+
+    def _on_blur_changed(self, row, param):
+        self.config.set("blur_my_shell", row.get_active())
+        self.get_transient_for().set_blur_compatibility()
 
     def _on_move_changed(self, row, param):
         enabled = row.get_active()
@@ -291,12 +327,22 @@ class PreferencesWindow(Adw.PreferencesWindow):
 
     def _choose_shortcut(self, button):
         dialog = Adw.MessageDialog.new(self, _("Pressione o atalho desejado"),
-                                       _("Escape cancela; Backspace remove o atalho."))
+                                       _("Solte Super para usá-la sozinha. Escape cancela; Backspace remove o atalho."))
         dialog.add_response("cancel", _("Cancelar"))
+        dialog.connect("map", lambda dialog: dialog.get_surface().inhibit_system_shortcuts(None))
+        dialog.connect("unmap", lambda dialog: dialog.get_surface().restore_system_shortcuts())
         controller = Gtk.EventControllerKey()
+        controller.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
+        pending_super = None
         def pressed(controller, keyval, keycode, state):
+            nonlocal pending_super
+            pending_super = None
             if keyval == Gdk.KEY_Escape:
                 dialog.close()
+                return True
+            if keyval in (Gdk.KEY_Super_L, Gdk.KEY_Super_R):
+                if not state & (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.ALT_MASK | Gdk.ModifierType.SHIFT_MASK):
+                    pending_super = keyval
                 return True
             if keyval == Gdk.KEY_BackSpace:
                 binding = ""
@@ -305,24 +351,65 @@ class PreferencesWindow(Adw.PreferencesWindow):
                 if not Gtk.accelerator_valid(keyval, modifiers):
                     return True
                 binding = Gtk.accelerator_name(keyval, modifiers)
-            try:
-                set_shortcut(binding)
-            except (ValueError, RuntimeError):
-                dialog.set_body(_("Atalho indisponível ou já utilizado."))
-                return True
-            self.row_shortcut.set_subtitle(Gtk.accelerator_get_label(keyval, modifiers) if binding else _("Nenhum"))
-            dialog.close()
+            self._save_shortcut(binding, dialog)
             return True
+
+        def released(controller, keyval, keycode, state):
+            nonlocal pending_super
+            if keyval == pending_super:
+                pending_super = None
+                self._save_shortcut("Super", dialog)
+
         controller.connect("key-pressed", pressed)
+        controller.connect("key-released", released)
         dialog.add_controller(controller)
         dialog.present()
+
+    def _save_shortcut(self, binding, dialog):
+        def save():
+            try:
+                set_shortcut("" if binding == "Super" else binding)
+            except (ValueError, RuntimeError):
+                dialog.set_body(_("Atalho indisponível ou já utilizado."))
+                return
+            self.config.set("super_launcher", binding == "Super")
+            label = "Super" if binding == "Super" else (
+                Gtk.accelerator_get_label(*Gtk.accelerator_parse(binding)[1:]) if binding else _("Nenhum"))
+            self.row_shortcut.set_subtitle(label)
+            dialog.close()
+
+        if binding != "Super":
+            save()
+            return
+        dialog.set_sensitive(False)
+
+        def complete(active, error):
+            dialog.set_sensitive(True)
+            if active:
+                save()
+            else:
+                dialog.set_body(error)
+
+        self._enable_gnome(complete)
 
     def _on_gnome_changed(self, row, param, key):
         enabled = row.get_active()
         if not enabled:
             self.config.set(key, False)
             return
-        self.row_super.set_sensitive(False)
+        def complete(active, error):
+            if not active:
+                row.handler_block_by_func(self._on_gnome_changed)
+                row.set_active(False)
+                row.handler_unblock_by_func(self._on_gnome_changed)
+                row.set_subtitle(GLib.markup_escape_text(error))
+            self.config.set(key, active)
+
+        self._enable_gnome(complete)
+
+    def _enable_gnome(self, callback):
+        if hasattr(self, "row_shortcut"):
+            self.row_shortcut.set_sensitive(False)
         self.row_overview.set_sensitive(False)
 
         def install():
@@ -333,15 +420,11 @@ class PreferencesWindow(Adw.PreferencesWindow):
 
         def complete(result):
             active, error = result or (False, _("Não foi possível ativar a integração com GNOME"))
-            self.row_super.set_sensitive(True)
+            if hasattr(self, "row_shortcut"):
+                self.row_shortcut.set_sensitive(True)
             self.row_overview.set_sensitive(True)
-            if not active:
-                row.handler_block_by_func(self._on_gnome_changed)
-                row.set_active(False)
-                row.handler_unblock_by_func(self._on_gnome_changed)
-                message = error or _("Extensão instalada. Saia da sessão e entre novamente; depois ative esta opção.")
-                row.set_subtitle(GLib.markup_escape_text(message))
-            self.config.set(key, active)
+            message = error or _("Extensão instalada. Saia da sessão e entre novamente; depois ative esta opção.")
+            callback(active, message)
 
         self._gnome_worker.submit(install, complete)
 

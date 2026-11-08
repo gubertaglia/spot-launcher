@@ -2,6 +2,8 @@
 
 Launcher para Linux com Python, GTK 4 e libadwaita.
 
+Versão atual: **1.6.0**.
+
 ## Executar
 
 Use Python 3.10 ou superior. GTK 4, libadwaita (1.4 ou superior), Gio e seus
@@ -173,13 +175,16 @@ A avaliação original da escolha de linguagem está em
 ## Atalhos, Super e panorama no GNOME
 
 Em **Atalho para abrir o Spot**, clique em **Alterar** e pressione a combinação
-desejada. Escape cancela e Backspace remove o atalho. O GNOME gerencia este
+desejada, ou pressione e solte **Super** para usá-la sozinha. Escape cancela e
+Backspace remove o atalho, inclusive Super. Selecionar outro atalho desativa
+Super sozinho. Configurações antigas de Super continuam válidas.
+O GNOME gerencia este
 atalho global; combinações reservadas pelo sistema podem não funcionar.
 O Spot precisa estar ativo para receber o comando.
 
-Nas configurações, **Abrir o Spot com Super** usa a tecla Super sozinha para
-alternar o launcher. **Desabilitar o panorama** bloqueia a visão geral do GNOME.
-As opções instalam e ativam uma extensão local para GNOME Shell 45 a 51; podem
+**Super** alterna o launcher usando a tecla de panorama configurada no GNOME.
+**Desabilitar o panorama** bloqueia a visão geral do GNOME.
+Esses recursos instalam e ativam uma extensão local para GNOME Shell 45 a 51; podem
 ser desligadas separadamente. Para usar Super após entrar na sessão, ative também
 **Iniciar com o sistema**. A extensão requer `gnome-extensions` e uma sessão
 GNOME Shell que permita extensões.
@@ -191,6 +196,20 @@ A posição padrão fica centralizada horizontalmente e acima do centro vertical
 em X11/XWayland. Em Wayland nativo, o compositor decide a posição da janela.
 Uma posição salva com **Lembrar a posição** tem prioridade.
 
+## Blur my Shell
+
+Ative **Compatibilidade com Blur my Shell** para deixar o fundo do Spot
+translúcido, sem reduzir a opacidade dos textos e ícones. A mudança é imediata;
+desligar a opção restaura o fundo opaco. A opção vem desligada.
+
+Na extensão [Blur my Shell](https://github.com/aunetx/blur-my-shell), ative o
+desfoque de aplicativos e adicione a janela do Spot à lista permitida
+(`org.spot.Launcher`), caso o desfoque não esteja habilitado para todas as janelas.
+Use opacidade de janela em 100% para manter textos e ícones nítidos. Desative a
+opção que torna a janela focada opaca para manter o desfoque durante a busca.
+O Spot não instala nem altera as preferências da extensão. Sem ela configurada,
+a compatibilidade oferece transparência, sem desfoque.
+
 ## Executar comandos
 
 Digite `> comando` e pressione Enter para executar no terminal, por exemplo
@@ -201,3 +220,16 @@ pipes e redirecionamentos. O Spot precisa encontrar um terminal compatível.
 
 O código do projeto está disponível sob a [licença MIT](LICENSE). Os dados de
 países e capitais possuem [licença própria](data/countries/README.md).
+
+## Atualizações
+
+O menu do botão direito permite fechar ou reiniciar o Spot Launcher. O Spot
+verifica atualizações ao iniciar e periodicamente ao abrir a janela. O aviso
+pode ser dispensado para a versão atual ou desativado permanentemente. O botão
+**Atualizar** continua disponível nas configurações quando há uma atualização.
+Ative **Atualizações automáticas** para instalar sem aviso e reiniciar o Spot.
+
+A atualização exige Git e uma instalação clonada com uma branch remota
+configurada. Ela só avança a branch quando possível e preserva alterações
+locais. Se falhar, verifique a conexão e o estado do repositório. A atualização
+não instala dependências novas do sistema ou do Python.
