@@ -337,3 +337,27 @@ msgstr "No se pudo abrir la terminal"
 msgid "Extensão instalada. Saia da sessão e entre novamente; depois ative esta opção."
 msgstr "Extensión instalada. Cierra la sesión y vuelve a entrar; después activa esta opción."
 
+
+msgid "Abrir mapa no navegador"
+msgstr "Abrir mapa en el navegador"
+
+msgid "Selecionar emoji"
+msgstr "Seleccionar emoji"
+
+msgid "Atalho para abrir o Spot"
+msgstr "Atajo para abrir Spot"
+
+msgid "Nenhum"
+msgstr "Ninguno"
+
+msgid "Alterar"
+msgstr "Cambiar"
+
+msgid "Pressione o atalho desejado"
+msgstr "Pulse el atajo deseado"
+
+msgid "Escape cancela; Backspace remove o atalho."
+msgstr "Escape cancela; Retroceso elimina el atajo."
+
+msgid "Atalho indisponível ou já utilizado."
+msgstr "Atajo no disponible o ya utilizado."

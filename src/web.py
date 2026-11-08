@@ -24,3 +24,10 @@ def web_search(query: str):
         if not text:
             return None
     return WebSearch(text, explicit=command is not None)
+
+
+def map_search(query: str):
+    match = re.match(r"^(?:mapa|mapas|map|maps|carte|cartes)\s+(.+?)\s*$", query.strip(), re.IGNORECASE | re.DOTALL)
+    if not match:
+        return None
+    return "https://www.google.com/maps/search/?" + urlencode({"api": 1, "query": match.group(1)})

@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import Mock, patch
 from urllib.parse import parse_qs, urlsplit
 
-from src.web import web_search
+from src.web import map_search, web_search
 from src.window import LauncherWindow
 
 
@@ -16,6 +16,13 @@ class WebSearchTests(unittest.TestCase):
         self.assertEqual((url.scheme, url.netloc, url.path),
                          ("https", "www.google.com", "/search"))
         self.assertEqual(parse_qs(url.query), {"q": [query]})
+
+    def test_map_search_encodes_destination_and_requires_a_query(self):
+        url = urlsplit(map_search("mapa São Paulo & café"))
+        self.assertEqual((url.netloc, url.path), ("www.google.com", "/maps/search/"))
+        self.assertEqual(parse_qs(url.query), {"api": ["1"], "query": ["São Paulo & café"]})
+        for query in ("mapa", "maps ", "mapas.com"):
+            self.assertIsNone(map_search(query))
 
     def test_prefixes_require_word_boundary_and_nonempty_query(self):
         for prefix in ("g", "GOOGLE", "Web"):

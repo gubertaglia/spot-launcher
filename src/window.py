@@ -20,7 +20,7 @@ from src.tools import ToolsEngine
 from src.tools import normalize_text
 from src.calendar_view import CalendarView
 from src.worker import LatestRequestWorker
-from src.web import web_search
+from src.web import map_search, web_search
 from src.system_actions import system_actions, execute_action
 from src.placement import hide_from_dock, position, default_position
 from src.terminal import get_default_terminal
@@ -130,6 +130,10 @@ class LauncherWindow(Gtk.Window):
         self._apply_css()
         self._build_ui()
         self._setup_events()
+        self.clipboard = Gdk.Display.get_default().get_clipboard()
+        self._clipboard_generation = 0
+        self._clipboard_handler = self.clipboard.connect("changed", self._on_clipboard_changed)
+        self._on_clipboard_changed(self.clipboard)
         self._moving = False
         self.connect("map", self._on_map)
         self.connect("hide", self._on_hide)
@@ -404,6 +408,7 @@ class LauncherWindow(Gtk.Window):
 
     def close_services(self):
         self._save_position()
+        self.clipboard.disconnect(self._clipboard_handler)
         self._cancel_pending_search()
         self._tools_worker.close()
         self._file_worker.close()
@@ -453,6 +458,24 @@ class LauncherWindow(Gtk.Window):
                 self.list_box.select_row(row)
             else:
                 self.scrolled_window.set_visible(False)
+            return
+
+        map_url = map_search(query)
+        if map_url:
+            row = Adw.ActionRow(title=_("Abrir mapa no navegador"), subtitle=GLib.markup_escape_text(query), activatable=True)
+            row.add_prefix(Gtk.Image.new_from_icon_name("mark-location-symbolic"))
+            row._web_url = map_url
+            self._append_result(row)
+            self.scrolled_window.set_visible(True)
+            self.list_box.select_row(row)
+            return
+
+        if command in ("emoji", "emojis"):
+            row = Adw.ActionRow(title=_("Selecionar emoji"), activatable=True)
+            row._emoji = True
+            self._append_result(row)
+            self.scrolled_window.set_visible(True)
+            self.list_box.select_row(row)
             return
 
         web_result = web_search(query)
@@ -720,6 +743,14 @@ class LauncherWindow(Gtk.Window):
                 dialog.connect("response", lambda *_: setattr(self, "_is_prefs_open", False))
                 dialog.present()
             return
+        if getattr(row, "_emoji", False):
+            chooser = Gtk.EmojiChooser()
+            chooser.set_parent(self.search_entry)
+            self._context_open = True
+            chooser.connect("emoji-picked", self._on_emoji_picked)
+            chooser.connect("closed", self._on_emoji_closed)
+            chooser.popup()
+            return
         if hasattr(row, "_system_action"):
             self._activate_system_action(row._system_action)
             return
@@ -768,6 +799,14 @@ class LauncherWindow(Gtk.Window):
             self.hide_launcher()
             return
 
+    def _on_emoji_picked(self, chooser, emoji):
+        self.clipboard.set(emoji)
+        self.hide_launcher()
+
+    def _on_emoji_closed(self, chooser):
+        self._context_open = False
+        chooser.unparent()
+
     def _activate_system_action(self, action):
         def complete(error):
             if error:
@@ -813,21 +852,23 @@ class LauncherWindow(Gtk.Window):
     def show_launcher(self):
         if self.preferences_window is not None:
             self.preferences_window.close()
-        # Captura o texto copiado atual para o histórico
-        clipboard = Gdk.Display.get_default().get_clipboard()
-        clipboard.read_text_async(None, self._on_clipboard_read)
-
         if self.config.get("clear_on_hide", True):
             self.search_entry.set_text("")
         self._on_search_changed(self.search_entry)
         self.set_visible(True)
         self.present()
         self.search_entry.grab_focus()
+        self._on_clipboard_changed(self.clipboard)
 
-    def _on_clipboard_read(self, clipboard, result):
+    def _on_clipboard_changed(self, clipboard):
+        self._clipboard_generation += 1
+        generation = self._clipboard_generation
+        clipboard.read_text_async(None, self._on_clipboard_read, generation)
+
+    def _on_clipboard_read(self, clipboard, result, generation):
         try:
             text = clipboard.read_text_finish(result)
-            if text:
+            if text and generation == self._clipboard_generation:
                 self.tools.record_clipboard(text)
         except Exception:
             pass

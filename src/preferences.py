@@ -9,11 +9,12 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 gi.require_version("GLib", "2.0")
+gi.require_version("Gdk", "4.0")
 
-from gi.repository import Adw, GLib, Gtk
+from gi.repository import Adw, Gdk, GLib, Gtk
 from src import VERSION, _
 from src.placement import hide_from_dock
-from src.gnome import enable_integration
+from src.gnome import enable_integration, shortcut_settings, set_shortcut
 from src.worker import LatestRequestWorker
 
 CONFIG_DIR = os.path.join(GLib.get_user_config_dir(), "spot-launcher")
@@ -202,6 +203,16 @@ class PreferencesWindow(Adw.PreferencesWindow):
         self.row_autostart.connect("notify::active", self._on_autostart_changed)
         group_general.add(self.row_autostart)
 
+        settings, shortcut = shortcut_settings()
+        if settings and "GNOME" in os.environ.get("XDG_CURRENT_DESKTOP", "").upper():
+            binding = shortcut.get_string("binding") if shortcut else ""
+            self.row_shortcut = Adw.ActionRow(title=_("Atalho para abrir o Spot"),
+                subtitle=Gtk.accelerator_get_label(*Gtk.accelerator_parse(binding)[1:]) if binding else _("Nenhum"))
+            button = Gtk.Button(label=_("Alterar"), valign=Gtk.Align.CENTER)
+            button.connect("clicked", self._choose_shortcut)
+            self.row_shortcut.add_suffix(button)
+            group_general.add(self.row_shortcut)
+
         self.row_super = Adw.SwitchRow(
             title=_("Abrir o Spot com Super"),
             subtitle=_("Usa a tecla Super sozinha no GNOME Shell"),
@@ -277,6 +288,34 @@ class PreferencesWindow(Adw.PreferencesWindow):
 
     def _on_clear_changed(self, row, param):
         self.config.set("clear_on_hide", row.get_active())
+
+    def _choose_shortcut(self, button):
+        dialog = Adw.MessageDialog.new(self, _("Pressione o atalho desejado"),
+                                       _("Escape cancela; Backspace remove o atalho."))
+        dialog.add_response("cancel", _("Cancelar"))
+        controller = Gtk.EventControllerKey()
+        def pressed(controller, keyval, keycode, state):
+            if keyval == Gdk.KEY_Escape:
+                dialog.close()
+                return True
+            if keyval == Gdk.KEY_BackSpace:
+                binding = ""
+            else:
+                modifiers = state & Gtk.accelerator_get_default_mod_mask()
+                if not Gtk.accelerator_valid(keyval, modifiers):
+                    return True
+                binding = Gtk.accelerator_name(keyval, modifiers)
+            try:
+                set_shortcut(binding)
+            except (ValueError, RuntimeError):
+                dialog.set_body(_("Atalho indisponível ou já utilizado."))
+                return True
+            self.row_shortcut.set_subtitle(Gtk.accelerator_get_label(keyval, modifiers) if binding else _("Nenhum"))
+            dialog.close()
+            return True
+        controller.connect("key-pressed", pressed)
+        dialog.add_controller(controller)
+        dialog.present()
 
     def _on_gnome_changed(self, row, param, key):
         enabled = row.get_active()

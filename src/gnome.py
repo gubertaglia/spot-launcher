@@ -30,3 +30,34 @@ def enable_integration():
                 raise RuntimeError(result.stderr.strip() or result.stdout.strip() or "gnome-extensions failed")
     # Local installation does not make a running Shell discover a new extension.
     return False
+
+SHORTCUT_PATH = '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/spot-launcher/'
+
+
+def shortcut_settings():
+    from gi.repository import Gio
+    source = Gio.SettingsSchemaSource.get_default()
+    if not source or not source.lookup('org.gnome.settings-daemon.plugins.media-keys.custom-keybinding', True):
+        return None, None
+    return (Gio.Settings.new('org.gnome.settings-daemon.plugins.media-keys'),
+            Gio.Settings.new_with_path('org.gnome.settings-daemon.plugins.media-keys.custom-keybinding', SHORTCUT_PATH))
+
+
+def set_shortcut(binding):
+    from gi.repository import Gio
+    settings, own = shortcut_settings()
+    if not settings:
+        raise RuntimeError('GNOME shortcuts unavailable')
+    paths = settings.get_strv('custom-keybindings')
+    for path in paths:
+        if path != SHORTCUT_PATH:
+            other = Gio.Settings.new_with_path('org.gnome.settings-daemon.plugins.media-keys.custom-keybinding', path)
+            if binding and other.get_string('binding') == binding:
+                raise ValueError('shortcut already in use')
+    own.set_string('name', 'Spot Launcher')
+    own.set_string('command', 'gapplication action org.spot.Launcher toggle')
+    own.set_string('binding', binding)
+    if binding and SHORTCUT_PATH not in paths:
+        settings.set_strv('custom-keybindings', paths + [SHORTCUT_PATH])
+    elif not binding and SHORTCUT_PATH in paths:
+        settings.set_strv('custom-keybindings', [path for path in paths if path != SHORTCUT_PATH])

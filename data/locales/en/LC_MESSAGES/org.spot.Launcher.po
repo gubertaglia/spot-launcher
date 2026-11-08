@@ -337,3 +337,27 @@ msgstr "Could not open terminal"
 msgid "Extensão instalada. Saia da sessão e entre novamente; depois ative esta opção."
 msgstr "Extension installed. Log out and log in again, then enable this option."
 
+
+msgid "Abrir mapa no navegador"
+msgstr "Open map in browser"
+
+msgid "Selecionar emoji"
+msgstr "Choose emoji"
+
+msgid "Atalho para abrir o Spot"
+msgstr "Shortcut to open Spot"
+
+msgid "Nenhum"
+msgstr "None"
+
+msgid "Alterar"
+msgstr "Change"
+
+msgid "Pressione o atalho desejado"
+msgstr "Press the desired shortcut"
+
+msgid "Escape cancela; Backspace remove o atalho."
+msgstr "Escape cancels; Backspace removes the shortcut."
+
+msgid "Atalho indisponível ou já utilizado."
+msgstr "Shortcut unavailable or already in use."

@@ -67,6 +67,7 @@ class SpotApplication(Adw.Application):
 
         # Se ligou o PC pelo Autostart: NÃO FAZ NADA VISUAL, fica quieto em segundo plano!
         if "--daemon" in args or "-d" in args:
+            self._launcher()
             return 0
 
         if "--preferences" in args:

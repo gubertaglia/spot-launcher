@@ -337,3 +337,27 @@ msgstr "Impossible d’ouvrir le terminal"
 msgid "Extensão instalada. Saia da sessão e entre novamente; depois ative esta opção."
 msgstr "Extension installée. Déconnectez-vous puis reconnectez-vous et activez cette option."
 
+
+msgid "Abrir mapa no navegador"
+msgstr "Ouvrir la carte dans le navigateur"
+
+msgid "Selecionar emoji"
+msgstr "Choisir un emoji"
+
+msgid "Atalho para abrir o Spot"
+msgstr "Raccourci pour ouvrir Spot"
+
+msgid "Nenhum"
+msgstr "Aucun"
+
+msgid "Alterar"
+msgstr "Modifier"
+
+msgid "Pressione o atalho desejado"
+msgstr "Appuyez sur le raccourci souhaité"
+
+msgid "Escape cancela; Backspace remove o atalho."
+msgstr "Échap annule ; Retour arrière supprime le raccourci."
+
+msgid "Atalho indisponível ou já utilizado."
+msgstr "Raccourci indisponible ou déjà utilisé."

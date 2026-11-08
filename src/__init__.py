@@ -4,7 +4,7 @@ import locale
 import os
 from pathlib import Path
 
-VERSION = "1.3.0"
+VERSION = "1.4.0"
 APP_ID = "org.spot.Launcher"
 LOCALE_DIR = Path(__file__).resolve().parents[1] / "data" / "locales"
 

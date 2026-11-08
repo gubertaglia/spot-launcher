@@ -49,6 +49,20 @@ class ToolsTests(unittest.TestCase):
             write.assert_not_called()
         self.assertEqual(engine.get_clipboard_history(), ["copiado"])
 
+    def test_clipboard_change_reads_and_ignores_outdated_results(self):
+        from src.window import LauncherWindow
+        engine = self.engine()
+        window = SimpleNamespace(_clipboard_generation=0, tools=engine)
+        window._on_clipboard_read = lambda *args: LauncherWindow._on_clipboard_read(window, *args)
+        clipboard = Mock()
+        LauncherWindow._on_clipboard_changed(window, clipboard)
+        LauncherWindow._on_clipboard_changed(window, clipboard)
+        clipboard.read_text_finish.return_value = "antigo"
+        window._on_clipboard_read(clipboard, object(), 1)
+        clipboard.read_text_finish.return_value = "novo"
+        window._on_clipboard_read(clipboard, object(), 2)
+        self.assertEqual(engine.get_clipboard_history(), ["novo"])
+
     def test_timezone_cache_works_offline(self):
         engine = self.engine()
         engine._geo_cache["sao paulo"] = {"tz": "America/Sao_Paulo", "display": "São Paulo"}

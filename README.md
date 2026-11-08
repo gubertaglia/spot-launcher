@@ -68,6 +68,17 @@ Para pesquisar diretamente, use `g previsão do tempo`, `google Python GTK` ou
 `web restaurantes em São Paulo` e pressione Enter. A busca abre no navegador
 padrão. Nenhuma consulta é enviada ao Google enquanto você digita.
 
+## Mapas, emojis e área de transferência
+
+Digite `mapa São Paulo` ou `maps Paris` e pressione Enter para abrir a busca
+no Google Maps, no navegador. A consulta só é enviada ao abrir o resultado.
+
+Digite `emoji` e pressione Enter para abrir o seletor do sistema. Escolher um
+emoji copia o caractere. Digite `clipboard` ou `histórico` para recuperar um
+dos 15 textos copiados mais recentes. O Spot acompanha cópias enquanto está
+ativo, inclusive no modo daemon, conforme as permissões do ambiente gráfico.
+O histórico fica no cache local e pode conter dados sensíveis.
+
 ## Pesquisar fotos, vídeos e documentos
 
 Pesquise pelo nome ou pela extensão, como `contrato.pdf`, ou use filtros:
@@ -159,7 +170,12 @@ sessão gráfica.
 A avaliação original da escolha de linguagem está em
 [`docs/auditoria/rust-vs-python.md`](docs/auditoria/rust-vs-python.md).
 
-## Super e panorama no GNOME
+## Atalhos, Super e panorama no GNOME
+
+Em **Atalho para abrir o Spot**, clique em **Alterar** e pressione a combinação
+desejada. Escape cancela e Backspace remove o atalho. O GNOME gerencia este
+atalho global; combinações reservadas pelo sistema podem não funcionar.
+O Spot precisa estar ativo para receber o comando.
 
 Nas configurações, **Abrir o Spot com Super** usa a tecla Super sozinha para
 alternar o launcher. **Desabilitar o panorama** bloqueia a visão geral do GNOME.
