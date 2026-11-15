@@ -1,0 +1,162 @@
+{
+  "mode": "regression",
+  "pid": 40846,
+  "samples": [
+    {
+      "process_to_frame_ms": 254.976,
+      "trigger_to_frame_ms": 254.976,
+      "first_frame_opacity": 0.0196078431372549,
+      "process_to_usable_ms": 350.337,
+      "trigger_to_usable_ms": 350.337,
+      "mapped": true,
+      "size": [
+        580,
+        92
+      ],
+      "backend": "GdkWaylandDisplay"
+    }
+  ],
+  "memory": [
+    {
+      "Rss_kib": 94292,
+      "Pss_kib": 46573,
+      "Private_Clean_kib": 4148,
+      "Private_Dirty_kib": 36628,
+      "Swap_kib": 0,
+      "SwapPss_kib": 0,
+      "label": "functional_before_preferences",
+      "elapsed_s": 2.764,
+      "cpu_s": 0.3487,
+      "threads": 11,
+      "fds": 13
+    },
+    {
+      "Rss_kib": 97184,
+      "Pss_kib": 49462,
+      "Private_Clean_kib": 4232,
+      "Private_Dirty_kib": 39432,
+      "Swap_kib": 0,
+      "SwapPss_kib": 0,
+      "label": "preferences_closed_50",
+      "elapsed_s": 5.347,
+      "cpu_s": 0.4243,
+      "threads": 13,
+      "fds": 13
+    },
+    {
+      "Rss_kib": 97208,
+      "Pss_kib": 49486,
+      "Private_Clean_kib": 4232,
+      "Private_Dirty_kib": 39456,
+      "Swap_kib": 0,
+      "SwapPss_kib": 0,
+      "label": "preferences_closed_100",
+      "elapsed_s": 8.947,
+      "cpu_s": 0.4968,
+      "threads": 13,
+      "fds": 13
+    },
+    {
+      "Rss_kib": 98176,
+      "Pss_kib": 50320,
+      "Private_Clean_kib": 4328,
+      "Private_Dirty_kib": 40184,
+      "Swap_kib": 0,
+      "SwapPss_kib": 0,
+      "label": "functional_end",
+      "elapsed_s": 9.485,
+      "cpu_s": 0.5468,
+      "threads": 19,
+      "fds": 13
+    }
+  ],
+  "checks": {
+    "selection_before_files": "audit-Alpha.desktop",
+    "selection_after_files": "audit-Alpha.desktop",
+    "scales": [
+      {
+        "percent": 50,
+        "width": 290,
+        "height": 199
+      },
+      {
+        "percent": 75,
+        "width": 435,
+        "height": 298
+      },
+      {
+        "percent": 100,
+        "width": 580,
+        "height": 397
+      },
+      {
+        "percent": 125,
+        "width": 725,
+        "height": 497
+      },
+      {
+        "percent": 150,
+        "width": 870,
+        "height": 596
+      },
+      {
+        "percent": 175,
+        "width": 1015,
+        "height": 695
+      },
+      {
+        "percent": 200,
+        "width": 1160,
+        "height": 794
+      }
+    ],
+    "preferences_alive_after_50_close": 50,
+    "toplevels_after_50_close": 2,
+    "preference_batches": [
+      {
+        "closed": 50,
+        "alive": 50
+      },
+      {
+        "closed": 100,
+        "alive": 100
+      }
+    ],
+    "preferences_alive_after_100_close": 100,
+    "toplevels_after_100_close": 2,
+    "preferences_distinct_instances": 1,
+    "preference_referrers": [
+      "dict:",
+      "method:PreferencesWindow._on_language_changed",
+      "method:PreferencesWindow._on_theme_changed",
+      "method:PreferencesWindow._on_placeholder_changed",
+      "method:PreferencesWindow._on_scale_changed",
+      "method:PreferencesWindow._on_blur_changed",
+      "method:PreferencesWindow._on_move_changed",
+      "method:PreferencesWindow._on_remember_changed",
+      "method:PreferencesWindow._on_results_changed",
+      "method:PreferencesWindow._on_scroll_changed",
+      "method:PreferencesWindow._on_clear_changed",
+      "method:PreferencesWindow._on_autostart_changed",
+      "method:PreferencesWindow._choose_shortcut",
+      "method:PreferencesWindow._on_gnome_changed",
+      "method:PreferencesWindow._on_gnome_changed",
+      "method:PreferencesWindow._on_auto_update_changed",
+      "cell:"
+    ],
+    "search_accessible_role": "search-box",
+    "screenshot_saved": true,
+    "secret_hint_offered": true,
+    "secret_persisted": false,
+    "secret_persisted_after_clipboard_clear": false
+  },
+  "regional": {
+    "LC_ALL": "C.UTF-8",
+    "LANG": "pt_BR.UTF-8",
+    "runtime_LC_TIME": "pt_BR.UTF-8",
+    "runtime_date_format": "%d/%m/%Y",
+    "stored_date_format": "%m/%d/%y",
+    "example_2026_11_08": "11/08/26"
+  },
+  "exit_status": 0
+}

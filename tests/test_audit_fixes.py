@@ -49,6 +49,22 @@ class AuditFixTests(unittest.TestCase):
         self.assertEqual(window._clipboard_generation, 3)
         clipboard.read_text_async.assert_not_called()
 
+    def test_copied_tool_text_is_not_printed(self):
+        window = SimpleNamespace(_tool_copy_val="synthetic private translation", hide_launcher=Mock())
+        row = SimpleNamespace(get_activatable=lambda: True)
+        with patch("src.window.Gdk.Display.get_default") as display, patch("builtins.print") as output:
+            LauncherWindow._on_row_activated(window, None, row)
+            display.return_value.get_clipboard.return_value.set.assert_called_once_with(window._tool_copy_val)
+            output.assert_not_called()
+        window.hide_launcher.assert_called_once()
+
+    def test_kde_and_xfce_terminals_are_available(self):
+        from src.terminal import get_default_terminal
+        for binary, expected in (("konsole", ["konsole", "-e"]),
+                                 ("xfce4-terminal", ["xfce4-terminal", "-x"])):
+            with self.subTest(binary=binary), patch("src.terminal.shutil.which", side_effect=lambda name: name == binary):
+                self.assertEqual(get_default_terminal(), expected)
+
     def test_failed_file_launch_preserves_window(self):
         window = SimpleNamespace(_tool_copy_val=None, files=Mock(), hide_launcher=Mock(), _launch_failed=Mock())
         window.files.open_item.return_value = False
@@ -109,7 +125,7 @@ class AuditFixTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             root = Path(directory)
             output = root / 'cwd'
-            terminal = root / 'terminal'
+            terminal = root / 'terminal emulator'
             terminal.write_text('#!/bin/sh\npwd > "' + str(output) + '"\n')
             terminal.chmod(0o700)
             cwd = root / 'working directory'

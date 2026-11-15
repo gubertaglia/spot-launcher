@@ -1,3 +1,3 @@
-PyGObject>=3.50
+# PyGObject, Cairo, GTK 4 e libadwaita são fornecidos pela distribuição.
 RapidFuzz>=3
 Pint>=0.24

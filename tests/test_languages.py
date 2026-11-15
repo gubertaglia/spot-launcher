@@ -108,5 +108,6 @@ class LanguageTests(unittest.TestCase):
                         self.assertIn(country, result["title"])
                         self.assertIsNotNone(ToolsEngine().search(query)["copy"])
                     network.assert_called_once()
+                    reply.__enter__.return_value.read.assert_called_once_with(2_000_000)
                     url = network.call_args.args[0].full_url
                     self.assertEqual(parse_qs(urlsplit(url).query)["language"], [lang])

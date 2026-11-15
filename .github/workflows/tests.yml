@@ -1,0 +1,31 @@
+name: Tests
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        image: ["ubuntu:24.04", "debian:13-slim"]
+    steps:
+      - name: Install native dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends ca-certificates git gjs python3 python3-venv python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-adw-1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Install Python dependencies
+        run: |
+          python3 -m venv --system-site-packages .venv
+          .venv/bin/python -m pip install -r requirements.txt
+          .venv/bin/python install.py --check
+      - name: Run tests
+        run: .venv/bin/python -B -m unittest discover -s tests -v

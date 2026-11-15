@@ -3,26 +3,82 @@
 Um launcher para Linux que reúne aplicativos, arquivos, buscas e ferramentas em uma só janela.
 Feito com Python, GTK 4 e libadwaita.
 
-[![Versão](https://img.shields.io/badge/vers%C3%A3o-2.0.0-blue)](https://github.com/gubertaglia/spot-launcher/releases/tag/v2.0.0)
+[![Versão](https://img.shields.io/badge/vers%C3%A3o-2.1.0-blue)](https://github.com/gubertaglia/spot-launcher/releases/tag/v2.1.0)
 [![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-green)](LICENSE)
 
-**[Começar](#executar)** · **[Busca](#busca-e-aprendizado-local)** · **[Ferramentas](#dicionário)** · **[Atalhos](#atalhos-super-e-panorama-no-gnome)** · **[Atualizações](#atualizações)**
+**[Instalar](#instalar)** · **[Busca](#busca-e-aprendizado-local)** · **[Ferramentas](#dicionário)** · **[Atalhos](#atalhos-super-e-panorama-no-gnome)** · **[Atualizações](#atualizações)**
 
 Busque aplicativos e arquivos, consulte clima e calendário, traduza textos,
 execute comandos e controle ações do sistema sem sair do launcher. A interface
 está disponível em português, inglês, espanhol e francês.
 
-## Executar
+## Instalar
 
-Use Python 3.10 ou superior. GTK 4, libadwaita (1.4 ou superior), Gio e seus
-typelibs precisam estar instalados pelo sistema. As dependências Python estão
-em `requirements.txt`; PyGObject também pode ser fornecido pela distribuição.
-Um ambiente virtual precisa ter acesso a essas bibliotecas nativas.
+Requer Linux, Python 3.10+, GTK 4, libadwaita 1.4+ e uma sessão gráfica com D-Bus.
+Instale as bibliotecas nativas pela distribuição:
+
+**Ubuntu 24.04+ / Debian 13+:**
 
 ```bash
-python3 run.py
-python3 run.py --daemon
-python3 run.py --toggle
+sudo apt update
+sudo apt install git python3 python3-venv python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-adw-1
+```
+
+**Fedora:**
+
+```bash
+sudo dnf install git python3 python3-pip python3-gobject gtk4 libadwaita
+```
+
+**Arch Linux:**
+
+```bash
+sudo pacman -S --needed git python python-pip python-gobject python-cairo gtk4 libadwaita
+```
+
+Os nomes de PyGObject e GTK seguem as [instruções oficiais do PyGObject](https://pygobject.gnome.org/getting_started.html).
+A libadwaita precisa oferecer `Adw.SpinRow`, [disponível desde 1.4](https://gnome.pages.gitlab.gnome.org/libadwaita/doc/1-latest/class.SpinRow.html).
+Distribuições com versões anteriores precisam ser atualizadas.
+As receitas não equivalem a testes em todas as distribuições; veja a [validação registrada](docs/auditoria/revisao-2026-11-15.md).
+
+Clone em uma pasta permanente e execute o instalador **sem sudo**:
+
+```bash
+git clone https://github.com/gubertaglia/spot-launcher.git
+cd spot-launcher
+python3 install.py
+```
+
+O instalador verifica as bibliotecas nativas, cria `.venv` com acesso aos pacotes
+do sistema e instala RapidFuzz e Pint nesse ambiente. Publica SpotLauncher no
+menu de aplicativos e o comando `~/.local/bin/spot-launcher`. Não altera Python
+nem preferências do sistema. Se `~/.local/bin` não estiver no `PATH`, use o caminho
+completo ou o menu. Para verificar apenas as bibliotecas nativas:
+
+```bash
+python3 install.py --check
+```
+
+Mantenha a pasta do projeto no mesmo local. Depois de movê-la ou atualizar o
+Python da distribuição, execute o instalador novamente. Dependências novas após
+uma atualização também exigem repetir esse comando. Se um ambiente antigo ficar
+incompatível após a troca de Python, renomeie `.venv` e rode o instalador novamente.
+O código baixado por ZIP também funciona, mas não oferece atualização por Git.
+
+## Executar
+
+Depois de instalar:
+
+```bash
+~/.local/bin/spot-launcher
+~/.local/bin/spot-launcher --daemon
+~/.local/bin/spot-launcher --toggle
+```
+
+Para executar diretamente pelo código:
+
+```bash
+.venv/bin/python run.py
 ```
 
 Para alternar a janela de uma instância residente sem iniciar outro Python:
@@ -50,7 +106,7 @@ Para iniciar em outro idioma quando a opção **Idioma do sistema** está seleci
 por exemplo:
 
 ```bash
-LANGUAGE=en python3 run.py
+LANGUAGE=en .venv/bin/python run.py
 ```
 
 Use `pt_BR`, `es` ou `fr` para os outros idiomas. Os comandos de busca funcionam
@@ -156,7 +212,9 @@ Digite `emoji` e pressione Enter para abrir o seletor do sistema. Escolher um
 emoji copia o caractere. Digite `clipboard` ou `histórico` para recuperar um
 dos 15 textos copiados mais recentes. O Spot acompanha cópias enquanto está
 ativo, inclusive no modo daemon, conforme as permissões do ambiente gráfico.
-O histórico fica no cache local e pode conter dados sensíveis.
+O histórico fica somente na memória e é descartado ao encerrar o Spot. Na primeira
+execução desta versão, o cache antigo é carregado para a sessão e removido do disco.
+Textos sensíveis sem o marcador de senha suportado ainda podem aparecer durante a sessão.
 
 ## Pesquisar fotos, vídeos e documentos
 
@@ -237,8 +295,8 @@ Reiniciar, desligar e sair da sessão pedem confirmação; salve o trabalho ante
 ## Validar
 
 ```bash
-python3 -B -m unittest discover -s tests -v
-python3 -B docs/auditoria/benchmark.py
+.venv/bin/python -B -m unittest discover -s tests -v
+.venv/bin/python -B docs/auditoria/benchmark.py
 ```
 
 Os testes não abrem janelas nem acessam serviços externos. Usam diretórios
@@ -359,3 +417,26 @@ Digite `caffeine` ou `cafeina` para ver o toggle e as durações configuradas
 (curta, média, longa e ilimitada) da extensão Caffeine instalada. Escolher uma
 duração define o timer e ativa a inibição de suspensão. A extensão precisa estar
 habilitada no GNOME.
+
+
+## Remover a instalação
+
+Encerre o Spot pelo menu e desative **Iniciar com o sistema** e os atalhos nas
+preferências. Depois remova somente os arquivos publicados pelo instalador:
+
+```bash
+rm -- "$HOME/.local/bin/spot-launcher"
+rm -- "${XDG_DATA_HOME:-$HOME/.local/share}/applications/org.spot.Launcher.desktop"
+```
+
+A pasta clonada e `.venv` podem ser removidas depois. Configurações e aprendizado de busca
+permanecem nos diretórios XDG do usuário; removê-los apaga essas preferências.
+O histórico da área de transferência existe apenas durante a sessão. A extensão opcional do GNOME pode ser desativada ou removida
+pelo aplicativo Extensões.
+
+## Manutenção
+
+Consulte [documentação e auditorias](docs/README.md),
+[contribuição](CONTRIBUTING.md) e [segurança e privacidade](SECURITY.md).
+A CI executa a suíte em Ubuntu 24.04 e Debian 13; resultados só existem após o
+workflow rodar no GitHub. Dependabot verifica dependências Python e GitHub Actions.

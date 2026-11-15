@@ -47,6 +47,29 @@ class UpdaterTests(unittest.TestCase):
         self.git(self.clone, "branch", "--unset-upstream")
         self.assertIsNone(updater.check_update())
 
+    def test_archive_inside_another_repository_never_updates_parent(self):
+        archive = self.clone / "archive"
+        archive.mkdir()
+        (self.remote / "file").write_text("second")
+        self.git(self.remote, "commit", "-qam", "second")
+        commit = updater.check_update()
+        with patch.object(updater, "ROOT", archive):
+            self.assertIsNone(updater.check_update())
+            self.assertFalse(updater.install_update(commit))
+        self.assertEqual((self.clone / "file").read_text(), "first")
+
+    def test_worktree_with_git_file_can_update(self):
+        worktree = self.clone.parent / "worktree"
+        self.git(self.clone, "worktree", "add", "-b", "linked", str(worktree))
+        self.git(worktree, "branch", "--set-upstream-to=origin/main")
+        (self.remote / "file").write_text("second")
+        self.git(self.remote, "commit", "-qam", "second")
+        with patch.object(updater, "ROOT", worktree):
+            self.assertTrue((worktree / ".git").is_file())
+            self.assertTrue(updater.install_update(updater.check_update()))
+        self.assertEqual((worktree / "file").read_text(), "second")
+        self.assertEqual((self.clone / "file").read_text(), "first")
+
     def test_ignored_collision_is_preserved(self):
         (self.clone / "local.pyc").write_text("private")
         (self.clone / ".git/info/exclude").write_text("*.pyc\n")

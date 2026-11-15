@@ -1,0 +1,86 @@
+{
+  "date": "2026-11-15",
+  "base_commit": "2a0c0f10ac9a3c5f5c8362fbfb787fdb42be64a2",
+  "scope": "Working tree changes; not published",
+  "baseline_tests": {
+    "discovered": 157,
+    "passed": 157
+  },
+  "environments": [
+    {
+      "name": "Fedora 45 host",
+      "python": "3.15.2",
+      "pygobject": "3.58.1",
+      "gtk": "4.24",
+      "libadwaita": "1.10",
+      "rapidfuzz": "3.14.5",
+      "pint": "0.26.2",
+      "tests": 168,
+      "passed": 168,
+      "skipped": 0
+    },
+    {
+      "name": "Ubuntu 24.04 container",
+      "python": "3.12.3",
+      "pygobject": "3.48.2",
+      "gtk": "4.14",
+      "libadwaita": "1.5",
+      "rapidfuzz": "3.14.6",
+      "pint": "0.26.2",
+      "tests": 168,
+      "passed": 167,
+      "skipped": 1,
+      "skip_reason": "GTK display unavailable"
+    },
+    {
+      "name": "Debian 13 container",
+      "python": "3.13.5",
+      "pygobject": "3.50.0",
+      "gtk": "4.18",
+      "libadwaita": "1.7",
+      "rapidfuzz": "3.14.6",
+      "pint": "0.26.2",
+      "tests": 168,
+      "passed": 167,
+      "skipped": 1,
+      "skip_reason": "GTK display unavailable"
+    }
+  ],
+  "checks": {
+    "unit_tests": "python3 -B -m unittest discover -s tests -v",
+    "ruff": {
+      "selectors": "E9,F63,F7,F82,F401",
+      "result": "passed"
+    },
+    "diff_check": "passed",
+    "installer_smoke": "Passed with isolated HOME/XDG, cloned source copy, path with spaces, real venv/pip, desktop-file-validate and suite under installed interpreter",
+    "wayland_regression": "Passed in private GNOME Shell headless session; screenshot inspected",
+    "pip_audit": {
+      "dependencies": 6,
+      "known_vulnerabilities": 0,
+      "scope": "Resolved requirements.txt for Python 3.15; excludes distribution native libraries"
+    },
+    "bandit": {
+      "low": 23,
+      "medium": 5,
+      "high": 0,
+      "review": "HTTPS URLs and explicit subprocess arguments reviewed; shell execution only for user-selected > command"
+    },
+    "git_fsck": "No integrity errors; unreachable trees left untouched",
+    "history_secret_patterns": "No matches for selected GitHub/OpenAI/AWS key formats or private key headers in reachable history",
+    "github_workflow": "YAML parsed; local container equivalents passed; workflow not run on GitHub",
+    "tool_versions": {
+      "ruff": "0.17.5",
+      "bandit": "1.9.4",
+      "pip-audit": "2.10.1"
+    }
+  },
+  "limits": [
+    "Arch not run",
+    "No physical multi-monitor or hardware test",
+    "No long idle test",
+    "No current validation of GNOME Shell 45–50",
+    "No exhaustive secrets scan",
+    "No remote branch protection or organization policy audit"
+  ]
+}

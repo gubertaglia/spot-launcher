@@ -49,6 +49,39 @@ class ToolsTests(unittest.TestCase):
             write.assert_not_called()
         self.assertEqual(engine.get_clipboard_history(), ["copiado"])
 
+    def test_clipboard_is_session_only_and_never_written_to_disk(self):
+        engine = self.engine()
+        for i in range(20):
+            engine.record_clipboard(f"private text {i}")
+        self.assertEqual(len(engine.get_clipboard_history()), 15)
+        self.assertEqual(engine.get_clipboard_history()[0], "private text 19")
+        self.assertFalse(Path(engine.clipboard_file).exists())
+        self.assertEqual(self.engine().get_clipboard_history(), [])
+
+    def test_legacy_clipboard_moves_into_memory_and_file_is_removed(self):
+        engine = self.engine()
+        write_json(engine.clipboard_file, ["legacy private text", 42])
+        self.assertEqual(engine.get_clipboard_history(), ["legacy private text"])
+        self.assertFalse(Path(engine.clipboard_file).exists())
+        copy = engine.get_clipboard_history()
+        copy.clear()
+        self.assertEqual(engine.get_clipboard_history(), ["legacy private text"])
+
+    def test_invalid_legacy_clipboard_is_removed(self):
+        engine = self.engine()
+        path = Path(engine.clipboard_file)
+        path.parent.mkdir(parents=True)
+        path.write_bytes(b"invalid json\xff")
+        self.assertEqual(engine.get_clipboard_history(), [])
+        self.assertFalse(path.exists())
+
+    def test_legacy_clipboard_removal_failure_is_reported_without_text(self):
+        engine = self.engine()
+        write_json(engine.clipboard_file, ["legacy private text"])
+        with patch("src.tools.os.unlink", side_effect=PermissionError), self.assertLogs(level="ERROR") as logs:
+            self.assertEqual(engine.get_clipboard_history(), ["legacy private text"])
+        self.assertNotIn("legacy private text", str(logs.output))
+
     def test_clipboard_change_reads_and_ignores_outdated_results(self):
         from src.window import LauncherWindow
         engine = self.engine()
@@ -92,6 +125,7 @@ class ToolsTests(unittest.TestCase):
             result = engine.search("Clima em São Paulo")
             self.assertEqual(engine.search("clima em São Paulo"), result)
         network.assert_called_once()
+        response.read.assert_called_once_with(2_000_000)
         self.assertIn(locale.format_string("%g", 23.5) + " °C", result["title"])
         self.assertIn("Nublado", result["title"])
         self.assertIn("Sensação: 25 °C", result["sub"])
@@ -167,6 +201,7 @@ class ToolsTests(unittest.TestCase):
         with patch("urllib.request.urlopen", return_value=response):
             result = engine.convert_currency("10 usd para brl")
         self.assertEqual(result["copy"], "60.00")
+        response.read.assert_called_once_with(2_000_000)
         cache = json.loads(Path(engine.rates_file).read_text())
         self.assertGreater(cache["fetched_at"], 0)
         self.assertEqual(cache["rates"]["BRL"], 6)
@@ -178,6 +213,16 @@ class ToolsTests(unittest.TestCase):
         for value in (0, -1, "nan", "inf"):
             with self.assertRaises(ValueError):
                 ToolsEngine._validated_rates({"USD": value})
+
+    def test_negative_currency_timestamp_is_stale_and_does_not_crash(self):
+        engine = self.engine()
+        self.rates(engine, -1e100)
+        engine = self.engine()
+        self.assertEqual(engine._rates_timestamp, 0)
+        with patch("urllib.request.urlopen", side_effect=OSError("offline")):
+            result = engine.convert_currency("10 usd para brl")
+        self.assertEqual(result["copy"], "50.00")
+        self.assertIn("desatualizada", result["sub"])
 
     def test_units_run_without_network_and_preserve_symbols(self):
         engine = self.engine()

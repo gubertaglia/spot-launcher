@@ -7,6 +7,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def git(*args):
+    if not (ROOT / ".git").exists():
+        raise ValueError("A instalação não é a raiz de um repositório Git")
     return subprocess.run(
         ["git", "-C", str(ROOT), *args], check=True, capture_output=True,
         text=True, timeout=30, env={**os.environ, "GIT_TERMINAL_PROMPT": "0"},
@@ -34,5 +36,5 @@ def install_update(commit):
             return False
         git("merge", "--ff-only", "--no-overwrite-ignore", commit)
         return True
-    except (OSError, subprocess.SubprocessError):
+    except (OSError, ValueError, subprocess.SubprocessError):
         return False

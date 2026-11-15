@@ -3,6 +3,7 @@ from functools import lru_cache
 from pathlib import Path
 import json
 import locale
+import logging
 import os
 import re
 import math
@@ -121,6 +122,7 @@ class ToolsEngine:
         geo_filename = "geocache.json" if LANGUAGE == "pt" else f"geocache-{LANGUAGE}.json"
         self.geo_cache_file = os.path.join(self.cache_dir, geo_filename)
         self.clipboard_file = os.path.join(self.cache_dir, "clipboard.json")
+        self._clipboard_history = None
 
         self._rates: Dict[str, float] = {}
         self._geo_cache: Dict[str, dict] = {}
@@ -202,7 +204,7 @@ class ToolsEngine:
                         headers={"User-Agent": f"SpotLauncher/{VERSION}"},
                     )
                     with urllib.request.urlopen(request, timeout=3) as response:
-                        current = json.loads(response.read().decode())["current"]
+                        current = json.loads(response.read(2_000_000).decode())["current"]
                     temperature, feels, humidity, wind = (
                         float(current[key]) for key in (
                             "temperature_2m", "apparent_temperature",
@@ -323,7 +325,7 @@ class ToolsEngine:
                 url, headers={"User-Agent": f"SpotLauncher/{VERSION}"}
             )
             with urllib.request.urlopen(req, timeout=2.5) as resp:
-                data = json.loads(resp.read().decode())
+                data = json.loads(resp.read(2_000_000).decode())
                 results = data.get("results")
                 if results:
                     item = results[0]
@@ -440,7 +442,7 @@ class ToolsEngine:
             # Cache antigo sem timestamp deve ser atualizado, não tratado como recente.
             rates = data.get("rates", data)
             timestamp = float(data.get("fetched_at", 0))
-            if not math.isfinite(timestamp) or timestamp > time.time():
+            if not math.isfinite(timestamp) or not 0 <= timestamp <= time.time():
                 timestamp = 0
             self._rates = self._validated_rates(rates)
             self._rates_timestamp = timestamp
@@ -461,7 +463,7 @@ class ToolsEngine:
                 headers={"User-Agent": f"SpotLauncher/{VERSION}"},
             )
             with urllib.request.urlopen(req, timeout=3) as resp:
-                data = json.loads(resp.read().decode())
+                data = json.loads(resp.read(2_000_000).decode())
             rates = self._validated_rates(data["data"]["rates"])
             self._rates = rates
             self._rates_timestamp = time.time()
@@ -535,18 +537,23 @@ class ToolsEngine:
         if text in items:
             items.remove(text)
         items.insert(0, text)
-        items = items[:15]
-        try:
-            write_json(self.clipboard_file, items)
-        except Exception:
-            pass
+        self._clipboard_history = items[:15]
 
     def get_clipboard_history(self) -> List[str]:
-        if os.path.exists(self.clipboard_file):
+        if self._clipboard_history is None:
+            self._clipboard_history = []
             try:
-                with open(self.clipboard_file, "r") as f:
+                with open(self.clipboard_file, "r", encoding="utf-8") as f:
                     data = json.load(f)
-                    return [item for item in data if isinstance(item, str)][:15] if isinstance(data, list) else []
-            except Exception:
-                return []
-        return []
+                    if isinstance(data, list):
+                        self._clipboard_history = [item for item in data if isinstance(item, str)][:15]
+            except (OSError, ValueError):
+                pass
+            finally:
+                try:
+                    os.unlink(self.clipboard_file)
+                except FileNotFoundError:
+                    pass
+                except OSError:
+                    logging.error("Não foi possível remover o cache antigo da área de transferência")
+        return self._clipboard_history.copy()

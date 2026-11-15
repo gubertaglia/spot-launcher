@@ -1,14 +1,14 @@
 from dataclasses import dataclass, field
 import time
-from typing import List, Optional
+from typing import List
 
 import gi
 
 gi.require_version("Gio", "2.0")
 from gi.repository import Gio, GLib
-from src import _
 from src.search import search_text, intent_metadata
 from src.terminal import get_default_terminal
+from src.desktop import quote_argument
 
 
 @dataclass
@@ -126,7 +126,7 @@ class AppIndexer:
                 terminal_cmd = get_default_terminal()
                 if terminal_cmd:
                     exec_line = entry.app_info.get_commandline()
-                    full_cmd = " ".join(terminal_cmd + [exec_line])
+                    full_cmd = " ".join(map(quote_argument, terminal_cmd)) + " " + exec_line
                     desktop = GLib.KeyFile()
                     desktop.set_string("Desktop Entry", "Type", "Application")
                     desktop.set_string("Desktop Entry", "Name", entry.name)

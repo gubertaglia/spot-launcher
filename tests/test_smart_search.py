@@ -23,6 +23,25 @@ from tests import test_search
 
 
 class SmartSearchTests(unittest.TestCase):
+    def test_file_results_preserve_selected_system_action(self):
+        class SelectedRow:
+            _app_entry = _file_entry = None
+            index = 2
+
+            def get_index(self):
+                return self.index
+
+        row = SelectedRow()
+        replacement = object()
+        window = SimpleNamespace(_append_page=Mock(), scrolled_window=Mock(),
+                                 list_box=Mock(), _result_count=3)
+        window._clear_results = lambda: setattr(row, "index", -1)
+        window.list_box.get_selected_row.return_value = row
+        window.list_box.get_row_at_index.side_effect = lambda index: replacement if index == 2 else None
+        with patch("src.window.Gtk.ListBoxRow", SelectedRow):
+            LauncherWindow._render_matches(window, [], [], 0, None)
+        window.list_box.select_row.assert_called_once_with(replacement)
+
     def test_shared_bands_and_short_word_limits(self):
         scores = [search_score('editor', 'Editor'), search_score('editor', 'Editor Pro'),
                   search_score('pro editor', 'Editor Pro'),

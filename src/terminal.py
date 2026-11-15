@@ -6,6 +6,8 @@ KNOWN_TERMINALS = [
     ("ptyxis", ["ptyxis", "--"]),
     ("gnome-terminal", ["gnome-terminal", "--"]),
     ("kgx", ["kgx", "-e"]),
+    ("konsole", ["konsole", "-e"]),
+    ("xfce4-terminal", ["xfce4-terminal", "-x"]),
     ("alacritty", ["alacritty", "-e"]),
     ("kitty", ["kitty"]),
     ("xterm", ["xterm", "-e"]),

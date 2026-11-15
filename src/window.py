@@ -10,7 +10,7 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 gi.require_version("Gdk", "4.0")
 
-from gi.repository import Adw, Gdk, Gio, GLib, Gsk, Gtk
+from gi.repository import Adw, Gdk, Gio, GLib, Gtk
 from src import _
 from src.storage import submit_io, flush_writes
 from src.history import HistoryManager
@@ -169,6 +169,7 @@ class LauncherWindow(Gtk.Window):
         self._context_open = False
         self.calculator = CalculatorPlugin()
         self.tools = ToolsEngine()
+        submit_io(self.tools.get_clipboard_history)
         self._tools_worker = LatestRequestWorker(GLib.idle_add)
         self._file_worker = LatestRequestWorker(GLib.idle_add)
         self._update_worker = LatestRequestWorker(GLib.idle_add)
@@ -881,8 +882,10 @@ class LauncherWindow(Gtk.Window):
     def _render_matches(self, apps, files, show_settings, web_result, message=None, actions=(), query=""):
         selected = self.list_box.get_selected_row()
         selected_entry = None
+        selected_index = 0
         if isinstance(selected, Gtk.ListBoxRow):
             selected_entry = getattr(selected, "_app_entry", None) or getattr(selected, "_file_entry", None)
+            selected_index = selected.get_index()
         self._clear_results()
         if message:
             self._show_notice(message)
@@ -937,7 +940,7 @@ class LauncherWindow(Gtk.Window):
         self._remaining_rows = rows()
         self._append_page()
         self.scrolled_window.set_visible(self._result_count > 0)
-        selected_row = self.list_box.get_row_at_index(0)
+        selected_row = self.list_box.get_row_at_index(selected_index) or self.list_box.get_row_at_index(0)
         if selected_entry is not None:
             selected_id = getattr(selected_entry, "id", None) or getattr(selected_entry, "path", None)
             child = self.list_box.get_first_child()
@@ -1126,7 +1129,6 @@ class LauncherWindow(Gtk.Window):
         if self._tool_copy_val is not None:
             clipboard = Gdk.Display.get_default().get_clipboard()
             clipboard.set(self._tool_copy_val)
-            print(f"[Ferramentas] Copiado para a área de transferência: {self._tool_copy_val}")
             self.hide_launcher()
             return
 

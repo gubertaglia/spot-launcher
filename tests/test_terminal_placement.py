@@ -87,7 +87,7 @@ class TerminalPlacementTests(unittest.TestCase):
 
 class GnomeIntegrationTests(unittest.TestCase):
     def test_installation_requires_new_session_without_trying_to_enable(self):
-        from src.gnome import enable_integration, UUID
+        from src.gnome import enable_integration
         failure = SimpleNamespace(returncode=1, stderr='', stdout='')
         success = SimpleNamespace(returncode=0, stderr='', stdout='')
         with patch.dict('os.environ', {'XDG_CURRENT_DESKTOP': 'GNOME'}), \

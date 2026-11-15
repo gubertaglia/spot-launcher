@@ -1,0 +1,1 @@
+{"dependencies": [{"name": "rapidfuzz", "version": "3.14.6", "vulns": []}, {"name": "pint", "version": "0.26.2", "vulns": []}, {"name": "flexcache", "version": "0.3", "vulns": []}, {"name": "flexparser", "version": "0.4", "vulns": []}, {"name": "platformdirs", "version": "4.14.5", "vulns": []}, {"name": "typing-extensions", "version": "4.16.0", "vulns": []}], "fixes": []}

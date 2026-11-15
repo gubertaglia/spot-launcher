@@ -3,7 +3,6 @@ import json
 import os
 import subprocess
 import sys
-from pathlib import Path
 import gi
 
 gi.require_version("Gtk", "4.0")
@@ -16,6 +15,7 @@ from src import VERSION, _
 from src.placement import hide_from_dock
 from src.gnome import enable_integration, shortcut_settings, set_shortcut
 from src.worker import LatestRequestWorker
+from src.desktop import launcher_entry
 
 CONFIG_DIR = os.path.join(GLib.get_user_config_dir(), "spot-launcher")
 CONFIG_FILE = os.path.join(CONFIG_DIR, "config.json")
@@ -24,22 +24,7 @@ AUTOSTART_FILE = os.path.join(AUTOSTART_DIR, "spot-launcher.desktop")
 
 def autostart_entry():
     # Desktop Exec tem regras próprias; não executa um shell nem depende do cwd.
-    def quote(argument):
-        escaped = "".join("\\" + char if char in '\\"`$' else char for char in argument)
-        return '"' + escaped.replace("%", "%%") + '"'
-
-    command = " ".join(quote(argument) for argument in (
-        sys.executable, str(Path(__file__).resolve().parents[1] / "run.py"), "--daemon"
-    ))
-    entry = GLib.KeyFile()
-    for key, value in {
-        "Type": "Application", "Name": "SpotLauncher",
-        "Comment": _("Iniciador de aplicativos rápido e nativo"), "Exec": command,
-        "Icon": "system-search", "Terminal": "false", "Categories": "Utility;",
-        "X-GNOME-Autostart-enabled": "true",
-    }.items():
-        entry.set_string("Desktop Entry", key, value)
-    return entry.to_data()[0]
+    return launcher_entry(sys.executable, "--daemon")
 
 
 THEMES = {
