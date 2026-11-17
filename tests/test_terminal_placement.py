@@ -7,6 +7,18 @@ from src.window import LauncherWindow
 
 
 class TerminalPlacementTests(unittest.TestCase):
+    def test_reopening_resets_previous_height_before_mapping(self):
+        window = Mock()
+        window.config = {"clear_on_hide": True}
+        window.preferences_window = None
+        window.get_default_size.return_value = (725, 500)
+        window._last_update_check = float('inf')
+        LauncherWindow.show_launcher(window)
+        window.set_default_size.assert_called_once_with(725, 1)
+        calls = window.mock_calls
+        self.assertLess(calls.index(unittest.mock.call.set_default_size(725, 1)),
+                        calls.index(unittest.mock.call.set_visible(True)))
+
     def test_default_position_centers_above_middle_on_scaled_monitor(self):
         monitor = Mock()
         monitor.get_geometry.return_value = SimpleNamespace(x=1920, y=0, width=1920, height=1080)
@@ -53,6 +65,8 @@ class TerminalPlacementTests(unittest.TestCase):
     def test_saved_position_requires_moving_enabled(self):
         window = Mock()
         window.get_mapped.return_value = True
+        window.get_height.return_value = 92
+        window.scaled_content.measure.return_value = SimpleNamespace(minimum=92)
         window.config = {"allow_move": False, "remember_position": True, "window_position": [2656, 369]}
         with patch('src.window.default_position', return_value=[670, 328]) as default, \
              patch('src.window.position') as move:
@@ -64,6 +78,35 @@ class TerminalPlacementTests(unittest.TestCase):
              patch('src.window.position'):
             LauncherWindow._restore_position(window, None, None)
             default.assert_called_once_with(window, [2656, 369])
+
+    def test_reopening_waits_for_current_height_before_placing(self):
+        for backend in ('x11', 'wayland'):
+            with self.subTest(backend=backend):
+                window = Mock(config={})
+                window.get_mapped.return_value = True
+                window.get_width.return_value = 580
+                window.get_height.return_value = 336
+                window.scaled_content.measure.return_value = SimpleNamespace(minimum=92)
+                window._restore_position = lambda *args: LauncherWindow._restore_position(window, *args)
+                target = [670, 332] if backend == 'x11' else None
+                with patch('src.window.default_position', return_value=target) as default, \
+                     patch('src.window.position') as move, \
+                     patch('src.window.gnome_placement') as gnome, \
+                     patch('src.window.GLib.idle_add', side_effect=lambda callback, *args: callback(*args)):
+                    window._restore_position(None, None)
+                    default.assert_not_called()
+                    move.assert_not_called()
+                    gnome.assert_not_called()
+                    callback = window.scaled_content.get_layout_manager().after_allocate
+                    window.get_height.return_value = 92
+                    callback()
+                    default.assert_called_once_with(window, None)
+                    if backend == 'x11':
+                        move.assert_called_once_with(window, target)
+                        gnome.assert_not_called()
+                    else:
+                        gnome.assert_called_once_with()
+                        move.assert_not_called()
 
     def test_terminal_command_runs_only_on_activation(self):
         window = SimpleNamespace(hide_launcher=Mock())

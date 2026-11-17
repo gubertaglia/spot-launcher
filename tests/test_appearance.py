@@ -151,6 +151,8 @@ class FadeTests(unittest.TestCase):
         window.clipboard = Mock()
         window._show_update_prompt = Mock()
         window._last_update_check = float("inf")
+        window.get_default_size = lambda: (580, 500)
+        window.set_default_size = Mock()
         LauncherWindow.show_launcher(window)
         self.assertFalse(window._closing)
         window.scaled_content.set_sensitive.assert_called_once_with(True)

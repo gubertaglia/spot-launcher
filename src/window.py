@@ -519,6 +519,11 @@ class LauncherWindow(Gtk.Window):
 
     def _restore_position(self, widget, clock):
         if self.get_mapped():
+            height = self.scaled_content.measure(Gtk.Orientation.VERTICAL, self.get_width()).minimum
+            if self.get_height() != height:
+                # Mapping can allocate the previous surface size before GTK's resize completes.
+                self.scaled_content.get_layout_manager().after_allocate = lambda: GLib.idle_add(self._restore_position, self, None)
+                return False
             saved = self.config.get("window_position") if (self.config.get("allow_move") and self.config.get("remember_position")) else None
             target = default_position(self, saved)
             if target is not None:
@@ -961,8 +966,9 @@ class LauncherWindow(Gtk.Window):
         if hasattr(item, "entry"):
             app = item.entry
             row = Adw.ActionRow(title=GLib.markup_escape_text(app.name),
-                                subtitle=GLib.markup_escape_text(app.description or app.id),
-                                activatable=True)
+                                subtitle=GLib.markup_escape_text(app.description),
+                                activatable=True, title_lines=1, subtitle_lines=1)
+            row.set_tooltip_text(app.name + ("\n" + app.description if app.description else ""))
             row._app_entry = app
             icon_name = app.icon_name
         else:
@@ -1034,7 +1040,9 @@ class LauncherWindow(Gtk.Window):
                 break
             height += row.measure(Gtk.Orientation.VERTICAL, width)[1]
         if height:
+            self.scrolled_window.set_min_content_height(-1)
             self.scrolled_window.set_max_content_height(height)
+            self.scrolled_window.set_min_content_height(height)
         return False
 
     def _map_rows(self, destination):
@@ -1269,6 +1277,8 @@ class LauncherWindow(Gtk.Window):
             self.search_entry.set_text("")
         self._on_search_changed(self.search_entry)
         self._focus_ready = self.is_active()
+        # GTK remembers the previous surface height across hide/show.
+        self.set_default_size(self.get_default_size()[0], 1)
         self.set_visible(True)
         self.present()
         self.search_entry.grab_focus()

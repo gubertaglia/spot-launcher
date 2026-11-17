@@ -66,6 +66,7 @@ class FocusTests(unittest.TestCase):
             _focus_ready=True, preferences_window=None, search_entry=Mock(),
             scaled_content=Mock(), _fade_to=Mock(),
             _on_search_changed=Mock(), set_visible=Mock(), present=Mock(),
+            get_default_size=lambda: (580, 500), set_default_size=Mock(),
             _on_clipboard_changed=Mock(), clipboard=Mock(), _show_update_prompt=Mock(),
             _last_update_check=time.monotonic(),
         )
