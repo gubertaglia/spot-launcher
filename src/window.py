@@ -72,7 +72,7 @@ window.blur-my-shell .spotlight-card {
 
 .search-field {
     border-radius: 12px;
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     padding: 10px 12px;
     border: 1px solid alpha(@window_fg_color, 0.10);
     background-color: alpha(@window_fg_color, 0.035);
@@ -106,11 +106,13 @@ window.blur-my-shell .spotlight-card {
 }
 
 .results-list row .title {
+    font-size: 1rem;
     font-weight: 500;
 }
 
 .results-list row .subtitle {
-    opacity: 0.7;
+    font-size: 0.9rem;
+    opacity: 0.85;
 }
 
 .loading-status, .result-notice {
@@ -128,10 +130,10 @@ window.blur-my-shell .spotlight-card {
 
 .shortcut-badge {
     background-color: alpha(@window_fg_color, 0.08);
-    color: alpha(@window_fg_color, 0.6);
+    color: alpha(@window_fg_color, 0.8);
     border-radius: 6px;
     padding: 3px 8px;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 500;
 }
 
@@ -373,6 +375,7 @@ class LauncherWindow(Gtk.Window):
             return
         self.update_busy = True
         self._last_update_check = time.monotonic()
+        self._refresh_update_settings()
         self._update_worker.submit(check_update, self._update_checked)
 
     def _update_checked(self, available):

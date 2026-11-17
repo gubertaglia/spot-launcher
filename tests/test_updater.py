@@ -47,6 +47,29 @@ class UpdaterTests(unittest.TestCase):
         self.git(self.clone, "branch", "--unset-upstream")
         self.assertIsNone(updater.check_update())
 
+    def test_check_preserves_fetch_head(self):
+        marker = self.clone / '.git/FETCH_HEAD'
+        marker.write_text('another fetch\n')
+        (self.remote / 'file').write_text('second')
+        self.git(self.remote, 'commit', '-qam', 'second')
+        self.assertEqual(updater.check_update(), self.git(self.remote, 'rev-parse', 'HEAD'))
+        self.assertEqual(marker.read_text(), 'another fetch\n')
+
+    def test_install_rejects_invalid_stale_and_unrelated_targets(self):
+        original = self.git(self.clone, 'rev-parse', 'HEAD')
+        for commit in (None, '', '--abort', 'HEAD', original):
+            self.assertFalse(updater.install_update(commit))
+        (self.remote / 'file').write_text('second')
+        self.git(self.remote, 'commit', '-qam', 'second')
+        commit = updater.check_update()
+        self.git(self.clone, 'checkout', '-qb', 'other')
+        (self.clone / 'local').write_text('local')
+        self.git(self.clone, 'add', 'local')
+        self.git(self.clone, '-c', 'user.name=Test', '-c', 'user.email=test@example.com', 'commit', '-qm', 'local')
+        self.assertFalse(updater.install_update(commit))
+        self.assertEqual((self.clone / 'local').read_text(), 'local')
+        self.assertEqual((self.clone / 'file').read_text(), 'first')
+
     def test_archive_inside_another_repository_never_updates_parent(self):
         archive = self.clone / "archive"
         archive.mkdir()
@@ -79,3 +102,11 @@ class UpdaterTests(unittest.TestCase):
         commit = updater.check_update()
         self.assertFalse(updater.install_update(commit))
         self.assertEqual((self.clone / "local.pyc").read_text(), "private")
+
+    def test_untracked_collision_is_preserved(self):
+        (self.clone / 'new-file').write_text('private')
+        (self.remote / 'new-file').write_text('upstream')
+        self.git(self.remote, 'add', 'new-file')
+        self.git(self.remote, 'commit', '-qm', 'new path')
+        self.assertFalse(updater.install_update(updater.check_update()))
+        self.assertEqual((self.clone / 'new-file').read_text(), 'private')
